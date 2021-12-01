@@ -14,15 +14,15 @@ This repository is used to store reusable composite actions that other product t
 #### call:  DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI@latest
 
 ##### inputs:
-- **build\_tool: maven**  -- Required		`{` *build tools you are using, we support maven and gradle more tools will be added* `}`
-- **pom\_path: .** 				 `{` *path to the pom file default = .* `}`
-- **pom\_file\_name: pom.xml** `{` *Pom file name , default = pom.xml* `}`
-- **settings\_file\_path: .** 	`{` *maven settings file path if you need push package, default *. `}`
-- **settings\_file\_name: settings.xml** 	`{` *maven settings file name if you need push package, default settings.xml* `}`
-- **build\_phases: clean deploy**  `{` *stages to run as part of the build* `}`
-- **maven\_build\_arguments: -Dkey1=value1 -Dkey2=value2**  `{` *additional maven arguments to be passed for the build execution* `}`
-- **az\_artifact\_repository\_pat: ${{secrets.AZURE\_ARTIFACT\_PAT}}** 	`{` *you repository token to use for connecting to Azure package repository* if not already in setting.xml`}`
-- **run\_code\_analysis:: true/false**  `{` *Flag to run Code Quality Scan* `}`
+- **build_tool: maven**  -- Required		`{` *build tools you are using, we support maven and gradle more tools will be added* `}`
+- **build_file_path: .** 				 `{` *path to the pom file default = .* `}`
+- **build_file_name: pom.xml** `{` *Pom file name , default = pom.xml* `}`
+- **settings_file_path: .** 	`{` *maven settings file path if you need push package, default *. `}`
+- **settings_file_name: settings.xml** 	`{` *maven settings file name if you need push package, default settings.xml* `}`
+- **build_phases: clean deploy**  `{` *stages to run as part of the build* `}`
+- **maven_build_arguments: -Dkey1=value1 -Dkey2=value2**  `{` *additional maven arguments to be passed for the build execution* `}`
+- **az_artifact_repository_pat: ${{secrets.AZURE_ARTIFACT_PAT}}** 	`{` *you repository token to use for connecting to Azure package repository* if not already in setting.xml`}`
+- **run_code_analysis:: true/false**  `{` *Flag to run Code Quality Scan* `}`
 - **cq_project_key: CMTEST**  `{` *codeQulaity project key* `}`
 - **cq_host_url: clean deploy**  `{` *Url of the Code Scanner Destination* `}`
 - **cq_token: clean deploy**  `{` *Token to authenticate to the Project `}`
@@ -35,11 +35,11 @@ This repository is used to store reusable composite actions that other product t
 #### call: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/push\_image@latest
 
 ##### inputs:
-- **cr\_imagename: 'nginx'**  					`{` *docker image name* `}`
-- **cr\_imagetag: ${{ github.run\_id }}** 		`{` *docker image tag* `}`
-- **cr\_username: ${{ secrets.ACR\_USER }}** 		`{` *container registry user* `}`
-- **cr\_password: ${{ secrets.ACR\_PASS }}** 		`{` *container registry password* `}`
-- **cr\_servername: ${{ secrets.ACR\_SERVER }}** 	`{` *container registry servername* `}`
+- **cr_imagename: 'nginx'**  					`{` *docker image name* `}`
+- **cr_imagetag: ${{ github.run\_id }}** 		`{` *docker image tag* `}`
+- **cr_username: ${{ secrets.ACR\_USER }}** 		`{` *container registry user* `}`
+- **cr_password: ${{ secrets.ACR\_PASS }}** 		`{` *container registry password* `}`
+- **cr_servername: ${{ secrets.ACR\_SERVER }}** 	`{` *container registry servername* `}`
 - **cr_dockerfile_name: Dockerfile** 	`{` *dockerfile name* `}`
 - **cr_dockerfile_path: ci-helper/** 	`{` *relative path of the docker file* `}`
 - **cr_subscription: ${{ secrets.ACR\_subscription }}** 	`{` *container registry subscription* `}`  
@@ -54,17 +54,17 @@ This repository is used to store reusable composite actions that other product t
 ##### Parameters for Dependency (SNYK) Scan
 
 - **run_dependency_scan: true/false** 	`{` *flag to execute dependency scan* `}`
-- **dependency\_scan\_token: ${{ secrets.SNYK\_TOKEN }}** 	`{` *snyk token * `}`
-- **dependency\_scan\_arguments: -Dkey=value** 	`{` *snyk maven arguments to pass* `}`
+- **dependency_scan_token: ${{ secrets.SNYK\_TOKEN }}** 	`{` *snyk token * `}`
+- **dependency_scan_arguments: -Dkey=value** 	`{` *snyk maven arguments to pass* `}`
 
 ##### parameters for SAST (Fortify) Scan
 
 - **run_sast_scan: true/false** 	`{` *flag to execute sast scan* `}`
-- **sast\_release\_id: ${{ secrets.FOD\_RELEASE\_ID }}** 	`{` *your FOD project Release ID* `}`
-- **sast\_api\_key: ${{ secrets.FOD\_API\_KEY}}** 			`{` *FOD key* `}`
-- **sast\_api\_secret: ${{ secrets.FOD\_API\_SECRET}}** 	`{` *FOS secret* `}`
-- **project\_name: sample**  							`{` *name of the project ( used to great the zip file)* `}`
-- **project\_src\_path: ./src** 						`{` *location of source to Zip for FOS push* `}`
+- **sast_release_id: ${{ secrets.FOD\_RELEASE\_ID }}** 	`{` *your FOD project Release ID* `}`
+- **sast_api_key: ${{ secrets.FOD\_API\_KEY}}** 			`{` *FOD key* `}`
+- **sast_api_secret: ${{ secrets.FOD\_API\_SECRET}}** 	`{` *FOS secret* `}`
+- **project_name: sample**  							`{` *name of the project ( used to great the zip file)* `}`
+- **project_src_path: ./src** 						`{` *location of source to Zip for FOS push* `}`
 
 ##### Parameters for Container(Prisma) Scan
 
