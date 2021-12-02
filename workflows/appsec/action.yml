@@ -17,11 +17,11 @@ inputs:
     required: true
     default: 'false'  
   sast_release_id:
-    required: true
+    required: false
   sast_api_key:
-    required: true
+    required: false
   sast_api_secret:
-    required: true
+    required: false
   sast_scan_notes:
     required: false 
   project_src_path:
