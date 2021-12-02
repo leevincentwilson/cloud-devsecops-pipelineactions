@@ -23,6 +23,14 @@ inputs:
     required: true
   sast_api_secret:
     required: true
+  sast_scan_notes:
+    required: false 
+  project_name:
+    required: true
+  project_src_path:
+    required: false
+  project_artifact_zip_path:
+    required: false
   
   run_dast_scan:   
     required: false
@@ -66,22 +74,32 @@ runs:
     shell: bash
     
   - name: Fortify Scan Create source Zip upload to FOD for Scanning
-    if: ${{inputs.run_sast_scan == 'true' }}
-    uses: actions/setup-java@v1
+    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/fortify@main
     with:
-      java-version: 1.8
-  - name: Download fortify executable and run scan 
+      sast_release_id: ${{inputs.sast_release_id }}
+      sast_api_key: ${{ inputs.sast_api_key}}
+      sast_api_secret: ${{ inputs.sast_api_secret}}
+      sast_scan_notes: ${{inputs.sast_scan_notes}}
+      project_name: ${{inputs.project_name}}
+      project_src_path: ${{inputs.project_src_path}}
+      project_artifact_zip_path: ${{inputs.project_artifact_zip_path}}
     if: ${{inputs.run_sast_scan == 'true' }}
-    run: |
-       sudo wget -c https://github.com/fod-dev/fod-uploader-java/releases/download/v5.2.1/FodUpload.jar  
-       sudo apt install zip
-       zip -r ${{inputs.project_name}}_fortify.zip .
-       java -jar FodUpload.jar -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.project_name}}_fortify.zip ${{ env.SAST_OPTIONS }}    
-    shell: bash
-    env:
-      SAST_PORTAL_URL: https://emea.fortify.com/
-      SAST_API_URL: https://api.emea.fortify.com/
-      SAST_OPTIONS: '-ep 2 -a 2 -rp 0 -pp 1 -apf -I 1'
+    
+  #   uses: actions/setup-java@v1
+  #   with:
+  #     java-version: 1.8
+  # - name: Download fortify executable and run scan 
+  #   if: ${{inputs.run_sast_scan == 'true' }}
+  #   run: |
+  #      sudo wget -c https://github.com/fod-dev/fod-uploader-java/releases/download/v5.2.1/FodUpload.jar  
+  #      sudo apt install zip
+  #      zip -r ${{inputs.project_name}}_fortify.zip .
+  #      java -jar FodUpload.jar -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.project_name}}_fortify.zip ${{ env.SAST_OPTIONS }}    
+  #   shell: bash
+  #   env:
+  #     SAST_PORTAL_URL: https://emea.fortify.com/
+  #     SAST_API_URL: https://api.emea.fortify.com/
+  #     SAST_OPTIONS: '-ep 2 -a 2 -rp 0 -pp 1 -apf -I 1'
 
 
   - name: Run Container Scan for Repostiory
