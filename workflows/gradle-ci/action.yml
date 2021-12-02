@@ -1,0 +1,54 @@
+# ci_build.yml
+name: 'Build and push Artifact'
+description: 'Building and Pushing Artifact to Azure Artifact Repository'
+inputs:
+  build_tool:
+    required: true
+    default: maven
+  build_file_path:
+    required: false
+    default: .
+  build_file_name:
+    required: false
+    default: pom.xml
+  settings_file_path:
+    required: false
+  settings_file_name:
+    required: false
+  maven_build_arguments:
+    required: false
+  build_phases: 
+    required: false
+    default: 'clean install '
+  artifact_repository_pat:
+    required: false
+    
+  run_code_analysis:
+    required: true
+  cq_project_key:
+    required: false
+  cq_host_url:
+    required: false
+  cq_token:
+    required: false
+  cq_scan_arguments:
+     required: false
+ 
+ runs:
+  using: "composite"
+  steps:
+    - run: echo Hello, You are Executing Composite action to Execute Build
+      shell: bash
+          
+    - name: ========== Build and push Build Artifacts to artifact Store ==========
+ 
+    - name: Validate Gradle wrapper
+      if: ${{ inputs.build_tool == 'gradle' }}
+      uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+      
+    - name: Build with Gradle
+      if: ${{ inputs.build_tool == 'gradle' }}
+      run: ./gradlew build
+      shell: bash
+      
+        
