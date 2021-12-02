@@ -32,15 +32,20 @@ runs:
     #  uses: fortify/gha-setup-fod-uploader@v1.1.1
       run: |
          sudo wget -c https://github.com/fod-dev/fod-uploader-java/releases/download/v5.2.1/FodUpload.jar  
-         sudo apt install zip
-         zip -r ${{inputs.project_name}}_fortify.zip .
-         java -jar FodUpload.jar -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.project_name}}_fortify.zip ${{ env.SAST_OPTIONS }}  -n 'notes:${{ inputs.sast_scan_notes}}'  
+         if [[ ! -z "${ARTIFACT_ZIP_PATH}" ]]
+           then
+             java -jar FodUpload.jar -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.project_artifact_zip_path}} ${{ env.SAST_OPTIONS }}  -n 'notes:${{ inputs.sast_scan_notes}}'  
+           else
+              sudo apt install zip
+              zip -r ${{inputs.project_name}}_fortify.zip .
+              java -jar FodUpload.jar -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.project_name}}_fortify.zip ${{ env.SAST_OPTIONS }}  -n 'notes:${{ inputs.sast_scan_notes}}'  
+          fi
       shell: bash
       env:
         SAST_PORTAL_URL: https://emea.fortify.com/
         SAST_API_URL: https://api.emea.fortify.com/
         SAST_OPTIONS: '-ep 2 -a 2 -rp 0 -pp 1 -apf -I 1'
-        
+        ARTIFACT_ZIP_PATH: ${{inputs.project_artifact_zip_path}}
   ###=====================================================      
         
 #         - uses: actions/download-artifact@v2
