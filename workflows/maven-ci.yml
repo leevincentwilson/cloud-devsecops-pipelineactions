@@ -1,0 +1,72 @@
+# ci_build.yml
+name: 'Build and push Artifact'
+description: 'Building and Pushing Artifact to Azure Artifact Repository'
+inputs:
+  build_file_path:
+    required: false
+  build_file_name:
+    required: false
+  settings_file_path:
+    required: false
+  settings_file_name:
+    required: false
+  maven_build_arguments:
+    required: false
+    
+  build_phases: 
+    required: false
+  
+  az_artifact_repository_pat:
+    required: false
+    
+  run_code_analysis:
+    required: true
+  cq_project_key:
+    required: false
+  cq_host_url:
+    required: false
+  cq_token:
+    required: false
+ 
+    
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello, You are Executing Composite action to Execute Build
+      shell: bash
+    - run: ls -lart
+      shell: bash
+    
+    - name: Maven Build and install Artifacts
+      if: ${{ contains( inputs.build_phases,'install') || contains(  inputs.build_phases , 'package') }}
+      run: |
+        mvn clean install ${{inputs.maven_build_arguments}} -f ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} -s ./${{ inputs.settings_file_path }}/${{ inputs.settings_file_name }}
+      shell: bash  
+    
+    - name: Unit_Test
+      if: ${{ contains( inputs.build_phases , 'test' ) }} 
+      run : | 
+        echo Running Unit Test - ${{ inputs.build_phases }}
+        mvn test ${{inputs.maven_build_arguments}} -f ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} -s ./${{ inputs.settings_file_path }}/${{ inputs.settings_file_name }}
+        echo 'Test Phase - completed'
+      shell: bash
+      
+    - name: Publish built artifact to Artifact repository
+      if: ${{ contains( inputs.build_phases , 'deploy' ) && inputs.settings_file_name }}   
+      run : |
+        echo Executing Phase Deploy - ${{ inputs.build_phases }}
+        mvn deploy -s ./${{ inputs.settings_file_path }}/${{ inputs.settings_file_name }} -f ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} ${{inputs.maven_build_arguments}}
+      shell: bash  
+      
+    - name: Code Quality Analysis
+      if: ${{ inputs.run_code_analysis == 'true' }}  
+      run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar
+           -Dsonar.projectKey=${{inputs.cq_project_key}} 
+           -Dsonar.host.url=${{inputs.cq_host_url}} 
+           -Dsonar.login=${{inputs.cq_token}} ${{inputs.maven_build_arguments}} 
+           ${{inputs.maven_build_arguments}}
+      shell: bash
+    
+    
+    
+    
