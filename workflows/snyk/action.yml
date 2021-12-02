@@ -13,7 +13,7 @@ inputs:
   dependency_scan_arguments:
     required: false
     
- runs:
+runs:
   using: "composite"
   steps:
   - name: Snyk SCA Scanning
