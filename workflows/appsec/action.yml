@@ -52,7 +52,7 @@ runs:
   - run: echo  argument for run_dependency_scan = ${{inputs.run_dependency_scan}}
     shell: bash
   - name: Snyk SCA Scanning
-    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/fortify@main
+    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/snyk@main
     with:      
       dependency_scan_token: ${{ inputs.dependency_scan_token }}
       dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
