@@ -16,7 +16,7 @@ inputs:
   build_phases: 
     required: false
   
-  az_artifact_repository_pat:
+  artifact_repository_pat:
     required: false
     
   run_code_analysis:
