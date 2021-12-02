@@ -17,12 +17,10 @@ inputs:
     required: false
   maven_build_arguments:
     required: false
-    
   build_phases: 
     required: false
-    default: 'clean package install '
-  
-  az_artifact_repository_pat:
+    default: 'clean install '
+  artifact_repository_pat:
     required: false
     
   run_code_analysis:
@@ -33,6 +31,8 @@ inputs:
     required: false
   cq_token:
     required: false
+  cq_scan_arguments:
+     required: false
  
     
 runs:
@@ -40,38 +40,57 @@ runs:
   steps:
     - run: echo Hello, You are Executing Composite action to Execute Build
       shell: bash
-    - run: ls -lart
-      shell: bash
+          
+    - name: ========== Build and push Build Artifacts to artifact Store ==========
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/maven-ci@main
+      with:
+        build_file_path: ${{ inputs.build_file_path }}
+        build_file_name: ${{ inputs.build_file_name }}
+        settings_file_path: ${{ inputs.settings_file_path }}
+        settings_file_name: ${{ inputs.settings_file_name }}
+        build_phases: ${{ inputs.build_phases}}
+        maven_build_arguments: ${{inputs.maven_build_arguments}}
+        artifact_repository_pat: ${{ inputs.artifact_repository_pat }}
+        run_code_analysis: ${{ inputs.run_code_analysis }}  
+        cq_host_url: ${{ inputs.cq_host_url }} 
+        cq_project_key: ${{ inputs.cq_project_key }} 
+        cq_token: ${{ inputs.cq_token }}
+        cq_scan_arguments: ${{ inputs.cq_scan_arguments }}
+      if: ${{ ( inputs.build_tool == 'maven' || inputs.build_tool == 'mvn' )
     
-    - name: Maven Build and install Artifacts
-      if: ${{ ( inputs.build_tool == 'maven' || inputs.build_tool == 'mvn' )  && ( contains( inputs.build_phases,'install') || contains(  inputs.build_phases , 'package') )}}
-      run: |
-        mvn clean install ${{inputs.maven_build_arguments}} -f ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} -s ./${{ inputs.settings_file_path }}/${{ inputs.settings_file_name }}
-      shell: bash  
     
-    - name: Unit_Test
-      if: ${{ (inputs.build_tool == 'maven' || inputs.build_tool == 'mvn' ) && contains( inputs.build_phases , 'test' ) }} 
-      run : | 
-        echo Running Unit Test - ${{ inputs.build_phases }}
-        mvn test ${{inputs.maven_build_arguments}} -f ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} -s ./${{ inputs.settings_file_path }}/${{ inputs.settings_file_name }}
-        echo 'Test Phase - completed'
-      shell: bash
+#     - run: ls -lart
+#       shell: bash
+    
+#     - name: Maven Build and install Artifacts
+#       if: ${{ ( inputs.build_tool == 'maven' || inputs.build_tool == 'mvn' )  && ( contains( inputs.build_phases,'install') || contains(  inputs.build_phases , 'package') )}}
+#       run: |
+#         mvn clean install ${{inputs.maven_build_arguments}} -f ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} -s ./${{ inputs.settings_file_path }}/${{ inputs.settings_file_name }}
+#       shell: bash  
+    
+#     - name: Unit_Test
+#       if: ${{ (inputs.build_tool == 'maven' || inputs.build_tool == 'mvn' ) && contains( inputs.build_phases , 'test' ) }} 
+#       run : | 
+#         echo Running Unit Test - ${{ inputs.build_phases }}
+#         mvn test ${{inputs.maven_build_arguments}} -f ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} -s ./${{ inputs.settings_file_path }}/${{ inputs.settings_file_name }}
+#         echo 'Test Phase - completed'
+#       shell: bash
       
-    - name: Publish built artifact to Artifact repository
-      if: ${{ (inputs.build_tool == 'maven' || inputs.build_tool == 'mvn') && contains( inputs.build_phases , 'deploy' ) && inputs.settings_file_name }}   
-      run : |
-        echo Executing Phase Deploy - ${{ inputs.build_phases }}
-        mvn deploy -s ./${{ inputs.settings_file_path }}/${{ inputs.settings_file_name }} -f ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} ${{inputs.maven_build_arguments}}
-      shell: bash  
+#     - name: Publish built artifact to Artifact repository
+#       if: ${{ (inputs.build_tool == 'maven' || inputs.build_tool == 'mvn') && contains( inputs.build_phases , 'deploy' ) && inputs.settings_file_name }}   
+#       run : |
+#         echo Executing Phase Deploy - ${{ inputs.build_phases }}
+#         mvn deploy -s ./${{ inputs.settings_file_path }}/${{ inputs.settings_file_name }} -f ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} ${{inputs.maven_build_arguments}}
+#       shell: bash  
       
-    - name: Code Quality Analysis
-      if: ${{ inputs.run_code_analysis == 'true' }}  
-      run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar
-           -Dsonar.projectKey=${{inputs.cq_project_key}} 
-           -Dsonar.host.url=${{inputs.cq_host_url}} 
-           -Dsonar.login=${{inputs.cq_token}} ${{inputs.maven_build_arguments}} 
-           ${{inputs.maven_build_arguments}}
-      shell: bash
+#     - name: Code Quality Analysis
+#       if: ${{ inputs.run_code_analysis == 'true' }}  
+#       run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar
+#            -Dsonar.projectKey=${{inputs.cq_project_key}} 
+#            -Dsonar.host.url=${{inputs.cq_host_url}} 
+#            -Dsonar.login=${{inputs.cq_token}} ${{inputs.maven_build_arguments}} 
+#            ${{inputs.maven_build_arguments}}
+#       shell: bash
     
     
     
