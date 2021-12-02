@@ -48,7 +48,7 @@ inputs:
       
     - name: Build with Gradle
       if: ${{ inputs.build_tool == 'gradle' }}
-      run: ./gradlew build
+      run: ./gradle build
       shell: bash
       
         
