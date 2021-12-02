@@ -56,8 +56,7 @@ runs:
     with:      
       dependency_scan_token: ${{ inputs.dependency_scan_token }}
       dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
-    
-    # if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
     # run: |
     #   echo SNYK token is provided running SNYK scan for the project
     #   echo "----------Download Latest Snyk CLI-----------"
