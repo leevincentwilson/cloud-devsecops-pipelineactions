@@ -1,0 +1,32 @@
+# Appsec Composite action
+name: 'DevSecOps Application Security Actions'
+description: 'Running SNYK Security Scans for project codes'
+
+inputs:
+  project_name:
+    required: true
+    
+  run_dependency_scan:
+    required: true
+  dependency_scan_token:
+    required: false
+  dependency_scan_arguments:
+    required: false
+    
+ runs:
+  using: "composite"
+  steps:
+  - name: Snyk SCA Scanning
+    if: ${{ inputs.dependency_scan_token }}
+    run: |
+      echo SNYK token is provided running SNYK scan for the project
+      echo "----------Download Latest Snyk CLI-----------"
+      curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.683.0/snyk-linux"
+      chmod +x snyk
+      ls -lrt
+      echo ./snyk auth ${{inputs.dependency_scan_token}}
+      ./snyk auth ${{inputs.dependency_scan_token}}
+      ./snyk test --all-projects -- ${{inputs.dependency_scan_arguments}}  || true
+      ./snyk monitor --all-projects -- ${{inputs.dependency_scan_arguments}} || true
+    shell: bash 
+         
