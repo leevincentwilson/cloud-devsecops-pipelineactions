@@ -56,7 +56,7 @@ runs:
         cq_project_key: ${{ inputs.cq_project_key }} 
         cq_token: ${{ inputs.cq_token }}
         cq_scan_arguments: ${{ inputs.cq_scan_arguments }}
-      if: ${{ ( inputs.build_tool == 'maven' || inputs.build_tool == 'mvn' )
+      if: ${{ ( inputs.build_tool == 'maven' || inputs.build_tool == 'mvn' ) }}
     
     
 #     - run: ls -lart
