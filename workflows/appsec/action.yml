@@ -12,8 +12,7 @@ inputs:
   dependency_scan_arguments:
     required: false
     
-  
-    
+      
   run_sast_scan:
     required: true
     default: 'false'  
@@ -25,8 +24,6 @@ inputs:
     required: true
   sast_scan_notes:
     required: false 
-  project_name:
-    required: true
   project_src_path:
     required: false
   project_artifact_zip_path:
