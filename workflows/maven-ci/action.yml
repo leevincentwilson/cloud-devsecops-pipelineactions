@@ -27,6 +27,8 @@ inputs:
     required: false
   cq_token:
     required: false
+  cq_scan_arguments: 
+    required: false
  
     
 runs:
@@ -64,6 +66,6 @@ runs:
            -Dsonar.projectKey=${{inputs.cq_project_key}} 
            -Dsonar.host.url=${{inputs.cq_host_url}} 
            -Dsonar.login=${{inputs.cq_token}} ${{inputs.maven_build_arguments}} 
-           ${{inputs.maven_build_arguments}}
+           ${{inputs.maven_build_arguments}} ${{ inputs.cq_scan_arguments }}
       shell: bash
     
