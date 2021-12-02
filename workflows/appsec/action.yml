@@ -52,18 +52,23 @@ runs:
   - run: echo  argument for run_dependency_scan = ${{inputs.run_dependency_scan}}
     shell: bash
   - name: Snyk SCA Scanning
-    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
-    run: |
-      echo SNYK token is provided running SNYK scan for the project
-      echo "----------Download Latest Snyk CLI-----------"
-      curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.683.0/snyk-linux"
-      chmod +x snyk
-      ls -lrt
-      echo ./snyk auth ${{inputs.dependency_scan_token}}
-      ./snyk auth ${{inputs.dependency_scan_token}}
-      ./snyk test --all-projects -- ${{inputs.dependency_scan_arguments}}  || true
-      ./snyk monitor --all-projects -- ${{inputs.dependency_scan_arguments}} || true
-    shell: bash 
+    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/fortify@main
+    with:      
+      dependency_scan_token: ${{ inputs.dependency_scan_token }}
+      dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
+    
+    # if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+    # run: |
+    #   echo SNYK token is provided running SNYK scan for the project
+    #   echo "----------Download Latest Snyk CLI-----------"
+    #   curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.683.0/snyk-linux"
+    #   chmod +x snyk
+    #   ls -lrt
+    #   echo ./snyk auth ${{inputs.dependency_scan_token}}
+    #   ./snyk auth ${{inputs.dependency_scan_token}}
+    #   ./snyk test --all-projects -- ${{inputs.dependency_scan_arguments}}  || true
+    #   ./snyk monitor --all-projects -- ${{inputs.dependency_scan_arguments}} || true
+    # shell: bash 
       
  
  
