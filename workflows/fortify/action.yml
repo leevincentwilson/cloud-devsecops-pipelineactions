@@ -46,31 +46,15 @@ runs:
         SAST_API_URL: https://api.emea.fortify.com/
         SAST_OPTIONS: '-ep 2 -a 2 -rp 0 -pp 1 -apf -I 1'
         ARTIFACT_ZIP_PATH: ${{inputs.project_artifact_zip_path}}
-  ###=====================================================      
-        
-#         - uses: actions/download-artifact@v2
-#         with:
-#           name: ${{ github.sha }}
-#       - name: Download Fortify on Demand Universal CI Tool
-#         uses: fortify/gha-setup-fod-uploader@v1.1.1
-#       - name: Perform SAST Scan
-#         run: java -jar $FOD_UPLOAD_JAR -z $PACKAGE_LOCATION -aurl $FOD_API_URL -purl $FOD_URL -rid "$FOD_RELEASE_ID" -ac "$FOD_APIKEY" "$FOD_APISECRET" $FOD_UPLOADER_OPTS -n "$FOD_UPLOADER_NOTES"
-#         env:
-#           FOD_APIKEY: ${{ secrets.FOD_API_KEY }}
-#           FOD_APISECRET: ${{ secrets.FOD_API_SECRET }}
-#           FOD_RELEASE_ID: 68974
-#           FOD_URL: https://emea.fortify.com/
-#           FOD_API_URL: https://api.emea.fortify.com
-#           FOD_UPLOADER_OPTS: "-ep 1 -rp 0 -pp 1 -apf -I 1"
-#           FOD_UPLOADER_NOTES: "Triggered by GitHub Actions (${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
-#       - name: Download Results
-#         uses: fortify/gha-fod-generate-sarif@v1.1.1
-#         with:
-#           base-url: https://emea.fortify.com/
-#           client-id: ${{ secrets.FOD_APIKEY }}
-#           client-secret: ${{ secrets.FOD_API_SECRET }}
-#           release-id: 68974
-#           output: ./sarif/output.sarif
+  
+#     - name: Download Results
+#       uses: fortify/gha-fod-generate-sarif@v1.1.1
+#       with:
+#         base-url: https://emea.fortify.com/
+#         client-id: ${{ inputs.sast_api_key }}
+#         client-secret: ${{ inputs.sast_api_secret }}
+#         release-id: ${{ inputs.sast_release_id }}
+#         output: ./${{inputs.project_name}}_fortify
   
         
         
