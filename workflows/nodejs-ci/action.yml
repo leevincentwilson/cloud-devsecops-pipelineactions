@@ -1,0 +1,61 @@
+name: 'Build Nodejs project'
+description: 'Building and Pushing Artifact to Azure Artifact Repository'
+inputs:
+  build_file_path:
+    required: false
+  build_file_name:
+    required: false
+  settings_file_path:
+    required: false
+  settings_file_name:
+    required: false
+  maven_build_arguments:
+    required: false
+    
+  build_phases: 
+    required: false
+  
+  artifact_repository_pat:
+    required: false
+    
+  run_code_analysis:
+    required: true
+  cq_project_key:
+    required: false
+  cq_host_url:
+    required: false
+  cq_token:
+    required: false
+  cq_scan_arguments: 
+    required: false
+ 
+    
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello, You are Executing Composite action to Execute Build
+      shell: bash
+    - name: Checkout
+        uses: actions/checkout@v2
+      - uses: c-hive/gha-yarn-cache@v2.1.0
+      - name: Setup NodeJs
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install JS dependencies
+        run: yarn install
+      - name: Build
+        run: yarn build
+      - name: "Production install"
+        run: yarn install --pure-lockfile --production
+      - name: Tag the app with version
+        run: echo ${{ github.sha }}>./version
+      - name: Zip Web App package
+        run: zip -r ${{ env.PACKAGE_LOCATION }} . --exclude @.zipignore --exclude .zipignore
+      - uses: actions/upload-artifact@v2
+        with:
+          name: build-artifact-${{ github.sha }}
+          path: |
+            ${{ env.PACKAGE_LOCATION }}
+            dist
+            version  
