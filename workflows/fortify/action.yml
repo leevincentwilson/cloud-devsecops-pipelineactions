@@ -17,6 +17,9 @@ inputs:
     required: false
   project_artifact_zip_path:
     required: false
+  download_scan_file:
+    required: false
+    default: false
   
 runs:
   using: "composite"
@@ -47,15 +50,15 @@ runs:
         SAST_OPTIONS: '-ep 2 -a 2 -rp 0 -pp 1 -apf -I 1'
         ARTIFACT_ZIP_PATH: ${{inputs.project_artifact_zip_path}}
   
-#     - name: Download Results
-#       uses: fortify/gha-fod-generate-sarif@v1.1.1
-#       with:
-#         base-url: https://emea.fortify.com/
-#         client-id: ${{ inputs.sast_api_key }}
-#         client-secret: ${{ inputs.sast_api_secret }}
-#         release-id: ${{ inputs.sast_release_id }}
-#         output: ./${{inputs.project_name}}_fortify
-  
+    - name: Download Results
+      uses: fortify/gha-fod-generate-sarif@v1.1.1
+      with:
+        base-url: https://emea.fortify.com/
+        client-id: ${{ inputs.sast_api_key }}
+        client-secret: ${{ inputs.sast_api_secret }}
+        release-id: ${{ inputs.sast_release_id }}
+        output: ./${{inputs.project_name}}_fortify
+      if: ${{ download_scan_file == 'true' }}
         
         
       
