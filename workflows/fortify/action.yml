@@ -58,7 +58,7 @@ runs:
         client-secret: ${{ inputs.sast_api_secret }}
         release-id: ${{ inputs.sast_release_id }}
         output: ./${{inputs.project_name}}_fortify
-      if: ${{ download_scan_file == 'true' }}
+      if: ${{ inputs.download_scan_file == 'true' }}
         
         
       
