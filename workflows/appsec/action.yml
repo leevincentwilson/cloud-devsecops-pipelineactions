@@ -28,7 +28,10 @@ inputs:
     required: false
   project_artifact_zip_path:
     required: false
-  
+  download_sast_scan_file:
+    required: false
+    default: false
+    
   run_dast_scan:   
     required: false
     
@@ -84,6 +87,7 @@ runs:
       project_name: ${{inputs.project_name}}
       project_src_path: ${{inputs.project_src_path}}
       project_artifact_zip_path: ${{inputs.project_artifact_zip_path}}
+      download_scan_file: ${{ inputs.download_sast_scan_file }}
     if: ${{inputs.run_sast_scan == 'true' }}
     
   #   uses: actions/setup-java@v1
