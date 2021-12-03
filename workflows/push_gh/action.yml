@@ -73,7 +73,7 @@ runs:
       run: |
         echo =================  Pushing to Github Packages ======================
         docker images
-        docker tag  ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
+        docker tag  ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
         docker images
         docker push ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
       shell: bash
