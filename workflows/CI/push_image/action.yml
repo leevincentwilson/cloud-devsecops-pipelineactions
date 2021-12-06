@@ -50,7 +50,14 @@ runs:
 #       shell: bash
 #       if: ${{ !contains(runner.name, '_selfhosted') }}  
 
-
+    - name: Build and Push Docker to ACR       
+      run: |
+        az login --service-principal --username ${{inputs.cr_username}} --password ${{inputs.cr_password}} --tenant ${{inputs.cr_tenant}}
+        #az acr login -n ${{ inputs.cr_servername }} --username ${{inputs.cr_username}} --password ${{inputs.cr_password}} --subscription ${{ inputs.cr_subscription}}
+        docker images
+        az acr build --registry ${{ inputs.cr_servername }} -t ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} --file ./${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} .
+      shell: bash
+      if: ${{ !contains(runner.name, '_selfhosted') }}
 
 
 
@@ -70,7 +77,7 @@ runs:
         docker images
         docker push ghcr.io/digitalinnovation/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
       shell: bash
-      if: ${{ !contains(runner.name, '_selfhosted') }}
+      if: ${{ contains(runner.name, '_selfhosted') }}
 
 
 
@@ -82,13 +89,6 @@ runs:
 #       with:
 #         creds: '${{ inputs.AZURE_CREDENTIALS }}'
 
-    - name: Build and Push Docker to ACR       
-      run: |
-        az login --service-principal --username ${{inputs.cr_username}} --password ${{inputs.cr_password}} --tenant ${{inputs.cr_tenant}}
-        #az acr login -n ${{ inputs.cr_servername }} --username ${{inputs.cr_username}} --password ${{inputs.cr_password}} --subscription ${{ inputs.cr_subscription}}
-        docker images
-        az acr build --registry ${{ inputs.cr_servername }} -t ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} --file ./${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} .
-      shell: bash
-      if: ${{ contains(runner.name, '_selfhosted') }}
+
 
 
