@@ -34,21 +34,6 @@ runs:
       shell: bash
       
 ########### Login and Push image to Azure Container Registry ##############
-#     - name: Log in with Azure
-#       uses: azure/login@v1
-#       with:
-#         creds: '${{ inputs.AZURE_CREDENTIALS }}'
-
-#     - name: Build and Push Docker to ACR       
-#       run: |
-#         az login --service-principal --username ${{inputs.cr_username}} --password ${{inputs.cr_password}} --tenant ${{inputs.cr_tenant}}
-#         #az acr login -n ${{ inputs.cr_servername }} --username ${{inputs.cr_username}} --password ${{inputs.cr_password}} --subscription ${{ inputs.cr_subscription}}
-#         docker images
-#         az acr build --registry ${{ inputs.cr_servername }} -t ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} --file ./${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} .
-#       shell: bash
-
-
-
 
     - uses: Azure/docker-login@v1
       with:
@@ -61,6 +46,7 @@ runs:
         echo runningg command: docker push ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}  
         docker push ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
       shell: bash
+
 
 
 
@@ -82,5 +68,24 @@ runs:
 #       shell: bash
 
 
+
+
+
+
+
+
+
+#     - name: Log in with Azure
+#       uses: azure/login@v1
+#       with:
+#         creds: '${{ inputs.AZURE_CREDENTIALS }}'
+
+#     - name: Build and Push Docker to ACR       
+#       run: |
+#         az login --service-principal --username ${{inputs.cr_username}} --password ${{inputs.cr_password}} --tenant ${{inputs.cr_tenant}}
+#         #az acr login -n ${{ inputs.cr_servername }} --username ${{inputs.cr_username}} --password ${{inputs.cr_password}} --subscription ${{ inputs.cr_subscription}}
+#         docker images
+#         az acr build --registry ${{ inputs.cr_servername }} -t ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} --file ./${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} .
+#       shell: bash
 
 
