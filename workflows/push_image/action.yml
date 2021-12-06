@@ -28,8 +28,10 @@ runs:
   steps:
     - run: ls -lart
       shell: bash
+    - run : echo $RUNNER_NAME
+      shell: bash
     - run: docker images
-      shell: bash  
+      shell: bash
       
 ########### Login and Push image to Azure Container Registry ##############
 #     - name: Log in with Azure
