@@ -63,21 +63,21 @@ runs:
 
 
 
-#########  Switching over to Github Packages ##########
-    - name: Log in to the GITHUB Container registry
-      uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ github.token }}
-    - name: Execute build 
-      run: |
-        echo =================  Pushing to Github Packages ======================
-        docker images
-        docker tag  ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} ghcr.io/digitalinnovation/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
-        docker images
-        docker push ghcr.io/digitalinnovation/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
-      shell: bash
+# #########  Switching over to Github Packages ##########
+#     - name: Log in to the GITHUB Container registry
+#       uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+#       with:
+#         registry: ghcr.io
+#         username: ${{ github.actor }}
+#         password: ${{ github.token }}
+#     - name: Execute build 
+#       run: |
+#         echo =================  Pushing to Github Packages ======================
+#         docker images
+#         docker tag  ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} ghcr.io/digitalinnovation/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
+#         docker images
+#         docker push ghcr.io/digitalinnovation/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
+#       shell: bash
 
 
 
