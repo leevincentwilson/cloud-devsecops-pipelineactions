@@ -57,7 +57,7 @@ runs:
         docker images
         az acr build --registry ${{ inputs.cr_servername }} -t ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} --file ./${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} .
       shell: bash
-      if: ${{ !contains(runner.name, '_selfhosted') }}
+      if: ${{ contains(runner.name, '_selfhosted') }}
 
 
 
@@ -77,7 +77,7 @@ runs:
         docker images
         docker push ghcr.io/digitalinnovation/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
       shell: bash
-      if: ${{ contains(runner.name, '_selfhosted') }}
+      if: ${{ !contains(runner.name, '_selfhosted') }}
 
 
 
