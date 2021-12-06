@@ -44,7 +44,7 @@ runs:
       shell: bash  
           
     - name: ========== Build and push Build Artifacts to artifact Store ==========
-      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/maven-ci@main
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/maven-ci@main
       with:
         build_file_path: ${{ inputs.build_file_path }}
         build_file_name: ${{ inputs.build_file_name }}
