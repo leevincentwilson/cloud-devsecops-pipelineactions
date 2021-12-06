@@ -41,6 +41,7 @@ runs:
 #         password: ${{inputs.cr_password}}
 #         login-server: ${{inputs.cr_servername}}  
 #     - run: |
+#         docker build -f ./${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} . -t ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
 #         echo docker tag ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
 #         docker tag ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
 #         echo runningg command: docker push ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}  
@@ -60,6 +61,7 @@ runs:
         password: ${{ github.token }}
     - name: Execute build 
       run: |
+        docker build -f ./${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} . -t ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
         echo =================  Pushing to Github Packages ======================
         docker images
         docker tag  ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} ghcr.io/digitalinnovation/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
