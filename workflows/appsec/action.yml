@@ -57,7 +57,7 @@ runs:
   - run : echo $RUNNER_NAME $RUNNER_OS $RUNNER_ARCH $RUNNER_TEMP
     shell: bash  
   - name: Snyk SCA Scanning
-    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/snyk@main
+    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/snyk@main
     with:      
       dependency_scan_token: ${{ inputs.dependency_scan_token }}
       dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
@@ -80,7 +80,7 @@ runs:
     shell: bash
     
   - name: Fortify Scan Create source Zip upload to FOD for Scanning
-    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/fortify@main
+    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/fortify@main
     with:
       sast_release_id: ${{inputs.sast_release_id }}
       sast_api_key: ${{ inputs.sast_api_key}}
@@ -110,7 +110,7 @@ runs:
 
 
   - name: Run Container Scan for Repostiory
-    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/prisma@main
+    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/prisma@main
     with: 
       container_scan_user: ${{ inputs.container_scan_user }}
       container_scan_password: ${{ inputs.container_scan_password }}
