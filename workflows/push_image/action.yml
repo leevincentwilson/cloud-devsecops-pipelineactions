@@ -28,7 +28,7 @@ runs:
   steps:
     - run: ls -lart
       shell: bash
-    - run : echo $RUNNER_NAME
+    - run : echo $RUNNER_NAME $RUNNER_OS $RUNNER_ARCH $RUNNER_TEMP
       shell: bash
     - run: docker images
       shell: bash
