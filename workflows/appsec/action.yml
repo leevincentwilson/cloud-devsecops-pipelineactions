@@ -54,6 +54,8 @@ runs:
   steps:
   - run: echo  argument for run_dependency_scan = ${{inputs.run_dependency_scan}}
     shell: bash
+  - run : echo $RUNNER_NAME $RUNNER_OS $RUNNER_ARCH $RUNNER_TEMP
+    shell: bash  
   - name: Snyk SCA Scanning
     uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/snyk@main
     with:      
