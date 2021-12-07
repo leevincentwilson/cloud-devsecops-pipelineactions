@@ -18,8 +18,8 @@ inputs:
     required: false
   registry_username:
     required: false
-  registry_pasword:
-    required: false  
+  registry_password:
+    required: false
     
     
   
@@ -36,7 +36,7 @@ runs:
       uses: Azure/docker-login@v1
       with:
         username: ${{inputs.registry_username}}
-        password: ${{inputs.registry_pasword}}
+        password: ${{inputs.registry_password}}
         login-server: ${{inputs.registry_server}}  
     - name: pull image from registry server
       run: |
