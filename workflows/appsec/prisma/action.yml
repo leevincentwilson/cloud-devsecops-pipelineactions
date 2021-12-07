@@ -32,8 +32,8 @@ runs:
         curl --user ${{ inputs.container_scan_user }}:${{ inputs.container_scan_password }} --output ./twistcli ${{ inputs.container_scan_url }}/api/v1/util/twistcli
         chmod a+x ./twistcli     
       shell: bash
-    - name: pull image to Scan
-    - uses: Azure/docker-login@v1
+    - name: Login to Registry Server
+      uses: Azure/docker-login@v1
       with:
         username: ${{inputs.registry_username}}
         password: ${{inputs.registry_pasword}}
