@@ -33,14 +33,19 @@ runs:
         node-version: ${{ inputs.node_js_version }}
     - name: Install JS dependencies
       run: yarn install
+      shell: bash
     - name: Build
       run: yarn build
+      shell: bash
     - name: "Production install"
       run: yarn install --pure-lockfile --production
+      shell: bash
     - name: Tag the app with version
       run: echo ${{ github.sha }}>./version
+      shell: bash
     - name: Zip Web App package
       run: zip -r ${{ env.PACKAGE_LOCATION }} . --exclude @.zipignore --exclude .zipignore
+      shell: bash
     - uses: actions/upload-artifact@v2
       with:
         name: build-artifact-${{ github.sha }}
