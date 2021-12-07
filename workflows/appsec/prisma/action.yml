@@ -10,12 +10,17 @@ inputs:
     required: false
   container_scan_url:
     required: false
-  docker_image_name:
+  image_name:
     required: false
-  docker_image_tag:
+  image_tag:
     required: false
-  docker_repo:
+  registry_server:
     required: false
+  registry_username:
+    required: false
+  registry_pasword:
+    required: false  
+    
     
   
   
@@ -27,8 +32,20 @@ runs:
         curl --user ${{ inputs.container_scan_user }}:${{ inputs.container_scan_password }} --output ./twistcli ${{ inputs.container_scan_url }}/api/v1/util/twistcli
         chmod a+x ./twistcli     
       shell: bash
+    - name: pull image to Scan
+    - uses: Azure/docker-login@v1
+      with:
+        username: ${{inputs.registry_username}}
+        password: ${{inputs.registry_pasword}}
+        login-server: ${{inputs.registry_server}}  
+    - name: pull image from registry server
+      run: |
+         echo docker pull ${{ inputs.registry_server }}/${{inputs.image_name}}:${{ inputs.image_tag }}
+         docker pull ${{ inputs.registry_server }}/${{inputs.image_name}}:${{ inputs.image_tag }}
+      shell: bash
+      
     - name: Scan the image using Prisma Cloud
       run: |
-        #./twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --details ${{inputs.docker_image_name}}:${{inputs.docker_image_tag}}
-        ./twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --containerized --details ${{inputs.docker_repo}}${{inputs.docker_image_name}}:${{inputs.docker_image_tag}}
+        ./twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --details ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}
+        #./twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --containerized --details ${{inputs.docker_repo}}${{inputs.docker_image_name}}:${{inputs.docker_image_tag}}
       shell: bash
