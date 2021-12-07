@@ -51,7 +51,7 @@ inputs:
     required: false
   registry_username:
     required: false
-  registry_pasword:
+  registry_password:
     required: false
   
   
