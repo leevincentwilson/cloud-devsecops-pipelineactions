@@ -43,42 +43,40 @@ inputs:
     required: false
   container_scan_url:
     required: false
-  docker_image_name:
+  image_name:
     required: false
-  docker_image_tag:
+  image_tag:
     required: false
+  registry_server:
+    required: false
+  registry_server_pat:
+    required: false
+  
   
   
 runs:
   using: "composite"
   steps:
+  - run : echo $RUNNER_NAME $RUNNER_OS $RUNNER_ARCH $RUNNER_TEMP
+    shell: bash
+    
+    
   - run: echo  argument for run_dependency_scan = ${{inputs.run_dependency_scan}}
     shell: bash
-  - run : echo $RUNNER_NAME $RUNNER_OS $RUNNER_ARCH $RUNNER_TEMP
-    shell: bash  
   - name: Snyk SCA Scanning
     uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/snyk@main
     with:      
       dependency_scan_token: ${{ inputs.dependency_scan_token }}
       dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
     if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
-    # run: |
-    #   echo SNYK token is provided running SNYK scan for the project
-    #   echo "----------Download Latest Snyk CLI-----------"
-    #   curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.683.0/snyk-linux"
-    #   chmod +x snyk
-    #   ls -lrt
-    #   echo ./snyk auth ${{inputs.dependency_scan_token}}
-    #   ./snyk auth ${{inputs.dependency_scan_token}}
-    #   ./snyk test --all-projects -- ${{inputs.dependency_scan_arguments}}  || true
-    #   ./snyk monitor --all-projects -- ${{inputs.dependency_scan_arguments}} || true
-    # shell: bash 
+    
+    
+    
       
  
  
   - run: echo  argument for run_sast_scan = ${{inputs.run_sast_scan}}
     shell: bash
-    
   - name: Fortify Scan Create source Zip upload to FOD for Scanning
     uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/fortify@main
     with:
@@ -92,7 +90,51 @@ runs:
       download_scan_file: ${{ inputs.download_sast_scan_file }}
     if: ${{inputs.run_sast_scan == 'true' }}
     
-  #   uses: actions/setup-java@v1
+  
+
+
+
+  - name: Run Container Scan for Repostiory
+    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/prisma@main
+    with: 
+      container_scan_user: ${{ inputs.container_scan_user }}
+      container_scan_password: ${{ inputs.container_scan_password }}
+      container_scan_url: ${{ inputs.container_scan_url }}
+      image_name: ${{inputs.image_name}}
+      image_tag: ${{inputs.image_tag}}
+      registry_server: ${{inputs.registry_server}}
+      registry_server_pat: ${{ inputs.registry_server_pat }}
+    if: ${{ inputs.run_container_scan == 'true' }}  
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   ##### SNYK Code
+   # run: |
+    #   echo SNYK token is provided running SNYK scan for the project
+    #   echo "----------Download Latest Snyk CLI-----------"
+    #   curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.683.0/snyk-linux"
+    #   chmod +x snyk
+    #   ls -lrt
+    #   echo ./snyk auth ${{inputs.dependency_scan_token}}
+    #   ./snyk auth ${{inputs.dependency_scan_token}}
+    #   ./snyk test --all-projects -- ${{inputs.dependency_scan_arguments}}  || true
+    #   ./snyk monitor --all-projects -- ${{inputs.dependency_scan_arguments}} || true
+    # shell: bash 
+    
+    ###### FOD Code
+    
+   #   uses: actions/setup-java@v1
   #   with:
   #     java-version: 1.8
   # - name: Download fortify executable and run scan 
@@ -108,17 +150,7 @@ runs:
   #     SAST_API_URL: https://api.emea.fortify.com/
   #     SAST_OPTIONS: '-ep 2 -a 2 -rp 0 -pp 1 -apf -I 1'
 
-
-  - name: Run Container Scan for Repostiory
-    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/prisma@main
-    with: 
-      container_scan_user: ${{ inputs.container_scan_user }}
-      container_scan_password: ${{ inputs.container_scan_password }}
-      container_scan_url: ${{ inputs.container_scan_url }}
-      docker_image_name: ${{inputs.docker_image_name}}
-      docker_image_tag: ${{inputs.docker_image_tag}}
-      docker_repo: ${{inputs.docker_repo}}
-    if: ${{ inputs.run_container_scan == 'true' }}  
+   
    
     
 #   - name: Run Prisma Scan for Repository
