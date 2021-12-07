@@ -22,6 +22,8 @@ inputs:
     default: 'clean install '
   artifact_repository_pat:
     required: false
+  node_js_version:
+    required: false 
     
   run_code_analysis:
     required: true
@@ -43,7 +45,7 @@ runs:
     - run : echo $RUNNER_NAME $RUNNER_OS $RUNNER_ARCH $RUNNER_TEMP
       shell: bash  
           
-    - name: ========== Build and push Build Artifacts to artifact Store ==========
+    - name: ========== Build and push Build Artifacts to artifact Store for Maven ==========
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/maven-ci@main
       with:
         build_file_path: ${{ inputs.build_file_path }}
@@ -61,6 +63,44 @@ runs:
       if: ${{ ( inputs.build_tool == 'maven' || inputs.build_tool == 'mvn' ) }}
     
     
+
+    - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS ==========
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-ci@main
+      with:
+        build_file_path: ${{ inputs.build_file_path }}
+        build_file_name: ${{ inputs.build_file_name }}
+        node_js_version: ${{ inputs.node_js_version }}
+        run_code_analysis: false
+      if: ${{ ( inputs.build_tool == 'nodejs' || inputs.build_tool == 'yarn' ) }}
+    
+    
+    
+    
+    
+    - name: Validate Gradle wrapper
+      if: ${{ inputs.build_tool == 'gradle' }}
+      uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+      
+    - name: Build with Gradle
+      if: ${{ inputs.build_tool == 'gradle' }}
+      run: ./gradlew build
+      shell: bash
+      
+        
+    
+    
+#       ############ Test Ignore ##########
+      
+#     - name: calling another composite action
+#       id: foo
+#       uses: gopinath-velayudhan-mns/shared_composite_repo/workflows/sample@main
+#       with:
+#         who-to-greet: 'Mona the Octocat'
+#     - run: echo random-number ${{ steps.foo.outputs.random-number }}
+#       shell: bash
+
+
+############### Maven
 #     - run: ls -lart
 #       shell: bash
     
@@ -92,31 +132,4 @@ runs:
 #            -Dsonar.host.url=${{inputs.cq_host_url}} 
 #            -Dsonar.login=${{inputs.cq_token}} ${{inputs.maven_build_arguments}} 
 #            ${{inputs.maven_build_arguments}}
-#       shell: bash
-    
-    
-    
-    
-    
-    
-    - name: Validate Gradle wrapper
-      if: ${{ inputs.build_tool == 'gradle' }}
-      uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
-      
-    - name: Build with Gradle
-      if: ${{ inputs.build_tool == 'gradle' }}
-      run: ./gradlew build
-      shell: bash
-      
-        
-    
-    
-#       ############ Test Ignore ##########
-      
-#     - name: calling another composite action
-#       id: foo
-#       uses: gopinath-velayudhan-mns/shared_composite_repo/workflows/sample@main
-#       with:
-#         who-to-greet: 'Mona the Octocat'
-#     - run: echo random-number ${{ steps.foo.outputs.random-number }}
 #       shell: bash
