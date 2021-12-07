@@ -5,19 +5,8 @@ inputs:
     required: false
   build_file_name:
     required: false
-  settings_file_path:
+  node_js_version:
     required: false
-  settings_file_name:
-    required: false
-  maven_build_arguments:
-    required: false
-    
-  build_phases: 
-    required: false
-  
-  artifact_repository_pat:
-    required: false
-    
   run_code_analysis:
     required: true
   cq_project_key:
@@ -41,7 +30,7 @@ runs:
       - name: Setup NodeJs
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: ${{ inputs.node_js_version }}
       - name: Install JS dependencies
         run: yarn install
       - name: Build
