@@ -49,9 +49,10 @@ inputs:
     required: false
   registry_server:
     required: false
-  registry_server_pat:
+  registry_username:
     required: false
-  
+  registry_pasword:
+    required: false
   
   
 runs:
@@ -103,7 +104,8 @@ runs:
       image_name: ${{inputs.image_name}}
       image_tag: ${{inputs.image_tag}}
       registry_server: ${{inputs.registry_server}}
-      registry_server_pat: ${{ inputs.registry_server_pat }}
+      registry_username: ${{ inputs.registry_username }}
+      registry_password: ${{ inputs.registry_password }}
     if: ${{ inputs.run_container_scan == 'true' }}  
    
    
