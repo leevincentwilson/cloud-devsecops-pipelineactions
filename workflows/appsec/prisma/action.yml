@@ -46,10 +46,12 @@ runs:
       run: |
          echo docker pull ${{ inputs.registry_server }}/${{inputs.image_name}}:${{ inputs.image_tag }}
          docker pull ${{ inputs.registry_server }}/${{inputs.image_name}}:${{ inputs.image_tag }}
+         
+         ./twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --details ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}
       shell: bash
       
-     - name: pull image from docker hub
-      if: ${{ !inputs.registry_server && (!contains(inputs.registry_server, 'local')  && !contains(inputs.registry_server,'docker.io')) }}
+    - name: pull image from docker hub
+      if: ${{ !inputs.registry_server || contains(inputs.registry_server,'docker.io')  }}
       run: |
          echo docker pull ${{inputs.image_name}}:${{ inputs.image_tag }}
          docker pull ${{inputs.image_name}}:${{ inputs.image_tag }}
@@ -58,5 +60,5 @@ runs:
     - name: Scan the image using Prisma Cloud
       run: |
         ./twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --details ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}
-        #./twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --containerized --details ${{inputs.docker_repo}}${{inputs.docker_image_name}}:${{inputs.docker_image_tag}}
       shell: bash
+      if: ${{ !inputs.registry_server || contains(inputs.registry_server,'docker.io')  }} 
