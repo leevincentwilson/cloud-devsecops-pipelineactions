@@ -31,8 +31,8 @@ runs:
     - run : echo $RUNNER_NAME $RUNNER_OS $RUNNER_ARCH $RUNNER_TEMP
       shell: bash
       
-    - run: docker images
-      shell: bash
+   # - run: docker images
+   #   shell: bash
       
 ########### Login and Push image to Azure Container Registry ##############
 
