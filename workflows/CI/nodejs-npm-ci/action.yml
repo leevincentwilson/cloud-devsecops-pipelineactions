@@ -38,7 +38,7 @@ runs:
           node-version: ${{ inputs.node_js_version }}
          
       - name: Npm Audit
-        run: npm audit --production
+        run: npm audit --production --audit-level critical
         shell: bash
       - name: Npm install
         run: npm ci
