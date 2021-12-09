@@ -45,7 +45,7 @@ runs:
          chmod +x $BUILD_FILE
       shell: bash   
       env:
-        BUILD_FILE: ./${{ inputs.build_file_path }/${{ inputs.build_file_name }}
+        BUILD_FILE: ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }}
       
     - name: Build with Gradle
       run: ./gradlew ${{ inputs.maven_build_arguments }}
