@@ -23,21 +23,19 @@ runs:
   using: "composite"
   steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 'main'
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Setup NodeJs ${{ matrix.node-version }}
+#       - name: Cache node modules
+#         uses: actions/cache@v2
+#         env:
+#           cache-name: cache-node-modules
+#         with:
+#           path: ~/.npm
+#           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+#           restore-keys: |
+#             ${{ runner.os }}-node-
+      - name: Setup NodeJs 
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: ${{ inputs.node_js_version }}
       - name: Npm Audit
         run: npm audit --production
       - name: Npm install
