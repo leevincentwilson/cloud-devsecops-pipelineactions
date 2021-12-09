@@ -47,10 +47,7 @@ runs:
 #       uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
     - name: prep
       run: |
-         if [ -z ./gradlew ]
-         then
-           chmod +x gradlew
-         fi  
+         [ -f ./gradlew ] && chmod +x gradlew
          chmod +x $BUILD_FILE
       env:
         BUILD_FILE: "./${{inputs.build_file_path}/${{inputs.build_file_name}}"
