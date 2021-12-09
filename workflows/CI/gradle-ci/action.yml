@@ -34,7 +34,7 @@ inputs:
   cq_scan_arguments:
      required: false
  
- runs:
+runs:
   using: "composite"
   steps:
     - run: echo Hello, You are Executing Composite action to Execute Build
