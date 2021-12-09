@@ -1,0 +1,52 @@
+name: 'Build Nodejs project'
+description: 'Building and Pushing Artifact to Azure Artifact Repository'
+inputs:
+  build_file_path:
+    required: false
+  build_file_name:
+    required: false
+  node_js_version:
+    required: false
+  run_code_analysis:
+    required: true
+  cq_project_key:
+    required: false
+  cq_host_url:
+    required: false
+  cq_token:
+    required: false
+  cq_scan_arguments: 
+    required: false
+ 
+    
+runs:
+  using: "composite"
+  steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 'main'
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Setup NodeJs ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Npm Audit
+        run: npm audit --production
+      - name: Npm install
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Formatting Check
+        run: npm run format:check
+      - name: Unit tests
+        run: npm run test:coverage
+      - name: Typescript Errors
+        run: npm run build:ts
