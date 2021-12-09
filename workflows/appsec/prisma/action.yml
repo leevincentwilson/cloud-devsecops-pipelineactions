@@ -2,8 +2,6 @@
 name: 'DevSecOps Application Security Actions'
 description: 'Running Security Scans for project codes'
 inputs:
-  run_container_scan:
-    required: false
   container_scan_user:
     required: false
   container_scan_password:
