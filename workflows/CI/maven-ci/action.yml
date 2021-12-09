@@ -2,6 +2,10 @@
 name: 'Build and push Artifact'
 description: 'Building and Pushing Artifact to Azure Artifact Repository'
 inputs:
+  maven_version:
+    required: false
+  jdk_version:
+    required: false
   build_file_path:
     required: false
   build_file_name:
