@@ -36,7 +36,7 @@ runs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ inputs.node_js_version }}
-        shell: bash  
+         
       - name: Npm Audit
         run: npm audit --production
         shell: bash
