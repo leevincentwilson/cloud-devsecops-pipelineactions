@@ -36,15 +36,22 @@ runs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ inputs.node_js_version }}
+        shell: bash  
       - name: Npm Audit
         run: npm audit --production
+        shell: bash
       - name: Npm install
         run: npm ci
+        shell: bash
       - name: Lint
         run: npm run lint
+        shell: bash
       - name: Formatting Check
         run: npm run format:check
+        shell: bash
       - name: Unit tests
         run: npm run test:coverage
+        shell: bash
       - name: Typescript Errors
         run: npm run build:ts
+        shell: bash
