@@ -5,6 +5,10 @@ inputs:
   build_tool:
     required: true
     default: maven
+  build_tool_version:
+    required: false
+  jdk_version:
+    required: false
   build_file_path:
     required: false
     default: .
