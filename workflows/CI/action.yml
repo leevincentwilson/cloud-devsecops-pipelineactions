@@ -91,7 +91,7 @@ runs:
  #========== NodeJS Build CI ==============#   
     
     
-  - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS ==========
+    - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS ==========
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-ci@main
       with:
         build_tool: ${{ inputs.build_tool }}
