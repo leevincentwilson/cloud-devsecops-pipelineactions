@@ -80,15 +80,30 @@ runs:
     
     
     
+    - name: ========== Build and push Build Artifacts to artifact Store for Maven ==========
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/gradle-ci@main
+      with:
+        build_file_path: ${{ inputs.build_file_path }}
+        build_file_name: ${{ inputs.build_file_name }}
+        settings_file_path: ${{ inputs.settings_file_path }}
+        settings_file_name: ${{ inputs.settings_file_name }}
+        artifact_repository_pat: ${{ inputs.artifact_repository_pat }}
+        run_code_analysis: ${{ inputs.run_code_analysis }}  
+        cq_host_url: ${{ inputs.cq_host_url }} 
+        cq_project_key: ${{ inputs.cq_project_key }} 
+        cq_token: ${{ inputs.cq_token }}
+        cq_scan_arguments: ${{ inputs.cq_scan_arguments }}
+      if: ${{ ( inputs.build_tool == 'gradle' || inputs.build_tool == 'gradlew' ) }}
     
-    - name: Validate Gradle wrapper
-      if: ${{ inputs.build_tool == 'gradle' }}
-      uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+    
+#     - name: Validate Gradle wrapper
+#       if: ${{ inputs.build_tool == 'gradle' }}
+#       uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       
-    - name: Build with Gradle
-      if: ${{ inputs.build_tool == 'gradle' }}
-      run: ./gradlew build
-      shell: bash
+#     - name: Build with Gradle
+#       if: ${{ inputs.build_tool == 'gradle' }}
+#       run: ./gradlew build
+#       shell: bash
       
         
     
