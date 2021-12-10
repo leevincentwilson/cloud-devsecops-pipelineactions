@@ -71,4 +71,4 @@ runs:
       run: |
         ./twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --details ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}
       shell: bash
-      if: ${{ !inputs.registry_server || contains(inputs.registry_server,'docker.io')  }} 
+      #if: ${{ !inputs.registry_server || contains(inputs.registry_server,'docker.io')  }} 
