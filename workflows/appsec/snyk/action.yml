@@ -42,8 +42,8 @@ runs:
       curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.683.0/snyk-linux"
       chmod +x snyk
       ./snyk auth ${{inputs.dependency_scan_token}}
-      ./snyk test --all-projects -- ${{inputs.dependency_scan_arguments}} --sarif-file-output=snyk.sarif  || true
-      ./snyk monitor --all-projects -- ${{inputs.dependency_scan_arguments}}  || true
+      ./snyk test --all-projects --sarif-file-output=snyk.sarif -- ${{inputs.dependency_scan_arguments}}  
+      ./snyk monitor --all-projects -- ${{inputs.dependency_scan_arguments}}  
     shell: bash 
     if: ${{ inputs.build_tool != 'npm' || inputs.build_tool != 'yarn' }}
     
