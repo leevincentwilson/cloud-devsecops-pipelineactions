@@ -18,14 +18,19 @@ runs:
     env:
        SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
     with:
-       command: monitor
        args: --sarif-file-output=snyk.sarif -- ${{inputs.dependency_scan_arguments}}
     
   - name: Upload result to GitHub Code Scanning
     uses: github/codeql-action/upload-sarif@v1
     with:
        sarif_file: snyk.sarif
-          
+       
+  - name: Snyk SCA Scanning
+    uses: snyk/actions@0.3.0
+    env:
+       SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
+    with:
+       command: monitor      
 #     run: |
 #       echo SNYK token is provided running SNYK scan for the project
 #       echo "----------Download Latest Snyk CLI-----------"
