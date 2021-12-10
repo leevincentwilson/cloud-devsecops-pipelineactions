@@ -15,7 +15,7 @@ inputs:
     required: false
   settings_file_name:
     required: false
-  maven_build_arguments:
+  build_arguments:
     required: false
   build_phases: 
     required: false
@@ -48,7 +48,7 @@ runs:
         BUILD_FILE: ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }}
       
     - name: Build with Gradle
-      run: ./gradlew ${{ inputs.maven_build_arguments }}
+      run: ./gradlew ${{ inputs.build_arguments }}
       shell: bash
       
         
