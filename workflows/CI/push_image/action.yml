@@ -74,7 +74,7 @@ runs:
     
     - name: Execute build 
       run: |
-        docker build -f ./${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} . -t ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
+        docker build -f ${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} . -t ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
         docker tag  ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
         docker images
         docker push ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
