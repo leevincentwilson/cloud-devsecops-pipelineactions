@@ -4,11 +4,14 @@ description: 'Running SNYK Security Scans for project codes'
 
 inputs:
   project_name:
-    required: true
+    required: false
   dependency_scan_token:
     required: false
   dependency_scan_arguments:
     required: false
+  build_tool:   
+    required: false
+    
     
 runs:
   using: "composite"
@@ -20,13 +23,13 @@ runs:
     with:
        args: --sarif-file-output=snyk.sarif -- ${{inputs.dependency_scan_arguments}}
     
-  - name: Upload result to GitHub Code Scanning
-    uses: github/codeql-action/upload-sarif@v1
-    with:
-       sarif_file: snyk.sarif
+#   - name: Upload result to GitHub Code Scanning
+#     uses: github/codeql-action/upload-sarif@v1
+#     with:
+#        sarif_file: snyk.sarif
        
   - name: Snyk SCA Scanning
-    uses: snyk/actions/maven@0.3.0
+    uses: snyk/actions@0.3.0
     env:
        SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
     with:
