@@ -14,7 +14,7 @@ runs:
   using: "composite"
   steps:
   - name: Snyk SCA Scanning
-    uses: snyk/actions@0.3.0
+    uses: snyk/actions/maven@0.3.0
     env:
        SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
     with:
@@ -26,7 +26,7 @@ runs:
        sarif_file: snyk.sarif
        
   - name: Snyk SCA Scanning
-    uses: snyk/actions@0.3.0
+    uses: snyk/actions/maven@0.3.0
     env:
        SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
     with:
