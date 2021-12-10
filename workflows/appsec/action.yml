@@ -4,7 +4,8 @@ description: 'Running Security Scans for project codes'
 inputs:
   project_name:
     required: true
-    
+  build_tool:
+    required: true
   run_dependency_scan:
     required: true
   dependency_scan_token:
