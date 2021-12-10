@@ -5,9 +5,6 @@ description: 'Running SNYK Security Scans for project codes'
 inputs:
   project_name:
     required: true
-    
-  run_dependency_scan:
-    required: true
   dependency_scan_token:
     required: false
   dependency_scan_arguments:
@@ -17,16 +14,29 @@ runs:
   using: "composite"
   steps:
   - name: Snyk SCA Scanning
-    if: ${{ inputs.dependency_scan_token }}
-    run: |
-      echo SNYK token is provided running SNYK scan for the project
-      echo "----------Download Latest Snyk CLI-----------"
-      curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.683.0/snyk-linux"
-      chmod +x snyk
-      ls -lrt
-      echo ./snyk auth ${{inputs.dependency_scan_token}}
-      ./snyk auth ${{inputs.dependency_scan_token}}
-      ./snyk test --all-projects -- ${{inputs.dependency_scan_arguments}}  || true
-      ./snyk monitor --all-projects -- ${{inputs.dependency_scan_arguments}} || true
-    shell: bash 
+    uses: snyk/actions@0.3.0
+    continue-on-error: true
+    env:
+       SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
+    with:
+       command: monitor
+       args: --sarif-file-output=snyk.sarif -- ${{inputs.dependency_scan_arguments}}
+  - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: snyk.sarif
+          
+          
+#     run: |
+#       echo SNYK token is provided running SNYK scan for the project
+#       echo "----------Download Latest Snyk CLI-----------"
+#       curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.683.0/snyk-linux"
+#       chmod +x snyk
+#       ls -lrt
+#       echo ./snyk auth ${{inputs.dependency_scan_token}}
+#       ./snyk auth ${{inputs.dependency_scan_token}}
+#       ./snyk test --all-projects -- ${{inputs.dependency_scan_arguments}}  || true
+#       ./snyk monitor --all-projects -- ${{inputs.dependency_scan_arguments}} || true
+#     shell: bash 
+    
          
