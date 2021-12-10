@@ -21,7 +21,7 @@ runs:
     env:
        SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
     with:
-       args: --sarif-file-output=snyk.sarif -- ${{inputs.dependency_scan_arguments}}
+       args: --sarif-file-output=snyk.sarif -- ${{inputs.dependency_scan_arguments}} || true
     
 #   - name: Upload result to GitHub Code Scanning
 #     uses: github/codeql-action/upload-sarif@v1
