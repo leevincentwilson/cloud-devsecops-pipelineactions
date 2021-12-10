@@ -65,6 +65,15 @@ runs:
     
   - run: echo  argument for run_dependency_scan = ${{inputs.run_dependency_scan}}
     shell: bash
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+       echo #===================================================================================================#
+       echo #                                 Running Dependency SCAN                                           #
+       echo #===================================================================================================#
+       echo #===================================================================================================#
+    shell: bash
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
   - name: Snyk SCA Scanning
     uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/snyk@main
     with:      
@@ -80,6 +89,15 @@ runs:
  
   - run: echo  argument for run_sast_scan = ${{inputs.run_sast_scan}}
     shell: bash
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+       echo #===================================================================================================#
+       echo #                                      Running SAST SCAN                                            #
+       echo #===================================================================================================#
+       echo #===================================================================================================#
+    shell: bash
+    if: ${{inputs.run_sast_scan == 'true' }}
   - name: Fortify Scan Create source Zip upload to FOD for Scanning
     uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/fortify@main
     with:
@@ -96,7 +114,15 @@ runs:
   
 
 
-
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+       echo #===================================================================================================#
+       echo #                                 Running Container SCAN                                            #
+       echo #===================================================================================================#
+       echo #===================================================================================================#
+    shell: bash
+    if: ${{inputs.run_container_scan == 'true' }}
   - name: Run Container Scan for Repostiory
     uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/prisma@main
     with: 
