@@ -14,7 +14,6 @@ inputs:
     default: .
   build_file_name:
     required: false
-    default: pom.xml
   settings_file_path:
     required: false
   settings_file_name:
@@ -23,11 +22,10 @@ inputs:
     required: false
   build_phases: 
     required: false
-    default: 'clean install '
   artifact_repository_pat:
     required: false
   node_js_version:
-    required: false 
+    required: false
     
   run_code_analysis:
     required: true
@@ -38,7 +36,7 @@ inputs:
   cq_token:
     required: false
   cq_scan_arguments:
-     required: false
+    required: false
  
     
 runs:
