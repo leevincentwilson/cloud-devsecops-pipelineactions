@@ -20,6 +20,8 @@ inputs:
     required: false
   maven_build_arguments:
     required: false
+  build_arguments:
+    required: false  
   build_phases: 
     required: false
   artifact_repository_pat:
@@ -77,6 +79,7 @@ runs:
         build_file_name: ${{ inputs.build_file_name }}
         settings_file_path: ${{ inputs.settings_file_path }}
         settings_file_name: ${{ inputs.settings_file_name }}
+        build_arguments: ${{ inputs.build_arguments }}
         artifact_repository_pat: ${{ inputs.artifact_repository_pat }}
         run_code_analysis: ${{ inputs.run_code_analysis }}  
         cq_host_url: ${{ inputs.cq_host_url }} 
