@@ -23,15 +23,15 @@ runs:
     env:
        SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
     with:
-       args: --sarif-file-output=snyk.sarif ${{inputs.dependency_scan_arguments}} || true
+       args: --sarif-file-output=snyk.sarif 
        
-  - name: Snyk SCA Scanning for Java scrips
-    if: ${{ inputs.build_tool == 'npm' || inputs.build_tool == 'yarn' }}
-    uses: snyk/actions@0.3.0
-    env:
-       SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
-    with:
-       command: monitor
+#   - name: Snyk SCA Scanning for Java scripts
+#     if: ${{ inputs.build_tool == 'npm' || inputs.build_tool == 'yarn' }}
+#     uses: snyk/actions@0.3.0
+#     env:
+#        SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
+#     with:
+#        command: monitor
        
        
        
