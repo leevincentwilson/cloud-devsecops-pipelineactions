@@ -16,34 +16,40 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - name: Snyk SCA Scanning
-    uses: snyk/actions/maven@0.3.0
-    env:
-       SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
-    with:
-       args: --sarif-file-output=snyk.sarif -- ${{inputs.dependency_scan_arguments}} || true
-    
-#   - name: Upload result to GitHub Code Scanning
-#     uses: github/codeql-action/upload-sarif@v1
-#     with:
-#        sarif_file: snyk.sarif
-       
-  - name: Snyk SCA Scanning
+  
+  - name: Snyk SCA Scanning for java scripts
+    if: ${{ inputs.build_tool == 'npm' || inputs.build_tool == 'yarn' }}
     uses: snyk/actions@0.3.0
     env:
        SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
     with:
-       command: monitor      
-#     run: |
-#       echo SNYK token is provided running SNYK scan for the project
-#       echo "----------Download Latest Snyk CLI-----------"
-#       curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.683.0/snyk-linux"
-#       chmod +x snyk
-#       ls -lrt
-#       echo ./snyk auth ${{inputs.dependency_scan_token}}
-#       ./snyk auth ${{inputs.dependency_scan_token}}
-#       ./snyk test --all-projects -- ${{inputs.dependency_scan_arguments}}  || true
-#       ./snyk monitor --all-projects -- ${{inputs.dependency_scan_arguments}} || true
-#     shell: bash 
+       args: --sarif-file-output=snyk.sarif ${{inputs.dependency_scan_arguments}} || true
+       
+  - name: Snyk SCA Scanning for Java scrips
+    if: ${{ inputs.build_tool == 'npm' || inputs.build_tool == 'yarn' }}
+    uses: snyk/actions@0.3.0
+    env:
+       SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
+    with:
+       command: monitor
+       
+       
+       
+  - name: Snyc scan for maven and gradle     
+    run: |
+      echo SNYK token is provided running SNYK scan for the project
+      echo "----------Download Latest Snyk CLI-----------"
+      curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.683.0/snyk-linux"
+      chmod +x snyk
+      ./snyk auth ${{inputs.dependency_scan_token}}
+      ./snyk test --all-projects -- ${{inputs.dependency_scan_arguments}} --sarif-file-output=snyk.sarif  || true
+      ./snyk monitor --all-projects -- ${{inputs.dependency_scan_arguments}}  || true
+    shell: bash 
+    if: ${{ inputs.build_tool != 'npm' || inputs.build_tool != 'yarn' }}
     
-         
+    
+    
+#   - name: Upload result to GitHub Code Scanning
+#     uses: github/codeql-action/upload-sarif@v1
+#     with:
+#        sarif_file: snyk.sarif     
