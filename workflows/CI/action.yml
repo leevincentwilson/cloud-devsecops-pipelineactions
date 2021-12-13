@@ -40,9 +40,9 @@ inputs:
   cq_scan_arguments:
     required: false
     
-  build_application:
+  is_application_build:
     required: false
-  build_library:
+  is_library_build:
     required: false
   library_name:
     required: false
@@ -109,7 +109,6 @@ runs:
         build_file_path: ${{ inputs.build_file_path }}
         build_file_name: ${{ inputs.build_file_name }}
         #node_version: ${{ inputs.node_version }}
-        
         run_code_analysis: false
       if: ${{  inputs.build_tool == 'npm'  }}
       
@@ -122,7 +121,6 @@ runs:
         build_file_path: ${{ inputs.build_file_path }}
         build_file_name: ${{ inputs.build_file_name }}
         #node_version: ${{ inputs.node_version }}
-        
         run_code_analysis: false
       if: ${{  inputs.build_tool == 'yarn'  }}   
       
@@ -134,8 +132,8 @@ runs:
         #node_version: ${{ inputs.node_version }}
         #build_file_path: ${{ inputs.build_file_path }}
         #build_file_name: ${{ inputs.build_file_name }}
-        build_application_flag: ${{ inputs.build_application_flag }}
-        build_library_flag: ${{ inputs.build_library_flag }}
+        build_application_flag: ${{ inputs.is_application_build }}
+        build_library_flag: ${{ inputs.is_library_build }}
         run_code_analysis: false
       if: ${{  inputs.build_tool == 'yarnnx'  }}   
        
