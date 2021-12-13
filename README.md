@@ -20,7 +20,7 @@ This repository is used to store reusable composite actions that other product t
 - **settings_file_path: .** 	`{` *maven settings file path if you need push package, default *. `}`
 - **settings_file_name: settings.xml** 	`{` *maven settings file name if you need push package, default settings.xml* `}`
 - **build_phases: clean deploy**  `{` *stages to run as part of the build* `}`
-- **maven_build_arguments: -Dkey1=value1 -Dkey2=value2**  `{` *additional maven arguments to be passed for the build execution* `}`
+- **build_arguments: -Dkey1=value1 -Dkey2=value2**  `{` *additional maven arguments to be passed for the build execution* `}`
 - **az_artifact_repository_pat: ${{secrets.AZURE_ARTIFACT_PAT}}** 	`{` *you repository token to use for connecting to Azure package repository* if not already in setting.xml`}`
 - **run_code_analysis:: true/false**  `{` *Flag to run Code Quality Scan* `}`
 - **cq_project_key: CMTEST**  `{` *codeQulaity project key* `}`
