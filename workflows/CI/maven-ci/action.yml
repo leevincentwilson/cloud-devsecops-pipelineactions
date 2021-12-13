@@ -14,7 +14,7 @@ inputs:
     required: false
   settings_file_name:
     required: false
-  maven_build_arguments:
+  build_arguments:
     required: false
     
   build_phases: 
@@ -46,14 +46,14 @@ runs:
     - name: Maven Build and install Artifacts
       if: ${{ contains( inputs.build_phases,'install') || contains(  inputs.build_phases , 'package') }}
       run: |
-        mvn clean install ${{inputs.maven_build_arguments}} -f ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} -s ./${{ inputs.settings_file_path }}/${{ inputs.settings_file_name }}
+        mvn clean install ${{inputs.build_arguments}} -f ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} -s ./${{ inputs.settings_file_path }}/${{ inputs.settings_file_name }}
       shell: bash  
     
     - name: Unit_Test
       if: ${{ contains( inputs.build_phases , 'test' ) }} 
       run : | 
         echo Running Unit Test - ${{ inputs.build_phases }}
-        mvn test ${{inputs.maven_build_arguments}} -f ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} -s ./${{ inputs.settings_file_path }}/${{ inputs.settings_file_name }}
+        mvn test ${{inputs.build_arguments}} -f ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} -s ./${{ inputs.settings_file_path }}/${{ inputs.settings_file_name }}
         echo 'Test Phase - completed'
       shell: bash
       
@@ -61,7 +61,7 @@ runs:
       if: ${{ contains( inputs.build_phases , 'deploy' ) && inputs.settings_file_name }}   
       run : |
         echo Executing Phase Deploy - ${{ inputs.build_phases }}
-        mvn deploy -s ./${{ inputs.settings_file_path }}/${{ inputs.settings_file_name }} -f ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} ${{inputs.maven_build_arguments}}
+        mvn deploy -s ./${{ inputs.settings_file_path }}/${{ inputs.settings_file_name }} -f ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} ${{inputs.build_arguments}}
       shell: bash  
       
     - name: Code Quality Analysis
@@ -69,7 +69,7 @@ runs:
       run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar
            -Dsonar.projectKey=${{inputs.cq_project_key}} 
            -Dsonar.host.url=${{inputs.cq_host_url}} 
-           -Dsonar.login=${{inputs.cq_token}} ${{inputs.maven_build_arguments}} 
-           ${{inputs.maven_build_arguments}} ${{ inputs.cq_scan_arguments }}
+           -Dsonar.login=${{inputs.cq_token}} ${{inputs.build_arguments}} ${{ inputs.cq_scan_arguments }}
+           
       shell: bash
     
