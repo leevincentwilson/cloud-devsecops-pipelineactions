@@ -1,0 +1,40 @@
+# Appsec Composite action
+name: 'DevSecOps Application Security Actions'
+description: 'Running SNYK Security Scans for project codes'
+
+inputs:
+  project_name:
+    required: false
+  dependency_scan_token:
+    required: false
+  dependency_scan_arguments:
+    required: false
+  build_tool:   
+    required: false
+    
+    
+runs:
+  using: "composite"
+  steps:
+  
+  - name: Snyk SCA Scanning for java scripts
+    if: ${{ inputs.build_tool == 'npm' || inputs.build_tool == 'yarn' }}
+    uses: snyk/actions@0.3.0
+    env:
+       SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
+    with:
+       args: --sarif-file-output=snyk.sarif 
+       
+  - name: Snyk SCA Scanning for Java scripts
+    if: ${{ inputs.build_tool == 'npm' || inputs.build_tool == 'yarn' }}
+    uses: snyk/actions@0.3.0
+    env:
+       SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
+    with:
+       command: monitor
+
+
+#   - name: Upload result to GitHub Code Scanning
+#     uses: github/codeql-action/upload-sarif@v1
+#     with:
+#        sarif_file: snyk.sarif  
