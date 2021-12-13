@@ -126,7 +126,7 @@ runs:
         run_code_analysis: false
       if: ${{  inputs.build_tool == 'yarn'  }}   
       
-   - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS Yarn-nx==========
+    - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS Yarn-nx==========
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-yarnnx-ci@main
       with:
         application_name: ${{inputs.application_name}}
