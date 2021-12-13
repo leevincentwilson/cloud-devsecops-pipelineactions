@@ -7,6 +7,8 @@ inputs:
     default: maven
   build_tool_version:
     required: false
+  application_name:
+    required: true
   jdk_version:
     required: false
   build_file_path:
@@ -17,8 +19,6 @@ inputs:
   settings_file_path:
     required: false
   settings_file_name:
-    required: false
-  maven_build_arguments:
     required: false
   build_arguments:
     required: false  
@@ -96,25 +96,54 @@ runs:
     - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS ==========
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-ci@main
       with:
+        application_name: ${{inputs.application_name}}
         build_tool: ${{ inputs.build_tool }}
+        build_tool_version: ${{ inputs.build_tool_version }}
         build_file_path: ${{ inputs.build_file_path }}
         build_file_name: ${{ inputs.build_file_name }}
-        node_js_version: ${{ inputs.node_js_version }}
+        #node_version: ${{ inputs.node_version }}
+        
         run_code_analysis: false
-      if: ${{ ( inputs.build_tool == 'nodejs' || inputs.build_tool == 'yarn' ) }}
+      if: ${{  inputs.build_tool == 'npm'  }}
+      
+    - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS ==========
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-yarn-ci@main
+      with:
+        application_name: ${{inputs.application_name}}
+        build_tool: ${{ inputs.build_tool }}
+        build_tool_version: ${{ inputs.build_tool_version }}
+        build_file_path: ${{ inputs.build_file_path }}
+        build_file_name: ${{ inputs.build_file_name }}
+        #node_version: ${{ inputs.node_version }}
+        
+        run_code_analysis: false
+      if: ${{  inputs.build_tool == 'yarn'  }}   
+      
+   - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS Yarn-nx==========
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-yarnnx-ci@main
+      with:
+        application_name: ${{inputs.application_name}}
+        build_tool: ${{ inputs.build_tool }}
+        build_tool_version: ${{ inputs.build_tool_version }}
+        build_file_path: ${{ inputs.build_file_path }}
+        build_file_name: ${{ inputs.build_file_name }}
+        #node_version: ${{ inputs.node_version }}
+        
+        run_code_analysis: false
+      if: ${{  inputs.build_tool == 'yarnnx'  }}   
        
     
     
     
     
-    - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS ==========
-      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-npm-ci@main
-      with:
-        build_file_path: ${{ inputs.build_file_path }}
-        build_file_name: ${{ inputs.build_file_name }}
-        node_js_version: ${{ inputs.node_js_version }}
-        run_code_analysis: false
-      if: ${{ ( inputs.build_tool == 'npm'  ) }}
+#     - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS ==========
+#       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-npm-ci@main
+#       with:
+#         build_file_path: ${{ inputs.build_file_path }}
+#         build_file_name: ${{ inputs.build_file_name }}
+#         node_js_version: ${{ inputs.node_js_version }}
+#         run_code_analysis: false
+#       if: ${{ ( inputs.build_tool == 'npm'  ) }}
     
     
     
