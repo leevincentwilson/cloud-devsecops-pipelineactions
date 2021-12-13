@@ -2,9 +2,15 @@ inputs:
   application_name:
     required: true
     description: Name of application to build
+  build_application:
+    default: true
   node_version:
     description: 'The version of node'
     default: '14.x'
+  build_library:
+    default: true
+  library_name:
+    description: Name of library to build  
 
 runs:
   using: 'composite'
@@ -39,10 +45,29 @@ runs:
         yarn --frozen-lockfile --production=true
         echo ${GITHUB_SHA}-${{ github.run_number }} > ./public/version.txt
         ls -lA
-        zip  --symlinks -r -q ../../../${{ inputs.appName }}-release.zip .next *
-        ls -lhA ../../../${{ inputs.appName }}-release.zip
+        zip  --symlinks -r -q ../../../${{ inputs.application_name }}-release.zip .next *
+        ls -lhA ../../../${{ inputs.application_name }}-release.zip
     - name: Upload release zip
       uses: actions/upload-artifact@v2
       with:
         name: ${{ inputs.application_name }}-release
         path: ./${{ inputs.application_name }}-release.zip
+        
+    
+    - name: Build library
+      shell: bash
+      run: |
+        yarn nx run ${{ inputs.library_name }}:build-storybook
+        LOCATION="dist/storybook/${{ inputs.library_name }}"
+        cp libs/storybook-package.json ${LOCATION}/package.json
+        cd ${LOCATION}
+        yarn --frozen-lockfile --production=true
+        echo ${GITHUB_SHA}-${{ github.run_number }} > ./version.txt
+        ls -lA
+        zip  --symlinks -r -q ../../../${{ inputs.library_name }}-release.zip .next *
+        ls -lhA ../../../${{ inputs.library_name }}-release.zip
+    - name: Upload release zip
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ inputs.library_name }}-release
+        path: ./${{ inputs.library_name }}-release.zip    
