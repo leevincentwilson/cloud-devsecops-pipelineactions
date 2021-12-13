@@ -14,19 +14,19 @@ This repository is used to store reusable composite actions that other product t
 #### call:  DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI@latest
 
 ##### inputs:
-- **build_tool: maven**  -- Required		`{` *build tools you are using, we support maven and gradle more tools will be added* `}`
-- **build_file_path: .** 				 `{` *path to the pom file default = .* `}`
-- **build_file_name: pom.xml** `{` *Pom file name , default = pom.xml* `}`
+- **build_tool: {maven/gradle/npm/yarn}** [Required]		`{` *build tools you are using, we support maven and gradle more tools will be added* `}`
+- **build_file_path: {. or relative/path}** [optional]				 `{` *path to the pom file default = .* `}`
+- **build_file_name: {pom.xml/gradlew/package.json}** `{` *Pom file name , default = pom.xml* `}`
 - **settings_file_path: .** 	`{` *maven settings file path if you need push package, default *. `}`
 - **settings_file_name: settings.xml** 	`{` *maven settings file name if you need push package, default settings.xml* `}`
-- **build_phases: clean deploy**  `{` *stages to run as part of the build* `}`
-- **build_arguments: -Dkey1=value1 -Dkey2=value2**  `{` *additional maven arguments to be passed for the build execution* `}`
-- **az_artifact_repository_pat: ${{secrets.AZURE_ARTIFACT_PAT}}** 	`{` *you repository token to use for connecting to Azure package repository* if not already in setting.xml`}`
-- **run_code_analysis:: true/false**  `{` *Flag to run Code Quality Scan* `}`
+- **build_phases: clean deploy** [optional] `{` *stages to run as part of the build* `}`
+- **build_arguments: -Dkey1=value1 -Dkey2=value2** [optional] `{` *additional maven arguments to be passed for the build execution* `}`
+- **az_artifact_repository_pat: ${{secrets.AZURE_ARTIFACT_PAT}}** [optional]	`{` *you repository token to use for connecting to Azure package repository* if not already in setting.xml`}`
+- **run_code_analysis:: true/false** [required] `{` *Flag to run Code Quality Scan* `}`
 - **cq_project_key: CMTEST**  `{` *codeQulaity project key* `}`
-- **cq_host_url: clean deploy**  `{` *Url of the Code Scanner Destination* `}`
-- **cq_token: clean deploy**  `{` *Token to authenticate to the Project `}`
-
+- **cq_host_url: sonar-url**  `{` *Url of the Code Scanner Destination* `}`
+- **cq_token: sonar-access-token**  `{` *Token to authenticate to the Project `}`
+- **cq_scan_arguments: -DsonarProjectName=test**  `{` *additonal arguments specific to sonar scan execution `}`
 </br>
 </br>
 
