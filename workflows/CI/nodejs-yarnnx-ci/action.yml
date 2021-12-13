@@ -2,12 +2,12 @@ inputs:
   application_name:
     required: true
     description: Name of application to build
-  build_application:
+  build_application_flag:
     default: true
   node_version:
     description: 'The version of node'
     default: '14.x'
-  build_library:
+  build_library_flag:
     default: true
   library_name:
     description: Name of library to build  
