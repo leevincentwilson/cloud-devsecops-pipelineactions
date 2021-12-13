@@ -1,11 +1,13 @@
 name: 'Build Nodejs project'
 description: 'Building and Pushing Artifact to Azure Artifact Repository'
 inputs:
+  application_name:
+    required: true
   build_file_path:
     required: false
   build_file_name:
     required: false
-  node_js_version:
+  build_tool_version:
     required: false
   run_code_analysis:
     required: true
@@ -23,19 +25,19 @@ runs:
   using: "composite"
   steps:
       - uses: actions/checkout@v2
-#       - name: Cache node modules
-#         uses: actions/cache@v2
-#         env:
-#           cache-name: cache-node-modules
-#         with:
-#           path: ~/.npm
-#           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-#           restore-keys: |
-#             ${{ runner.os }}-node-
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - name: Setup NodeJs 
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ inputs.node_js_version }}
+          node-version: ${{ inputs.build_tool_version }}
          
       - name: Npm Audit
         run: npm audit --production --audit-level critical
