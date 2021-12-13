@@ -39,6 +39,13 @@ inputs:
     required: false
   cq_scan_arguments:
     required: false
+    
+  build_application:
+    required: false
+  build_library:
+    required: false
+  library_name:
+    required: false
  
     
 runs:
@@ -123,12 +130,12 @@ runs:
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-yarnnx-ci@main
       with:
         application_name: ${{inputs.application_name}}
-        build_tool: ${{ inputs.build_tool }}
-        build_tool_version: ${{ inputs.build_tool_version }}
-        build_file_path: ${{ inputs.build_file_path }}
-        build_file_name: ${{ inputs.build_file_name }}
+        node_version: ${{ inputs.build_tool_version }}
         #node_version: ${{ inputs.node_version }}
-        
+        #build_file_path: ${{ inputs.build_file_path }}
+        #build_file_name: ${{ inputs.build_file_name }}
+        build_application_flag: ${{ inputs.build_application_flag }}
+        build_library_flag: ${{ inputs.build_library_flag }}
         run_code_analysis: false
       if: ${{  inputs.build_tool == 'yarnnx'  }}   
        
