@@ -26,7 +26,7 @@ inputs:
     required: false
   artifact_repository_pat:
     required: false
-  node_js_version:
+  node_version:
     required: false
     
   run_code_analysis:
