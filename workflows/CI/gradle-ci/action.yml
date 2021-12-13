@@ -58,12 +58,7 @@ runs:
            -Dsonar.login=${{inputs.cq_token}} ${{inputs.build_arguments}} ${{ inputs.cq_scan_arguments }}
       shell: bash  
       
-#     ./gradlew sonarqube \
-#   -Dsonar.projectKey=CMTEST \
-#   -Dsonar.host.url=https://sonar-caheun.shsrv.platform.mnscorp.net \
-#   -Dsonar.login=4e886e57aee4fa670ee086c6d451f365a6749e65    
-#    - name: ========== Build and push Build Artifacts to artifact Store ==========
- 
+
 #     - name: Validate Gradle wrapper
 #       if: ${{ inputs.build_tool == 'gradle' }}
 #       uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
