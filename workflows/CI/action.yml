@@ -57,7 +57,7 @@ runs:
         settings_file_path: ${{ inputs.settings_file_path }}
         settings_file_name: ${{ inputs.settings_file_name }}
         build_phases: ${{ inputs.build_phases}}
-        maven_build_arguments: ${{inputs.maven_build_arguments}}
+        build_arguments: ${{inputs.build_arguments}}
         artifact_repository_pat: ${{ inputs.artifact_repository_pat }}
         run_code_analysis: ${{ inputs.run_code_analysis }}  
         cq_host_url: ${{ inputs.cq_host_url }} 
