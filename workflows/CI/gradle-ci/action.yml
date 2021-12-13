@@ -46,7 +46,7 @@ runs:
         BUILD_FILE: ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }}
       
     - name: Build with Gradle
-      run: ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} ${{ inputs.build_arguments }}
+      run: ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} ${{ inputs.build_phases }}
       shell: bash
       
     - name: Code Quality Analysis
