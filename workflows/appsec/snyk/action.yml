@@ -17,13 +17,13 @@ runs:
   using: "composite"
   steps:
   
-  - name: Snyk SCA Scanning for java scripts
-    if: ${{ inputs.build_tool == 'npm' || inputs.build_tool == 'yarn' }}
-    uses: snyk/actions@0.3.0
-    env:
-       SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
-    with:
-       args: --sarif-file-output=snyk.sarif 
+#   - name: Snyk SCA Scanning for java scripts
+#     if: ${{ inputs.build_tool == 'npm' || inputs.build_tool == 'yarn' }}
+#     uses: snyk/actions@0.3.0
+#     env:
+#        SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
+#     with:
+#        args: --sarif-file-output=snyk.sarif 
        
 #   - name: Snyk SCA Scanning for Java scripts
 #     if: ${{ inputs.build_tool == 'npm' || inputs.build_tool == 'yarn' }}
