@@ -101,14 +101,13 @@ runs:
     
     
     - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS ==========
-      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-ci@main
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-npm-ci@main
       with:
         application_name: ${{inputs.application_name}}
-        build_tool: ${{ inputs.build_tool }}
         build_tool_version: ${{ inputs.build_tool_version }}
         build_file_path: ${{ inputs.build_file_path }}
         build_file_name: ${{ inputs.build_file_name }}
-        #node_version: ${{ inputs.node_version }}
+        #node_version: ${{ inputs.build_tool_version  }}
         run_code_analysis: false
       if: ${{  inputs.build_tool == 'npm'  }}
       
@@ -116,11 +115,10 @@ runs:
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-yarn-ci@main
       with:
         application_name: ${{inputs.application_name}}
-        build_tool: ${{ inputs.build_tool }}
         build_tool_version: ${{ inputs.build_tool_version }}
         build_file_path: ${{ inputs.build_file_path }}
         build_file_name: ${{ inputs.build_file_name }}
-        #node_version: ${{ inputs.node_version }}
+        #node_version: ${{ inputs.build_tool_version  }}
         run_code_analysis: false
       if: ${{  inputs.build_tool == 'yarn'  }}   
       
