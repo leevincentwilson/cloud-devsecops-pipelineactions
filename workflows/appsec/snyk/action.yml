@@ -17,12 +17,12 @@ runs:
   using: "composite"
   steps:
   
-  - name: Snyk SCA Scanning for java scripts
-    if: ${{ inputs.build_tool == 'npm' || inputs.build_tool == 'yarn' }}
-    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/snyk/nodejs-snyk@main
-    with:      
-      dependency_scan_token: ${{ inputs.dependency_scan_token }}
-      dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
+#   - name: Snyk SCA Scanning for java scripts
+#     if: ${{ inputs.build_tool == 'npm' || inputs.build_tool == 'yarn' }}
+#     uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/snyk/nodejs-snyk@main
+#     with:      
+#       dependency_scan_token: ${{ inputs.dependency_scan_token }}
+#       dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
       
 #     uses: snyk/actions@0.3.0
 #     env:
