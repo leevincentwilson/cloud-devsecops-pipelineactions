@@ -10,7 +10,7 @@ inputs:
     default: .
   build_file_name:
     required: false
-    default: pom.xml
+    
   settings_file_path:
     required: false
   settings_file_name:
@@ -19,6 +19,7 @@ inputs:
     required: false
   build_phases: 
     required: false
+    
   artifact_repository_pat:
     required: false
     
@@ -46,7 +47,7 @@ runs:
         BUILD_FILE: ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }}
       
     - name: Build with Gradle
-      run: ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} ${{ inputs.build_phases }}
+      run: ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} ${{ inputs.build_phases }} ${{inputs.build_arguments}}
       shell: bash
       
     - name: Code Quality Analysis
