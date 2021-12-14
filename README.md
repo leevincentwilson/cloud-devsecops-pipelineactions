@@ -73,8 +73,11 @@ This repository is used to store reusable composite actions that other product t
 - **container_scan_user: ${{ secrets.username}}** 			`{` *container scan url user* `}`
 - **container_scan_password: ${{ secrets.password}}** 	`{` *container scan url password* `}`
 - **container_scan_url: sample**  							`{` *url of the container scan tool* `}`
-- **docker_image_name: ./src** 						`{` *docker image name to scan* `}`
-- **docker_image_tag: ./src** 						`{` *docker image tag to scan* `}`
+- **image_name: ./src** 						`{` *docker image name to scan* `}`
+- **image_tag: ./src** 						`{` *docker image tag to scan* `}`
+- **registry_server: ${{secrets.register_url }}** 			`{` *url to the registry url test.* `}`
+- **registry_username: ${{ secrets.user}}** 	`{` *registry user* `}`
+- **registry_password: ${{ secrets.password}}** 	`{` *Registry password* `}`
 
 </br>
 
