@@ -65,8 +65,9 @@ This repository is used to store reusable composite actions that other product t
 - **sast_api_secret: ${{ secrets.FOD\_API\_SECRET}}** 	`{` *FOS secret* `}`
 - **project_name: sample**  							`{` *name of the project ( used to great the zip file)* `}`
 - **project_src_path: ./src** 						`{` *location of source to Zip for FOS push* `}`
-
-##### Parameters for Container(Prisma) Scan
+- **project_artifact_zip_path: ./app_fortify.zip** 						`{` *location of Zip for FOS to scan* `}`
+- **download_scan_file: true/false**    `{` *flag represent if download of the scanned file is required* `}`
+##### Parameters for Container(Prisma) Scan   
 
 - **run_container_scan: true/false** 	`{` *flag to execute container scan* `}`
 - **container_scan_user: ${{ secrets.username}}** 			`{` *container scan url user* `}`
