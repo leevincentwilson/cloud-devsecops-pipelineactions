@@ -7,7 +7,7 @@ inputs:
     required: false
   node_js_version:
     required: false
-  run_code_analysis:
+  run_code_quality_analysis:
     required: true
   cq_project_key:
     required: false
