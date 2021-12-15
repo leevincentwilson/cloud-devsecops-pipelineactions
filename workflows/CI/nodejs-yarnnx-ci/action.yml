@@ -2,15 +2,15 @@ inputs:
   application_name:
     required: true
     description: Name of application to build
-  build_application_flag:
+  is_application_build:
     default: true
   node_version:
     description: 'The version of node'
     default: '14.x'
-  build_library_flag:
+  is_library_build:
     default: true
-  library_name:
-    description: Name of library to build  
+  run_code_quality_analysis:
+    required: false
 
 runs:
   using: composite
