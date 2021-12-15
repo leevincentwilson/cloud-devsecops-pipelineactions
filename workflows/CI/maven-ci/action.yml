@@ -19,7 +19,8 @@ inputs:
     
   build_phases: 
     required: false
-  
+  build_and_push_container_image:
+    required: false
   artifact_repository_pat:
     required: false
     
