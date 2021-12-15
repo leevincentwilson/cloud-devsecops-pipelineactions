@@ -3,7 +3,7 @@ name: 'DevSecOps Application Security Actions'
 description: 'Running SNYK Security Scans for project codes'
 
 inputs:
-  project_name:
+  application_name:
     required: false
   dependency_scan_token:
     required: false
