@@ -9,8 +9,6 @@ inputs:
     required: false
   application_name:
     required: true
-  jdk_version:
-    required: false
   build_file_path:
     required: false
     default: .
@@ -24,12 +22,9 @@ inputs:
     required: false  
   build_phases: 
     required: false
-  artifact_repository_pat:
-    required: false
-  node_version:
-    required: false
+  
     
-  run_code_analysis:
+  run_code_qulaity_analysis:
     required: true
   cq_project_key:
     required: false
@@ -40,12 +35,11 @@ inputs:
   cq_scan_arguments:
     required: false
     
-  is_application_build:
+  run_application_build:
     required: false
-  is_library_build:
+  run_library_build:
     required: false
-  library_name:
-    required: false
+
  
     
 runs:
@@ -65,8 +59,7 @@ runs:
         settings_file_name: ${{ inputs.settings_file_name }}
         build_phases: ${{ inputs.build_phases}}
         build_arguments: ${{inputs.build_arguments}}
-        artifact_repository_pat: ${{ inputs.artifact_repository_pat }}
-        run_code_analysis: ${{ inputs.run_code_analysis }}  
+        run_code_quality_analysis: ${{ inputs.run_code_quality_analysis }}  
         cq_host_url: ${{ inputs.cq_host_url }} 
         cq_project_key: ${{ inputs.cq_project_key }} 
         cq_token: ${{ inputs.cq_token }}
@@ -89,7 +82,7 @@ runs:
         build_phases: ${{ inputs.build_phases}}
         build_arguments: ${{ inputs.build_arguments }}
         artifact_repository_pat: ${{ inputs.artifact_repository_pat }}
-        run_code_analysis: ${{ inputs.run_code_analysis }}  
+        run_code_quality_analysis: ${{ inputs.run_code_quality_analysis }}  
         cq_host_url: ${{ inputs.cq_host_url }} 
         cq_project_key: ${{ inputs.cq_project_key }} 
         cq_token: ${{ inputs.cq_token }}
@@ -108,7 +101,7 @@ runs:
         build_file_path: ${{ inputs.build_file_path }}
         build_file_name: ${{ inputs.build_file_name }}
         #node_version: ${{ inputs.build_tool_version  }}
-        run_code_analysis: false
+        run_code_quality_analysis: false
       if: ${{  inputs.build_tool == 'npm'  }}
       
     - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS ==========
@@ -119,7 +112,7 @@ runs:
         build_file_path: ${{ inputs.build_file_path }}
         build_file_name: ${{ inputs.build_file_name }}
         #node_version: ${{ inputs.build_tool_version  }}
-        run_code_analysis: false
+        run_code_quality_analysis: false
       if: ${{  inputs.build_tool == 'yarn'  }}   
       
     - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS Yarn-nx==========
@@ -130,9 +123,9 @@ runs:
         #node_version: ${{ inputs.node_version }}
         #build_file_path: ${{ inputs.build_file_path }}
         #build_file_name: ${{ inputs.build_file_name }}
-        build_application_flag: ${{ inputs.is_application_build }}
-        build_library_flag: ${{ inputs.is_library_build }}
-        run_code_analysis: false
+        is_application_build: ${{ inputs.run_application_build }}
+        is_library_build: ${{ inputs.run_library_build }}
+        run_code_quality_analysis: false
       if: ${{  inputs.build_tool == 'yarnnx'  }}   
        
     
