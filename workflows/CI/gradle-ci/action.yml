@@ -2,12 +2,10 @@
 name: 'Build and push Artifact'
 description: 'Building and Pushing Artifact to Azure Artifact Repository'
 inputs:
-  build_tool:
-    required: true
-    default: maven
+  
   build_file_path:
     required: false
-    default: .
+   
   build_file_name:
     required: false
     
@@ -23,7 +21,7 @@ inputs:
   artifact_repository_pat:
     required: false
     
-  run_code_analysis:
+  run_code_quality_analysis:
     required: true
   cq_project_key:
     required: false
@@ -51,7 +49,7 @@ runs:
       shell: bash
       
     - name: Code Quality Analysis
-      if: ${{ inputs.run_code_analysis == 'true' }}  
+      if: ${{ inputs.run_code_quality_analysis == 'true' }}  
       run: ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} sonarqube
            -Dsonar.projectKey=${{inputs.cq_project_key}} 
            -Dsonar.host.url=${{inputs.cq_host_url}} 
