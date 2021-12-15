@@ -26,9 +26,9 @@ inputs:
     required: false
   sast_scan_options:
     required: false
-  project_src_path:
+  application_src_path:
     required: false
-  project_artifact_zip_path:
+  application_artifact_zip_path:
     required: false
   download_sast_scan_result:
     required: false
@@ -110,9 +110,9 @@ runs:
       sast_api_secret: ${{ inputs.sast_api_secret}}
       sast_scan_options: ${{ inputs.sast_scan_options }}
       sast_scan_notes: ${{inputs.sast_scan_notes}}
-      project_name: ${{inputs.project_name}}
-      project_src_path: ${{inputs.project_src_path}}
-      project_artifact_zip_path: ${{inputs.project_artifact_zip_path}}
+      application_name: ${{inputs.application_name}}
+      application_src_path: ${{inputs.application_src_path}}
+      application_artifact_zip_path: ${{inputs.application_artifact_zip_path}}
       download_sast_scan_result: ${{ inputs.download_sast_scan_result }}
     if: ${{inputs.run_sast_scan == 'true' }}
     
