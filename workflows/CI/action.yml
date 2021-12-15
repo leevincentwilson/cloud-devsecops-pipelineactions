@@ -22,9 +22,29 @@ inputs:
     required: false  
   build_phases: 
     required: false
-  
     
-  run_code_qulaity_analysis:
+  build_and_push_container_image:
+    required: false
+  cr_imagename:
+    required: false
+  cr_imagetag:
+    required: false
+  cr_dockerfile_name:
+    required: false
+  cr_dockerfile_path:
+    required: false
+  cr_servername:
+    required: false
+  cr_subscription:
+    required: false
+  cr_tenant:
+    required: false
+  cr_username:
+    required: false
+  cr_password:
+    required: false
+    
+  run_code_quality_analysis:
     required: true
   cq_project_key:
     required: false
