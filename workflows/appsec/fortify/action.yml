@@ -10,14 +10,14 @@ inputs:
   sast_api_secret:
     required: true
   sast_scan_notes:
-    required: false 
+    required: false
   application_name:
     required: true
   application_src_path:
     required: false
   application_artifact_zip_path:
     required: false
-  download_scan_result:
+  download_sast_scan_result:
     required: false
     default: false
   
@@ -58,7 +58,7 @@ runs:
         client-secret: ${{ inputs.sast_api_secret }}
         release-id: ${{ inputs.sast_release_id }}
         output: ./${{inputs.application_name}}_fortify_result
-      if: ${{ inputs.download_scan_result == 'true' }}
+      if: ${{ inputs.download_sast_scan_result == 'true' }}
         
         
       
