@@ -66,7 +66,7 @@ runs:
     
   - run: echo  argument for run_dependency_scan = ${{inputs.run_dependency_scan}}
     shell: bash
- - name: Message
+  - name: Message
     run: |
        echo #===================================================================================================#
     shell: bash   
