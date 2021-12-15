@@ -9,7 +9,7 @@ inputs:
     required: false
   build_tool_version:
     required: false
-  run_code_analysis:
+  run_code_quality_analysis:
     required: false
   cq_project_key:
     required: false
