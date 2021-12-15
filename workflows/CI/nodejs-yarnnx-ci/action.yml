@@ -11,6 +11,8 @@ inputs:
     default: true
   run_code_quality_analysis:
     required: false
+  build_and_push_container_image:
+    required: false  
 
 runs:
   using: composite
