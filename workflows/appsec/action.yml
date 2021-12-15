@@ -87,7 +87,7 @@ runs:
       dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
       build_tool: ${{ inputs.build_tool }}
     if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
-    - name: Message
+  - name: Message
     run: |
        echo #===================================================================================================#
     shell: bash   
