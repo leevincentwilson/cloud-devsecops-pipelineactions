@@ -70,16 +70,18 @@ runs:
     run: |
        echo #===================================================================================================#
     shell: bash   
-  
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
   - name: Message
     run: |
-       echo #                                      Running SAST SCAN                                            #
+       echo #                                      Running Dependency SCAN                                            #
     shell: bash
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
   - name: Message
     run: |
        echo #===================================================================================================#
     shell: bash
     if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+  
   - name: Snyk SCA Scanning
     uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/snyk@main
     with:      
@@ -87,41 +89,43 @@ runs:
       dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
       build_tool: ${{ inputs.build_tool }}
     if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+  
   - name: Message
     run: |
        echo #===================================================================================================#
-    shell: bash   
-  
+    shell: bash
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
   - name: Message
     run: |
        echo #                                      Finished Dependency SCAN                                            #
     shell: bash
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
   - name: Message
     run: |
        echo #===================================================================================================#
     shell: bash
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
     
          
  
-  - name: Message
-    run: |
-       echo 
-    shell: bash
   - run: echo  argument for run_sast_scan = ${{inputs.run_sast_scan}}
-    shell: bash
-  - name: Message
-    run: |
-       echo #===================================================================================================#
-    shell: bash   
-  - name: Message
-    run: |
-       echo #                                      Running SAST SCAN                                            #
     shell: bash
   - name: Message
     run: |
        echo #===================================================================================================#
     shell: bash
     if: ${{inputs.run_sast_scan == 'true' }}
+  - name: Message
+    run: |
+       echo #                                      Running SAST SCAN                                            #
+    shell: bash
+    if: ${{inputs.run_sast_scan == 'true' }}
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash
+    if: ${{inputs.run_sast_scan == 'true' }}
+    
   - name: Fortify Scan Create source Zip upload to FOD for Scanning
     uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/fortify@main
     with:
@@ -140,30 +144,30 @@ runs:
     run: |
        echo #===================================================================================================#
     shell: bash   
-  
+    if: ${{inputs.run_sast_scan == 'true' }}
   - name: Message
     run: |
        echo #                                      Finished SAST SCAN                                            #
     shell: bash
+    if: ${{inputs.run_sast_scan == 'true' }}
   - name: Message
     run: |
        echo #===================================================================================================#
     shell: bash
-  
+    if: ${{inputs.run_sast_scan == 'true' }}
 
 
-  - name: Message
-    run: |
-       echo 
-    shell: bash
+
   - name: Message
     run: |
        echo #===================================================================================================#
-    shell: bash   
+    shell: bash
+    if: ${{inputs.run_container_scan == 'true' }}
   - name: Message
     run: |
        echo #                                      Running Container SCAN                                       #
     shell: bash
+    if: ${{inputs.run_container_scan == 'true' }}
   - name: Message
     run: |
        echo #===================================================================================================#
@@ -185,15 +189,18 @@ runs:
   - name: Message
     run: |
        echo #===================================================================================================#
-    shell: bash   
+    shell: bash
+    if: ${{inputs.run_container_scan == 'true' }}
   - name: Message
     run: |
        echo #                                      Finished Container SCAN                                       #
     shell: bash
+    if: ${{inputs.run_container_scan == 'true' }}
   - name: Message
     run: |
        echo #===================================================================================================#
     shell: bash
+    if: ${{inputs.run_container_scan == 'true' }}
    
    
    
