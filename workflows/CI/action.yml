@@ -79,11 +79,13 @@ runs:
         settings_file_name: ${{ inputs.settings_file_name }}
         build_phases: ${{ inputs.build_phases}}
         build_arguments: ${{inputs.build_arguments}}
+        build_and_push_container_image: ${{inputs.build_and_push_container_image}}
         run_code_quality_analysis: ${{ inputs.run_code_quality_analysis }}  
         cq_host_url: ${{ inputs.cq_host_url }} 
         cq_project_key: ${{ inputs.cq_project_key }} 
         cq_token: ${{ inputs.cq_token }}
         cq_scan_arguments: ${{ inputs.cq_scan_arguments }}
+        
       if: ${{ ( inputs.build_tool == 'maven' || inputs.build_tool == 'mvn' ) }}
     
     
@@ -101,6 +103,7 @@ runs:
         settings_file_name: ${{ inputs.settings_file_name }}
         build_phases: ${{ inputs.build_phases}}
         build_arguments: ${{ inputs.build_arguments }}
+        build_and_push_container_image: ${{inputs.build_and_push_container_image}}
         artifact_repository_pat: ${{ inputs.artifact_repository_pat }}
         run_code_quality_analysis: ${{ inputs.run_code_quality_analysis }}  
         cq_host_url: ${{ inputs.cq_host_url }} 
@@ -121,6 +124,7 @@ runs:
         build_file_path: ${{ inputs.build_file_path }}
         build_file_name: ${{ inputs.build_file_name }}
         #node_version: ${{ inputs.build_tool_version  }}
+        build_and_push_container_image: ${{inputs.build_and_push_container_image}}
         run_code_quality_analysis: false
       if: ${{  inputs.build_tool == 'npm'  }}
       
@@ -131,6 +135,7 @@ runs:
         build_tool_version: ${{ inputs.build_tool_version }}
         build_file_path: ${{ inputs.build_file_path }}
         build_file_name: ${{ inputs.build_file_name }}
+        build_and_push_container_image: ${{inputs.build_and_push_container_image}}
         #node_version: ${{ inputs.build_tool_version  }}
         run_code_quality_analysis: false
       if: ${{  inputs.build_tool == 'yarn'  }}   
@@ -143,6 +148,7 @@ runs:
         #node_version: ${{ inputs.node_version }}
         #build_file_path: ${{ inputs.build_file_path }}
         #build_file_name: ${{ inputs.build_file_name }}
+        build_and_push_container_image: ${{inputs.build_and_push_container_image}}
         is_application_build: ${{ inputs.run_application_build }}
         is_library_build: ${{ inputs.run_library_build }}
         run_code_quality_analysis: false
