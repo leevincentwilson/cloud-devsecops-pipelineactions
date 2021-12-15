@@ -66,12 +66,17 @@ runs:
     
   - run: echo  argument for run_dependency_scan = ${{inputs.run_dependency_scan}}
     shell: bash
-  - name: Message
+ - name: Message
     run: |
        echo #===================================================================================================#
-       echo #===================================================================================================#
-       echo #                                 Running Dependency SCAN                                           #
-       echo #===================================================================================================#
+    shell: bash   
+  
+  - name: Message
+    run: |
+       echo #                                      Running SAST SCAN                                            #
+    shell: bash
+  - name: Message
+    run: |
        echo #===================================================================================================#
     shell: bash
     if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
@@ -82,11 +87,26 @@ runs:
       dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
       build_tool: ${{ inputs.build_tool }}
     if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
-    
+    - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash   
+  
+  - name: Message
+    run: |
+       echo #                                      Finished Dependency SCAN                                            #
+    shell: bash
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash
     
          
  
- 
+  - name: Message
+    run: |
+       echo 
+    shell: bash
   - run: echo  argument for run_sast_scan = ${{inputs.run_sast_scan}}
     shell: bash
   - name: Message
@@ -95,15 +115,7 @@ runs:
     shell: bash   
   - name: Message
     run: |
-       echo #===================================================================================================#
-    shell: bash
-  - name: Message
-    run: |
        echo #                                      Running SAST SCAN                                            #
-    shell: bash
-  - name: Message
-    run: |
-       echo #===================================================================================================#
     shell: bash
   - name: Message
     run: |
@@ -128,10 +140,7 @@ runs:
     run: |
        echo #===================================================================================================#
     shell: bash   
-  - name: Message
-    run: |
-       echo #===================================================================================================#
-    shell: bash
+  
   - name: Message
     run: |
        echo #                                      Finished SAST SCAN                                            #
@@ -140,18 +149,23 @@ runs:
     run: |
        echo #===================================================================================================#
     shell: bash
+  
+
+
   - name: Message
     run: |
-       echo #===================================================================================================#
+       echo 
     shell: bash
-
-
-  - name: Message
+    - name: Message
     run: |
        echo #===================================================================================================#
-       echo #===================================================================================================#
-       echo #                                 Running Container SCAN                                            #
-       echo #===================================================================================================#
+    shell: bash   
+  - name: Message
+    run: |
+       echo #                                      Running Container SCAN                                       #
+    shell: bash
+  - name: Message
+    run: |
        echo #===================================================================================================#
     shell: bash
     if: ${{inputs.run_container_scan == 'true' }}
@@ -167,6 +181,19 @@ runs:
       registry_username: ${{ inputs.registry_username }}
       registry_password: ${{ inputs.registry_password }}
     if: ${{ inputs.run_container_scan == 'true' }}  
+    
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash   
+  - name: Message
+    run: |
+       echo #                                      Finished Container SCAN                                       #
+    shell: bash
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash
    
    
    
