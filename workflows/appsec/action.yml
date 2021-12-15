@@ -2,7 +2,7 @@
 name: 'DevSecOps Application Security Actions'
 description: 'Running Security Scans for project codes'
 inputs:
-  project_name:
+  application_name:
     required: true
   build_tool:
     required: true
@@ -16,7 +16,6 @@ inputs:
       
   run_sast_scan:
     required: true
-    default: 'false'  
   sast_release_id:
     required: false
   sast_api_key:
@@ -24,12 +23,14 @@ inputs:
   sast_api_secret:
     required: false
   sast_scan_notes:
-    required: false 
+    required: false
+  sast_scan_options:
+    required: false
   project_src_path:
     required: false
   project_artifact_zip_path:
     required: false
-  download_sast_scan_file:
+  download_sast_scan_result:
     required: false
     default: false
     
@@ -83,8 +84,7 @@ runs:
     if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
     
     
-    
-      
+         
  
  
   - run: echo  argument for run_sast_scan = ${{inputs.run_sast_scan}}
@@ -92,10 +92,14 @@ runs:
   - name: Message
     run: |
        echo #===================================================================================================#
-       echo #===================================================================================================#
-       echo #                                      Running SAST SCAN                                            #
-       echo #===================================================================================================#
-       echo #===================================================================================================#
+    shell: bash   
+  - run: echo #===================================================================================================#
+    shell: bash
+  - run: echo #                                      Running SAST SCAN                                            #
+    shell: bash
+  - run: echo #===================================================================================================#
+    shell: bash
+  - run: echo #===================================================================================================#
     shell: bash
     if: ${{inputs.run_sast_scan == 'true' }}
   - name: Fortify Scan Create source Zip upload to FOD for Scanning
@@ -104,14 +108,26 @@ runs:
       sast_release_id: ${{inputs.sast_release_id }}
       sast_api_key: ${{ inputs.sast_api_key}}
       sast_api_secret: ${{ inputs.sast_api_secret}}
+      sast_scan_options: ${{ inputs.sast_scan_options }}
       sast_scan_notes: ${{inputs.sast_scan_notes}}
       project_name: ${{inputs.project_name}}
       project_src_path: ${{inputs.project_src_path}}
       project_artifact_zip_path: ${{inputs.project_artifact_zip_path}}
-      download_scan_file: ${{ inputs.download_sast_scan_file }}
+      download_sast_scan_result: ${{ inputs.download_sast_scan_result }}
     if: ${{inputs.run_sast_scan == 'true' }}
     
-  
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash   
+  - run: echo #===================================================================================================#
+    shell: bash
+  - run: echo #                                      Finished SAST SCAN                                            #
+    shell: bash
+  - run: echo #===================================================================================================#
+    shell: bash
+  - run: echo #===================================================================================================#
+    shell: bash
 
 
   - name: Message
