@@ -37,12 +37,15 @@ runs:
     #  uses: fortify/gha-setup-fod-uploader@v1.1.1
       run: |
          sudo wget -c https://github.com/fod-dev/fod-uploader-java/releases/download/v5.2.1/FodUpload.jar  
-         if [[ ! -z "${ARTIFACT_ZIP_PATH}" ]]
+         if [[ ! -f "${ARTIFACT_ZIP_PATH}" ]]
            then
+             echo " Executing command :java -jar FodUpload.jar -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_artifact_zip_path}} ${{ env.SAST_OPTIONS }}  -n notes:${{ inputs.sast_scan_notes}}"
+           
              java -jar FodUpload.jar -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_artifact_zip_path}} ${{ env.SAST_OPTIONS }}  -n 'notes:${{ inputs.sast_scan_notes}}'  
            else
               sudo apt install zip
               zip -r ${{inputs.application_name}}_fortify.zip .
+              echo " executing command with created zip: java -jar FodUpload.jar -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_name}}_fortify.zip ${{ env.SAST_OPTIONS }}  -n notes:${{ inputs.sast_scan_notes}}"          
               java -jar FodUpload.jar -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_name}}_fortify.zip ${{ env.SAST_OPTIONS }}  -n 'notes:${{ inputs.sast_scan_notes}}'  
           fi
       shell: bash
