@@ -1,0 +1,80 @@
+name: 'DevSecOps Application Security Actions'
+description: 'Running Fority Security Scans for project codes'
+
+inputs:
+  
+  environment:
+    required: true
+  release_name:
+    required: true
+  release_version:
+    required: true
+  Kube_config:
+    required: false
+  is_helm_deployment:
+    required: true
+  helm_path:
+    required: false
+  helm_values_file:
+    required: false
+  Image_name:
+    required: false
+  Image_tag:
+    required: false
+  cluster_namespace:
+    required: false
+  create_namespace:
+    required: false
+  helm_argument: 
+    required: false
+  dry_run:
+    required: false
+  
+  
+runs:
+  using: "composite"
+  steps:
+    - name: Check out repository code
+        uses: actions/checkout@v2
+
+    - name: k8s-set-context
+      uses: Azure/k8s-set-context@v1
+      with:
+        kubeconfig: ${{ secrets.KUBE_CONFIG }}     
+
+    - name: AKS Deploy basic
+      run: |
+        cd ${{ inputs.helm_chart_path }}
+        helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} . '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{input.cluster_namespace}}' --atomic
+        echo ${{env.image}}
+        if [ $? -eq 0 ]; then
+            echo "AKS Deployment: success!"
+        else
+            echo "AKS Deployment: failure!"
+        fi 
+        
+    - name: AKS Deploy and create Namespace
+      if ${{ inputs.create_namespace == 'true'}}
+      run: |
+        cd ${{ inputs.helm_chart_path }}
+        helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} . '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{input.cluster_namespace}}' --create-namespace --atomic
+        echo ${{env.image}}
+        if [ $? -eq 0 ]; then
+            echo "AKS Deployment: success!"
+        else
+            echo "AKS Deployment: failure!"
+        fi   
+        
+      - name: AKS Deploy and create Namespace
+      if ${{ inputs.dry_run == 'true'}}
+      run: |
+        cd ${{ inputs.helm_chart_path }}
+        helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} ${{ inputs.helm_chart_path }} '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{input.cluster_namespace}}' --create-namespace --dry-run --debug
+        echo ${{env.image}}
+        if [ $? -eq 0 ]; then
+            echo "AKS Deployment: success!"
+        else
+            echo "AKS Deployment: failure!"
+        fi    
+        
+        
