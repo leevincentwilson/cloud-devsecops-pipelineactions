@@ -44,8 +44,8 @@ runs:
 
     - name: AKS Deploy basic
       run: |
-        cd ${{ inputs.helm_chart_path }}
-        helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} . '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{input.cluster_namespace}}' --atomic
+        #cd ${{ inputs.helm_chart_path }}
+        helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} ./${{inputs.helm_chart_path}} '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{input.cluster_namespace}}' --atomic
         echo ${{env.image}}
         if [ $? -eq 0 ]; then
             echo "AKS Deployment: success!"
@@ -57,7 +57,7 @@ runs:
       if ${{ inputs.create_namespace == 'true'}}
       run: |
         cd ${{ inputs.helm_chart_path }}
-        helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} . '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{input.cluster_namespace}}' --create-namespace --atomic
+        helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} ./${{inputs.helm_chart_path}} '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{input.cluster_namespace}}' --create-namespace --atomic
         echo ${{env.image}}
         if [ $? -eq 0 ]; then
             echo "AKS Deployment: success!"
@@ -69,7 +69,7 @@ runs:
       if ${{ inputs.dry_run == 'true'}}
       run: |
         cd ${{ inputs.helm_chart_path }}
-        helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} ${{ inputs.helm_chart_path }} '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{input.cluster_namespace}}' --create-namespace --dry-run --debug
+        helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} ./${{ inputs.helm_chart_path }} '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{input.cluster_namespace}}' --create-namespace --dry-run --debug
         echo ${{env.image}}
         if [ $? -eq 0 ]; then
             echo "AKS Deployment: success!"
