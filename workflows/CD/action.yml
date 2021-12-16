@@ -9,7 +9,7 @@ inputs:
     required: true
   release_version:
     required: true
-  Kube_config:
+  kube_config:
     required: false
   is_helm_deployment:
     required: true
@@ -40,7 +40,7 @@ runs:
     - name: k8s-set-context
       uses: Azure/k8s-set-context@v1
       with:
-        kubeconfig: ${{ secrets.KUBE_CONFIG }}     
+        kubeconfig: ${{ inputs.kube_config }}     
 
     - name: AKS Deploy basic
       if ${{ inputs.create_namespace != 'true' && inputs.dry_run != 'true' }}
