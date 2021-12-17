@@ -42,7 +42,7 @@ runs:
         kubeconfig: ${{ inputs.kube_config }}     
 
     - name: AKS Deploy basic
-      if ${{ inputs.create_namespace != 'true' && inputs.dry_run != 'true' }}
+      if: ${{ inputs.create_namespace != 'true' && inputs.dry_run != 'true' }}
       run: |
         #cd ${{ inputs.helm_chart_path }}
         helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} ./${{inputs.helm_chart_path}} '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{input.cluster_namespace}}' --atomic
@@ -55,7 +55,7 @@ runs:
       shell: bash
       
     - name: AKS Deploy and create Namespace
-      if ${{ inputs.create_namespace == 'true'}}
+      if: ${{ inputs.create_namespace == 'true'}}
       run: |
         #cd ${{ inputs.helm_chart_path }}
         helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} ./${{inputs.helm_chart_path}} '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{input.cluster_namespace}}' --create-namespace --atomic
@@ -68,7 +68,7 @@ runs:
       shell: bash
         
       - name: AKS Deploy and create Namespace
-      if ${{ inputs.dry_run == 'true' }}
+      if: ${{ inputs.dry_run == 'true' }}
       run: |
         #cd ${{ inputs.helm_chart_path }}
         helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} ./${{ inputs.helm_chart_path }} '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{input.cluster_namespace}}' --create-namespace --dry-run --debug
