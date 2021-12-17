@@ -5,7 +5,7 @@ inputs:
   
   environment:
     required: true
-  release_name:
+  application_release_name:
     required: true
   release_version:
     required: true
