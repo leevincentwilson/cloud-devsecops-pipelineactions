@@ -53,7 +53,8 @@ runs:
         else
             echo "AKS Deployment: failure!"
         fi 
-        
+      shell: bash
+      
     - name: AKS Deploy and create Namespace
       if ${{ inputs.create_namespace == 'true'}}
       run: |
