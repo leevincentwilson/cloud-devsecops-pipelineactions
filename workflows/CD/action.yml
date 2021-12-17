@@ -41,26 +41,27 @@ runs:
       with:
         kubeconfig: ${{ inputs.kube_config }}     
 
-    - name: AKS Deploy basic
+
+        
+    - name: AKS Deploy and create Namespace Dry Run
       run: |
-        helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} ./${{inputs.helm_chart_path}} '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{input.cluster_namespace}}' --atomic
+        helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} ./${{ inputs.helm_chart_path }} '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{inputs.cluster_namespace}}' --create-namespace --dry-run --debug
         echo ${{env.image}}
       shell: bash
-      if: ${{ inputs.create_namespace != 'true' && inputs.dry_run != 'true' }}
-      
+      if: ${{ inputs.dry_run == 'true' }}
+           
     - name: AKS Deploy and create Namespace
       run: |
-        helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} ./${{inputs.helm_chart_path}} '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{input.cluster_namespace}}' --create-namespace --atomic
+        helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} ./${{inputs.helm_chart_path}} '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{inputs.cluster_namespace}}' --create-namespace --atomic
         echo ${{env.image}}
       shell: bash
       if: ${{ inputs.create_namespace == 'true'}}
-        
-    - name: AKS Deploy and create Namespace
+      
+    - name: AKS Deploy basic
       run: |
-        helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} ./${{ inputs.helm_chart_path }} '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{input.cluster_namespace}}' --create-namespace --dry-run --debug
+        helm upgrade --install ${{inputs.application_release_name}} --version= ${{ inputs.release_version }} ./${{inputs.helm_chart_path}} '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{inputs.cluster_namespace}}' --atomic
         echo ${{env.image}}
-       
       shell: bash
-      if: ${{ inputs.dry_run == 'true' }}
+      if: ${{ inputs.create_namespace != 'true' && inputs.dry_run != 'true' }}  
         
         
