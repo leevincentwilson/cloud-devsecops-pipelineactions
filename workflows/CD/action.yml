@@ -54,6 +54,7 @@ runs:
            
     - name: AKS Deploy and create Namespace
       run: |
+        cd ./${{ inputs.helm_chart_path }}
         helm upgrade --install ${{inputs.application_release_name}}  ./${{inputs.helm_chart_path}} '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{inputs.cluster_namespace}}' --create-namespace --atomic
         echo ${{env.image}}
       shell: bash
@@ -61,6 +62,7 @@ runs:
       
     - name: AKS Deploy basic
       run: |
+        cd ./${{ inputs.helm_chart_path }}
         helm upgrade --install ${{inputs.application_release_name}}  ./${{inputs.helm_chart_path}} '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{inputs.cluster_namespace}}' --atomic
         echo ${{env.image}}
       shell: bash
