@@ -13,7 +13,7 @@ inputs:
     required: false
   is_helm_deployment:
     required: true
-  helm_path:
+  helm_chart_path:
     required: false
   helm_values_file:
     required: false
