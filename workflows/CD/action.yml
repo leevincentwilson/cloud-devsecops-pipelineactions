@@ -17,6 +17,8 @@ inputs:
     required: false
   helm_values_file:
     required: false
+  helm_values_file_path:
+    required: false
   Image_name:
     required: false
   Image_tag:
@@ -29,6 +31,7 @@ inputs:
     required: false
   dry_run:
     required: false
+    default: false
 
 runs:
   using: "composite"
