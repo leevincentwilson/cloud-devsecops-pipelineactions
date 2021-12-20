@@ -8,7 +8,7 @@ inputs:
   application_release_name:
     required: true
   release_version:
-    required: true
+    required: false
   kube_config:
     required: false
   is_helm_deployment:
