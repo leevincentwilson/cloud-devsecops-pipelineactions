@@ -37,6 +37,8 @@ inputs:
     default: false
   deployment_script_path:
     required: false
+  deployment_script_name:
+    required: false
 
 runs:
   using: "composite"
