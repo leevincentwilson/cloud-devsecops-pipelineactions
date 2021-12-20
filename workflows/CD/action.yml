@@ -35,7 +35,8 @@ inputs:
   is_atomic:
     required: false
     default: false
-    
+  deployment_script_path:
+    required: false
 
 runs:
   using: "composite"
