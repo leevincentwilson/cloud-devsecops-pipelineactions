@@ -85,22 +85,21 @@ This repository is used to store reusable composite actions that other product t
 
 ### helm upgrade ######
 #### call: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD@latest
-- **environment: dev/release/prod**
-- **application_release_name: releasenamme**
-- **release_version: release version**
-- **kube_config: ${{secret.kubeconfig}}**
-- **is_helm_deployment: true/false**
-- **helm_chart_path: path/to/helmchart**
-- **helm_values_file: values_dev.yaml**
-- **helm_values_file_path: path/to/valuesfile**
-- **Image_name: image_name**
-- **Image_tag: image_tag**
-- **cluster_namespace: namespace_to_deply**
-- **create_namespace: true/false**
-- **helm_argument: "--set version=1.0 --set key=value"**
-- **dry_run: true/false**
-- **is_atomic: true/falase**
-- **deployment_script_path:**
-- **deployment_script_name:**
+- **environment: dev/release/prod**  `{` *deployment environment* `}`
+- **application_release_name: releasenamme**  `{` *helm application release name* `}`
+- **release_version: release version** `{` *helm application release version* `}`
+- **kube_config: ${{secret.kubeconfig}}** `{` *kubeconfig key for connecting to the cluster* `}`
+- **is_helm_deployment: true/false** `{` *Flag to verify if this is helm deployment* `}`
+- **helm_chart_path: path/to/helmchart** `{` *relative path to help chart folder* `}`
+- **helm_values_file: values_dev.yaml** `{` *name of the values file to use* `}`
+- **helm_values_file_path: path/to/valuesfile** `{` *path to the values file if not in the same location as helm chart* `}`
+- **Image_name: image_name** `{` *image to deploy* `}`
+- **Image_tag: image_tag** `{` *image tag to deploy* `}`
+- **cluster_namespace: namespace_to_deply** `{` *Cluster namespace to deploy to* `}`
+- **create_namespace: true/false** `{` *flag to create new namespace if not already existing* `}`
+- **helm_argument: "--set version=1.0 --set key=value"** `{` *other helm arguments* `}`
+- **dry_run: true/false** `{` *flag to run as dry run* `}`
+- **is_atomic: true/falase** `{` *flag to represent if this is atomic deployment* `}`
+
    
 
