@@ -87,20 +87,20 @@ This repository is used to store reusable composite actions that other product t
 #### call: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD@latest
 - **environment: dev/release/prod**
 - **application_release_name: releasenamme**
-- **release_version: release version **
+- **release_version: release version**
 - **kube_config: ${{secret.kubeconfig}}**
-- **is_helm_deployment: true/false **
-- **helm_chart_path: path/to/helmchart **
+- **is_helm_deployment: true/false**
+- **helm_chart_path: path/to/helmchart**
 - **helm_values_file: values_dev.yaml**
 - **helm_values_file_path: path/to/valuesfile**
-- **Image_name: image_name **
+- **Image_name: image_name**
 - **Image_tag: image_tag**
 - **cluster_namespace: namespace_to_deply**
-- **create_namespace: true/false **
+- **create_namespace: true/false**
 - **helm_argument: "--set version=1.0 --set key=value"**
 - **dry_run: true/false**
 - **is_atomic: true/falase**
-- **deployment_script_path: **
-- **deployment_script_name:  **
+- **deployment_script_path:**
+- **deployment_script_name:**
    
 
