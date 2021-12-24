@@ -5,8 +5,7 @@ inputs:
     required: true
   build_environment:
     required: false
-    default: nonprod
-    default: false
+    default: 'nonprod'
   build_file_path:
     required: false
   build_file_name:
