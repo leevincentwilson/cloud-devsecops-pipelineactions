@@ -3,6 +3,10 @@ description: 'Building and Pushing Artifact to Azure Artifact Repository'
 inputs:
   application_name:
     required: true
+  build_environment:
+    required: false
+    default: nonprod
+    default: false
   build_file_path:
     required: false
   build_file_name:
@@ -13,6 +17,14 @@ inputs:
     required: false
   run_code_quality_analysis:
     required: false
+  run_typecheck_validation:
+    required: false
+  run_schema_validation:
+    required: false
+  run_unit_test:
+    required: false
+    
+    
   cq_project_key:
     required: false
   cq_host_url:
@@ -26,6 +38,7 @@ inputs:
 runs:
   using: "composite"
   steps:
+    
     - run: echo Hello, You are Executing Composite action to Execute Build
       shell: bash
     - name: Checkout
@@ -41,9 +54,30 @@ runs:
     - name: Build
       run: yarn build
       shell: bash
-    - name: "Production install"
-      run: yarn install --pure-lockfile --production
+         
+    - name: Run ESLint
+      if: ${{ inputs.run_code_quality_analysis == 'true' }}
+      run: yarn lint
       shell: bash
+      
+    - name: TypeScript Type Checking
+      if: ${{ inputs.run_typecheck_validation == 'true' }}
+      run: yarn typecheck
+      shell: bash
+      
+    - name: Run unit test
+      if: ${{ inputs.run_unit_test == 'true' }}
+      run: yarn test --ci --coverage --coverageReporters="json-summary"
+      shell: bash
+      
+    - name: Run GraphQL Inspector
+      if: ${{ inputs.run_schema_validation== 'true' }}
+      run: yarn diff-schema   
+      shell: bash
+      
+      
+      
+      
     - name: Tag the app with version
       run: echo ${{ github.sha }}>./version
       shell: bash
