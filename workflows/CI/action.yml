@@ -5,6 +5,9 @@ inputs:
   build_tool:
     required: true
     default: maven
+  build_environment:
+    required: true
+    default: nonprod
   build_tool_version:
     required: false
   application_name:
@@ -59,7 +62,19 @@ inputs:
     required: false
   run_library_build:
     required: false
-
+  is_prod_build:
+    required: false
+    default: false
+  run_typecheck_validation:
+    required: false
+    default: false
+  run_schema_validation:
+    required: false
+    default: false
+  run_unit_test:
+    required: false
+    default: false
+    
  
     
 runs:
