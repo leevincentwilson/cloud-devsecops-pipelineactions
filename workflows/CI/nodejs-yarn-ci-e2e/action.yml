@@ -55,28 +55,37 @@ runs:
     - name: Build
       run: yarn build
       shell: bash
-    - name: Start HTTP Server
-      run: |
-        yarn start &
-        yarn wait-on tcp:4000
-      env:
-      API_TOKEN: ${{ inputs.api_key }}
-      shell: bash
-    - name: Install K6
-      run: |
-        sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
-        echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
-        sudo apt-get update
-        sudo apt-get install k6
-      shell: bash 
-    - name: Run performance tests
-      run: k6 -e GITHUB_PR=${{ github.event.number }} -e GITHUB_SHA=${{ github.sha }} -e GITHUB_TOKEN=${{secrets.GITHUB_TOKEN}} run src/test/performance/k6.js
-      shell: bash
-    - name: Run E2E tests
-      run: yarn test:e2e
-      shell: bash
+#     - name: Start HTTP Server
+#       run: |
+#         yarn start &
+#         yarn wait-on tcp:4000
+#       env:
+#       API_TOKEN: ${{ inputs.api_key }}
+#       shell: bash
+#     - name: Install K6
+#       run: |
+#         sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+#         echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+#         sudo apt-get update
+#         sudo apt-get install k6
+#       shell: bash 
+#     - name: Run performance tests
+#       run: k6 -e GITHUB_PR=${{ github.event.number }} -e GITHUB_SHA=${{ github.sha }} -e GITHUB_TOKEN=${{secrets.GITHUB_TOKEN}} run src/test/performance/k6.js
+#       shell: bash
+#     - name: Run E2E tests
+#       run: yarn test:e2e
+#       shell: bash
 
-      
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
       
       #   validate_performance:
 #     if: ${{ !contains(github.event.pull_request.labels.*.name, 'skips-performance-tests') }}
