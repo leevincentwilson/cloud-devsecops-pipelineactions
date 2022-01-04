@@ -23,7 +23,8 @@ inputs:
     required: false
   github_token:
     required: false
-    
+env:
+  API_TOKEN: ${{ inputs.api_key }}   
   
 runs:
   using: "composite"
@@ -58,8 +59,6 @@ runs:
         yarn start &
         yarn wait-on tcp:4000
       shell: bash
-#       env:
-#       API_TOKEN: ${{ inputs.api_key }}
       if: ${{ inputs.run_performance_test == 'true'  || inputs.run_end_2_end_test == 'true' }}
       
     - name: Run performance tests
