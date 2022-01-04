@@ -23,8 +23,7 @@ inputs:
     required: false
   github_token:
     required: false
-env:
-  API_TOKEN: ${{ inputs.api_key }}   
+ 
   
 runs:
   using: "composite"
@@ -62,15 +61,21 @@ runs:
       if: ${{ inputs.run_performance_test == 'true'  || inputs.run_end_2_end_test == 'true' }}
       
     - name: Run performance tests
+      if: ${{ inputs.run_performance_test == 'true'}}
       run: k6 ${{ inputs.performance_test_arguments}} run ${{ inputs.performance_script_path}}
       shell: bash
       #-e GITHUB_PR=${{ github.event.number }} -e GITHUB_SHA=${{ github.sha }} -e GITHUB_TOKEN=${{secrets.GITHUB_TOKEN}} run src/test/performance/k6.js
-      if: ${{ inputs.run_performance_test == 'true'}}
+      
       
     - name: Run E2E tests
-      run: yarn ${{ inputs.end_2_end_test_script}}
-      shell: bash
       if: ${{ inputs.run_end_2_end_test == 'true'}}
+      run: |
+        echo "test :  $API_TOKEN"
+        yarn ${{ inputs.end_2_end_test_script}}
+      shell: bash
+      env:
+        API_TOKEN: ${{ inputs.api_key }}
+      
  
  
  
