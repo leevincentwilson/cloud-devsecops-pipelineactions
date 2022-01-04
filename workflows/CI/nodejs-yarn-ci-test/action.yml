@@ -47,6 +47,15 @@ runs:
     - name: Build
       run: yarn build
       shell: bash
+      
+    - name: Install K6
+      run: |
+        sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+        echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+        sudo apt-get update
+        sudo apt-get install k6
+      shell: bash
+      
     - name: Start HTTP Server
       run: |
         yarn start &
@@ -54,21 +63,18 @@ runs:
       env:
       API_TOKEN: ${{ inputs.api_key }}
       shell: bash
-#     - name: Install K6
-#       run: |
-#         sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
-#         echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
-#         sudo apt-get update
-#         sudo apt-get install k6
-#       shell: bash 
+      if: ${{ inputs.run_performance_test == 'true'  || inputs.run_end_2_end_test == 'true' }}
+      
     - name: Run performance tests
       run: k6 ${{ inputs.performance_test_arguments}} run ${{ inputs.performance_script_path}}
       shell: bash
       #-e GITHUB_PR=${{ github.event.number }} -e GITHUB_SHA=${{ github.sha }} -e GITHUB_TOKEN=${{secrets.GITHUB_TOKEN}} run src/test/performance/k6.js
+      if: ${{ inputs.run_performance_test == 'true'}}
+      
     - name: Run E2E tests
       run: yarn ${{ inputs.end_2_end_test_script}}
       shell: bash
-
+      if: ${{ inputs.run_end_2_end_test == 'true'}}
  
  
  
