@@ -71,6 +71,8 @@ runs:
       if: ${{ inputs.run_end_2_end_test == 'true'}}
       run: |
         echo "test :  $API_TOKEN"
+        export API_TOKEN=${{ inputs.api_key }}
+        echo $API_TOKEN
         yarn ${{ inputs.end_2_end_test_script}}
       shell: bash
       env:
