@@ -55,7 +55,6 @@ runs:
       
     - name: Start HTTP Server
       run: |
-        echo "environment value 1 for $API_TOKEN "
         yarn start &
         yarn wait-on tcp:4000
       shell: bash
@@ -73,9 +72,6 @@ runs:
     - name: Run E2E tests
       if: ${{ inputs.run_end_2_end_test == 'true'}}
       run: |
-        echo "test :  $API_TOKEN"
-        export API_TOKEN=${{ inputs.api_key }}
-        echo $API_TOKEN
         yarn ${{ inputs.end_2_end_test_script}}
       shell: bash
       env:
