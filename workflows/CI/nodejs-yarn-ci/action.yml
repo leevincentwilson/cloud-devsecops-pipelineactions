@@ -16,11 +16,20 @@ inputs:
     required: false
   run_code_quality_analysis:
     required: false
+  yarn_code_quality_analysis_script:
+    required: false
+    
   run_typecheck_validation:
     required: false
+  yarn_typecheck_validation_script:
+    required: false
+    
   run_schema_validation:
     required: false
+  yarn_schema_validation_script:  
   run_unit_test:
+    required: false
+  yarnn_unit_test_script:
     required: false
     
     
@@ -56,23 +65,39 @@ runs:
          
     - name: Run ESLint
       if: ${{ inputs.run_code_quality_analysis == 'true' }}
-      run: yarn lint
+      run: yarn eslint
       shell: bash
+    - name: Run ESLint
+      if: ${{ inputs.run_code_quality_analysis == 'true' && inputs.yarn_code_quality_analysis_script != null }}
+      run: yarn ${{ inputs.yarn_code_quality_analysis_script }}
+      shell: bash  
       
     - name: TypeScript Type Checking
       if: ${{ inputs.run_typecheck_validation == 'true' }}
       run: yarn typecheck
       shell: bash
+    - name: TypeScript Type Checking
+      if: ${{ inputs.run_typecheck_validation == 'true' && inputs.yarn_typecheck_validation_script != null }}
+      run: yarn ${{ inputs.yarn_typecheck_validation_script }}
+      shell: bash 
       
     - name: Run unit test
       if: ${{ inputs.run_unit_test == 'true' }}
       run: yarn test --ci --coverage --coverageReporters="json-summary"
       shell: bash
+    - name: Run unit test
+      if: ${{ inputs.run_unit_test == 'true' && inputs.yarn_unit_test_script != null }}
+      run: yarn ${{ inputs.yarn_unit_test_script }}
+      shell: bash  
       
     - name: Run GraphQL Inspector
-      if: ${{ inputs.run_schema_validation== 'true' }}
+      if: ${{ inputs.run_schema_validation == 'true' }}
       run: yarn diff-schema   
       shell: bash
+    - name: Run GraphQL Inspector
+      if: ${{ inputs.run_schema_validation == 'true' && inputs.yarn_schema_validation_script != null }}
+      run: yarn ${{ inputs.yarn_schema_validation_script }}   
+      shell: bash  
       
       
       
