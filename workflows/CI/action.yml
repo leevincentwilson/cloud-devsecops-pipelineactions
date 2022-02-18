@@ -25,7 +25,7 @@ inputs:
     required: false  
   build_phases: 
     required: false
-  java_version:
+  jdk_version:
     required: false
   build_and_push_container_image:
     required: false
@@ -96,7 +96,7 @@ runs:
         build_phases: ${{ inputs.build_phases}}
         build_arguments: ${{inputs.build_arguments}}
         build_and_push_container_image: ${{inputs.build_and_push_container_image}}
-        java_version: ${{ inputs.java_version }}
+        jdk_version: ${{ inputs.jdk_version }}
         run_code_quality_analysis: ${{ inputs.run_code_quality_analysis }}  
         cq_host_url: ${{ inputs.cq_host_url }} 
         cq_project_key: ${{ inputs.cq_project_key }} 
@@ -120,7 +120,7 @@ runs:
         settings_file_name: ${{ inputs.settings_file_name }}
         build_phases: ${{ inputs.build_phases}}
         build_arguments: ${{ inputs.build_arguments }}
-        java_version: ${{ inputs.java_version }}
+        jdk_version: ${{ inputs.jdk_version }}
         build_and_push_container_image: ${{inputs.build_and_push_container_image}}
         artifact_repository_pat: ${{ inputs.artifact_repository_pat }}
         run_code_quality_analysis: ${{ inputs.run_code_quality_analysis }}  
