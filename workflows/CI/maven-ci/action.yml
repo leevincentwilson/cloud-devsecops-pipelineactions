@@ -16,7 +16,8 @@ inputs:
     required: false
   build_arguments:
     required: false
-    
+  java_version: 
+    required: false
   build_phases: 
     required: false
   build_and_push_container_image:
@@ -43,7 +44,13 @@ runs:
       shell: bash
     - run: ls -lart
       shell: bash
-    
+      
+    - name: install java version requested
+      uses: actions/setup-java@v2
+      with:
+        java-version: ${{inputs.jdk_version}}
+      if: ${{inputs.jdk_version}}
+      
     - name: Maven Build and install Artifacts
       if: ${{ contains( inputs.build_phases,'install') || contains(  inputs.build_phases , 'package') }}
       run: |
