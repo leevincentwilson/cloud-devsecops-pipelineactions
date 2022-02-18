@@ -8,7 +8,7 @@ inputs:
    
   build_file_name:
     required: false
-  java_version:
+  jdk_version:
     required: false
   settings_file_path:
     required: false
@@ -50,8 +50,8 @@ runs:
     - name: install java version requested
       uses: actions/setup-java@v2
       with:
-        java-version: ${{inputs.java_version}}
-      if: ${{inputs.java_version}}
+        java-version: ${{inputs.jdk_version}}
+      if: ${{inputs.jdk_version}}
       
     - name: Build with Gradle
       run: ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} ${{ inputs.build_phases }} ${{inputs.build_arguments}}
