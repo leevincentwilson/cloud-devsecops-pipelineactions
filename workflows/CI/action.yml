@@ -119,6 +119,7 @@ runs:
         settings_file_name: ${{ inputs.settings_file_name }}
         build_phases: ${{ inputs.build_phases}}
         build_arguments: ${{ inputs.build_arguments }}
+        java_version: ${{ inputs.java_version }}
         build_and_push_container_image: ${{inputs.build_and_push_container_image}}
         artifact_repository_pat: ${{ inputs.artifact_repository_pat }}
         run_code_quality_analysis: ${{ inputs.run_code_quality_analysis }}  
