@@ -47,6 +47,7 @@ runs:
       uses: actions/setup-java@v2
       with:
         java-version: ${{inputs.jdk_version}}
+        distribution: 'adopt'
       if: ${{inputs.jdk_version}}
       
     - name: Maven Build and install Artifacts
