@@ -2,6 +2,7 @@ name: 'Observability Merics and Insight actions'
 description: 'Observability Merics and Insight actions'
 
 inputs:
+  set_newRelic_Deployment_marker:
   newRelic_key: 
   newRelic_accountId: 
   newRelic_applicationId: 
