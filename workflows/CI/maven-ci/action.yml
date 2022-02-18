@@ -16,8 +16,6 @@ inputs:
     required: false
   build_arguments:
     required: false
-  java_version: 
-    required: false
   build_phases: 
     required: false
   build_and_push_container_image:
