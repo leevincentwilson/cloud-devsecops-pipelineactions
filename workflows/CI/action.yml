@@ -86,7 +86,7 @@ runs:
       shell: bash  
           
     - name: ========== Build and push Build Artifacts to artifact Store for Maven ==========
-      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/maven-ci@main
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/maven-ci@latest
       with:
         build_file_path: ${{ inputs.build_file_path }}
         build_file_name: ${{ inputs.build_file_name }}
@@ -110,7 +110,7 @@ runs:
     
     
     - name: ========== Build and push Build Artifacts to artifact Store for Gradle ==========
-      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/gradle-ci@main
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/gradle-ci@latest
       with:
         build_file_path: ${{ inputs.build_file_path }}
         build_file_name: ${{ inputs.build_file_name }}
@@ -132,7 +132,7 @@ runs:
     
     
     - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS ==========
-      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-npm-ci@main
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-npm-ci@latest
       with:
         application_name: ${{inputs.application_name}}
         build_tool_version: ${{ inputs.build_tool_version }}
@@ -144,7 +144,7 @@ runs:
       if: ${{  inputs.build_tool == 'npm'  }}
       
     - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS ==========
-      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-yarn-ci@main
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-yarn-ci@latest
       with:
         application_name: ${{inputs.application_name}}
         build_tool_version: ${{ inputs.build_tool_version }}
@@ -156,7 +156,7 @@ runs:
       if: ${{  inputs.build_tool == 'yarn'  }}   
       
     - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS Yarn-nx==========
-      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-yarnnx-ci@main
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-yarnnx-ci@latest
       with:
         application_name: ${{inputs.application_name}}
         node_version: ${{ inputs.build_tool_version }}
@@ -174,7 +174,7 @@ runs:
     
     
 #     - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS ==========
-#       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-npm-ci@main
+#       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/nodejs-npm-ci@latest
 #       with:
 #         build_file_path: ${{ inputs.build_file_path }}
 #         build_file_name: ${{ inputs.build_file_name }}
@@ -214,7 +214,7 @@ runs:
       
 #     - name: calling another composite action
 #       id: foo
-#       uses: gopinath-velayudhan-mns/shared_composite_repo/workflows/sample@main
+#       uses: gopinath-velayudhan-mns/shared_composite_repo/workflows/sample@latest
 #       with:
 #         who-to-greet: 'Mona the Octocat'
 #     - run: echo random-number ${{ steps.foo.outputs.random-number }}
