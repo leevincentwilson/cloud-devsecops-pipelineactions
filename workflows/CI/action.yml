@@ -96,6 +96,7 @@ runs:
         build_phases: ${{ inputs.build_phases}}
         build_arguments: ${{inputs.build_arguments}}
         build_and_push_container_image: ${{inputs.build_and_push_container_image}}
+        java_version: ${{ inputs.java_version }}
         run_code_quality_analysis: ${{ inputs.run_code_quality_analysis }}  
         cq_host_url: ${{ inputs.cq_host_url }} 
         cq_project_key: ${{ inputs.cq_project_key }} 
