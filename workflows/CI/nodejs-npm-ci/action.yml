@@ -78,3 +78,8 @@ runs:
       - name: Typescript Errors
         run: npm run build:ts
         shell: bash
+      
+      - name: Npm Publish
+        run: npm publish
+        shell: bash
+        if: ${{ contains( inputs.build_phases,'publish')
