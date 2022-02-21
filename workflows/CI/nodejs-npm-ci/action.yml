@@ -36,16 +36,6 @@ runs:
   using: "composite"
   steps:
       - uses: actions/checkout@v2
-#       - name: Cache node modules
-#         uses: actions/cache@v2
-#         env:
-#           cache-name: cache-node-modules
-#         with:
-#           path: ~/.npm
-#           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-#           restore-keys: |
-#             ${{ runner.os }}-node-
-          
           
       - name: Setup NodeJs with artifact registry
         uses: actions/setup-node@v2
@@ -58,11 +48,11 @@ runs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ inputs.node_version }}
-          
-         
-#       - name: Npm Audit
-#         run: npm audit --production --audit-level critical
-#         shell: bash
+      
+      - name: Npm Audit
+        run: npm audit --production --audit-level critical
+        if: ${{ contains( inputs.build_phases,'audit') }}
+        shell: bash
       
       - name: Npm install
         run: npm install
@@ -98,3 +88,5 @@ runs:
         run: npm publish
         shell: bash
         if: ${{ contains( inputs.build_phases,'publish') }}
+        
+        
