@@ -9,6 +9,12 @@ inputs:
     required: false
   build_tool_version:
     required: false
+  build_arguments:
+    required: false
+  build_phases: 
+    required: false
+  node_version:
+    required: false
   build_and_push_container_image:
     required: false
   run_code_quality_analysis:
@@ -27,35 +33,48 @@ runs:
   using: "composite"
   steps:
       - uses: actions/checkout@v2
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+#       - name: Cache node modules
+#         uses: actions/cache@v2
+#         env:
+#           cache-name: cache-node-modules
+#         with:
+#           path: ~/.npm
+#           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+#           restore-keys: |
+#             ${{ runner.os }}-node-
+            
       - name: Setup NodeJs 
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ inputs.build_tool_version }}
+          node-version: ${{ inputs.node_version }}
          
-      - name: Npm Audit
-        run: npm audit --production --audit-level critical
-        shell: bash
+#       - name: Npm Audit
+#         run: npm audit --production --audit-level critical
+#         shell: bash
+      
       - name: Npm install
+        run: npm install
+        shell: bash
+        if: ${{ contains( inputs.build_phases,'install')
+        
+      - name: Npm ci
         run: npm ci
         shell: bash
+        if: ${{ contains( inputs.build_phases,'ci')  
+        
       - name: Lint
         run: npm run lint
         shell: bash
+        if: ${{ contains( inputs.build_phases,'lint') 
+        
       - name: Formatting Check
         run: npm run format:check
         shell: bash
+        
       - name: Unit tests
         run: npm run test:coverage
         shell: bash
+        
       - name: Typescript Errors
         run: npm run build:ts
         shell: bash
