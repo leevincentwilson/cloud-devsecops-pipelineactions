@@ -27,6 +27,8 @@ inputs:
     required: false
   jdk_version:
     required: false
+  node_version: 
+    required: false
   build_and_push_container_image:
     required: false
   cr_imagename:
@@ -59,7 +61,7 @@ inputs:
     required: false
   cq_scan_arguments:
     required: false
-    
+  
   run_application_build:
     required: false
   run_library_build:
