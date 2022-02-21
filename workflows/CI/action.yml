@@ -47,7 +47,8 @@ inputs:
     required: false
   cr_password:
     required: false
-    
+  artifact_repository_url:
+    required: false
   run_code_quality_analysis:
     required: true
   cq_project_key:
@@ -145,6 +146,7 @@ runs:
         build_phases: ${{ inputs.build_phases  }}
         build_and_push_container_image: ${{inputs.build_and_push_container_image}}
         run_code_quality_analysis: false
+        artifact_repository_url: ${{inputs.artifact_repository_url}}
       if: ${{  inputs.build_tool == 'npm'  }}
       
     - name: ========== Build and push Build Artifacts to artifact Store  for NodeJS ==========
