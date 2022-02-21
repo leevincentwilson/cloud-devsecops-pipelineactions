@@ -1,0 +1,41 @@
+name: 'DevSecOps Application Security Actions'
+description: 'Running Fority Security Scans for project codes'
+
+inputs:
+  
+  environment:
+    required: true
+  application_release_name:
+    required: true
+  resource_group:
+    required: false
+  source_path:
+    required: false
+  
+  
+runs:
+  using: "composite"
+  steps:
+  - name: Deploy to Azure Web Apps
+    uses: azure/CLI@v1
+    id: webapp
+    with:
+        inlineScript: |
+          RETRY=5;
+          SLEEP=5;
+          COUNT=0;
+          CMD="az webapp deployment source config-zip \
+            --resource-group ${{ inputs.resource_group }} \
+            --name ${{ inputs.application_release_name }} \
+            --src ${{ inputs.source_path }} --timeout 360";
+          until [ "$COUNT" -ge $RETRY ]
+          do
+            $CMD && break;
+            COUNT=$((COUNT+1));
+            sleep $SLEEP;
+          done
+          if test $COUNT -eq $RETRY
+          then
+            echo "Deployment was unsuccesful :(";
+            exit 127;
+          fi
