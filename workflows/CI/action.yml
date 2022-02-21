@@ -141,7 +141,8 @@ runs:
         build_tool_version: ${{ inputs.build_tool_version }}
         build_file_path: ${{ inputs.build_file_path }}
         build_file_name: ${{ inputs.build_file_name }}
-        #node_version: ${{ inputs.build_tool_version  }}
+        node_version: ${{ inputs.node_version  }}
+        build_phases: ${{ inputs.build_phases  }}
         build_and_push_container_image: ${{inputs.build_and_push_container_image}}
         run_code_quality_analysis: false
       if: ${{  inputs.build_tool == 'npm'  }}
@@ -154,7 +155,8 @@ runs:
         build_file_path: ${{ inputs.build_file_path }}
         build_file_name: ${{ inputs.build_file_name }}
         build_and_push_container_image: ${{inputs.build_and_push_container_image}}
-        #node_version: ${{ inputs.build_tool_version  }}
+        #node_version: ${{ inputs.node_version  }}
+        #build_phases: ${{ inputs.build_phases  }}
         run_code_quality_analysis: false
       if: ${{  inputs.build_tool == 'yarn'  }}   
       
