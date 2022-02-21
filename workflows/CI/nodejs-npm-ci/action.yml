@@ -27,7 +27,7 @@ inputs:
     required: false
   cq_scan_arguments: 
     required: false
-  registry_url: false
+  artifact_repository_url:
     required: false
     
  
@@ -51,8 +51,8 @@ runs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ inputs.node_version }}
-          registry-url: ${{inputs.registry_url}}
-        if: ${{ inputs.registry_url }}
+          registry-url: ${{inputs.artifact_repository_url}}
+        if: ${{ inputs.artifact_repository_url }}
         
       - name: Setup NodeJs 
         uses: actions/setup-node@v2
