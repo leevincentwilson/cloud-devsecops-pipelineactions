@@ -76,6 +76,8 @@ runs:
       run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar
            -Dsonar.projectKey=${{inputs.cq_project_key}} 
            -Dsonar.host.url=${{inputs.cq_host_url}} 
+           -f ./intl-pricing-service/pom.file
+           -s ./intl-pricing-service/settings
            -Dsonar.login=${{inputs.cq_token}} ${{inputs.build_arguments}} ${{ inputs.cq_scan_arguments }}
            
       shell: bash
