@@ -1,0 +1,79 @@
+name: 'Helm-Deployment Actions'
+description: 'Deployment using helm charts'
+
+inputs:
+  
+  environment:
+    required: true
+  application_release_name:
+    required: true
+  release_version:
+    required: false
+  kube_config:
+    required: false
+  is_helm_deployment:
+    required: true
+  helm_chart_path:
+    required: false
+  helm_values_file:
+    required: false
+  helm_values_file_path:
+    required: false
+  Image_name:
+    required: false
+  Image_tag:
+    required: false
+  cluster_namespace:
+    required: false
+  create_namespace:
+    required: false
+  helm_argument: 
+    required: false
+  dry_run:
+    required: false
+    default: false
+  is_atomic:
+    required: false
+    default: false
+  deployment_script_path:
+    required: false
+  deployment_script_name:
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+
+    - name: k8s-set-context
+      uses: Azure/k8s-set-context@v1
+      with:
+        kubeconfig: ${{ inputs.kube_config }}     
+
+
+        
+    - name: AKS Deploy and create Namespace Dry Run
+      run: |
+        cd ./${{ inputs.helm_chart_path }}
+        ls -lart
+        helm upgrade --install ${{inputs.application_release_name}}  . '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{inputs.cluster_namespace}}' --create-namespace --dry-run --debug
+        echo ${{env.image}}
+      shell: bash
+      if: ${{ inputs.dry_run == 'true' }}
+           
+    - name: AKS Deploy and create Namespace
+      run: |
+        cd ./${{ inputs.helm_chart_path }}
+        helm upgrade --install ${{inputs.application_release_name}}  . '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{inputs.cluster_namespace}}' --create-namespace --atomic
+        echo ${{env.image}}
+      shell: bash
+      if: ${{ inputs.create_namespace == 'true'}}
+      
+    - name: AKS Deploy basic
+      run: |
+        cd ./${{ inputs.helm_chart_path }}
+        helm upgrade --install ${{inputs.application_release_name}}  . '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{inputs.cluster_namespace}}'
+        echo ${{env.image}}
+      shell: bash
+      if: ${{ inputs.create_namespace != 'true' && inputs.dry_run != 'true' }}  
