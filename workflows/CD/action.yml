@@ -49,6 +49,7 @@ runs:
       shell: bash  
     - name: ========== Deploy project using helm ==========
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD/helm@latest
+      if: ${{ inputs.is_helm_deployment == 'true'}}
       with:
         environment: ${{inputs.environment}}
         application_release_name: ${{inputs.application_release_name}}
