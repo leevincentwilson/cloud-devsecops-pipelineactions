@@ -19,9 +19,9 @@ inputs:
     required: false
   helm_values_file_path:
     required: false
-  Image_name:
+  image_name:
     required: false
-  Image_tag:
+  image_tag:
     required: false
   cluster_namespace:
     required: false
