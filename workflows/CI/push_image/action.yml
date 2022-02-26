@@ -3,19 +3,7 @@ name: 'Push docker images'
 description: 'Pushing Docker image to Container Registry'
 inputs:
   
-  cr_imagename:
-    required: true
-  cr_imagetag:
-    required: true
-  cr_dockerfile_name:
-    required: true
-  cr_dockerfile_path:
-    required: true
   cr_servername:
-    required: true
-  cr_subscription:
-    required: true
-  cr_tenant:
     required: true
   cr_username:
     required: false
@@ -36,13 +24,5 @@ runs:
         username: ${{inputs.cr_username}}
         password: ${{inputs.cr_password}}
         login-server: ${{inputs.cr_servername}}  
-      if: ${{ !contains(runner.name, 'selfhosted') && !contains(inputs.cr_servername, 'ghcr.io')  }}
+      if: ${{ !contains(inputs.cr_servername, 'ghcr.io')  }}
       
-    - name: run docker build and push
-      run: |
-        docker build -f ${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} . -t ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
-        docker tag ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
-        docker push ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
-      shell: bash
-      if: ${{ !contains(runner.name, 'selfhosted') && !contains(inputs.cr_servername, 'ghcr.io')  }}
-
