@@ -30,21 +30,6 @@ runs:
       shell: bash
     - run : echo $RUNNER_NAME $RUNNER_OS $RUNNER_ARCH $RUNNER_TEMP
       shell: bash
-      
-   # - run: docker images
-   #   shell: bash
-      
-########### Login and Push image to Azure Container Registry ##############
-
-   
-    - name: Run AZ Build and Push Docker to ACR       
-      run: |
-        az login --service-principal --username ${{inputs.cr_username}} --password ${{inputs.cr_password}} --tenant ${{inputs.cr_tenant}}
-        az acr build --registry ${{ inputs.cr_servername }} -t ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} --file ./${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} .
-      shell: bash
-      if: ${{ contains(runner.name, 'selfhosted') }}
-
-
 
     - uses: Azure/docker-login@v1
       with:
@@ -53,15 +38,6 @@ runs:
         login-server: ${{inputs.cr_servername}}  
       if: ${{ !contains(runner.name, 'selfhosted') && !contains(inputs.cr_servername, 'ghcr.io')  }}
       
-    - name: Log in to the GITHUB Container registry
-      uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
-      with:
-        registry: ghcr.io
-        username: ${{inputs.cr_username}}
-        password: ${{inputs.cr_password}}  
-      if: ${{ !contains(runner.name, 'selfhosted') && contains(inputs.cr_servername, 'ghcr.io')  }}
-      
-      
     - name: run docker build and push
       run: |
         docker build -f ${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} . -t ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
@@ -69,28 +45,4 @@ runs:
         docker push ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
       shell: bash
       if: ${{ !contains(runner.name, 'selfhosted') && !contains(inputs.cr_servername, 'ghcr.io')  }}
-
-#########  Switching over to Github Packages ##########
-    
-    - name: Execute build 
-      run: |
-        docker build -f ${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} . -t ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
-        docker tag  ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
-        docker images
-        docker push ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
-      shell: bash
-      if: ${{ !contains(runner.name, 'selfhosted') && contains(inputs.cr_servername, 'ghcr.io')  }}
-
-
-
-
-
-
-#     - name: Log in with Azure
-#       uses: azure/login@v1
-#       with:
-#         creds: '${{ inputs.AZURE_CREDENTIALS }}'
-
-
-
 
