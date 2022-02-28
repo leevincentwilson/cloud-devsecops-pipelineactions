@@ -42,10 +42,11 @@ runs:
       shell: bash
     - name: prep
       run: |
-         [ -f ./gradlew ] && chmod +x gradlew
+         if [[ -f ./gradlew ]]; then 
+           chmod +x ./gradlew
+         fi
       shell: bash   
-      env:
-        BUILD_FILE: ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }}
+      
         
     - name: install java version requested
       uses: actions/setup-java@v2
@@ -55,7 +56,11 @@ runs:
       if: ${{inputs.jdk_version}}
       
     - name: Build with Gradle
-      run: ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} ${{ inputs.build_phases }} ${{inputs.build_arguments}}
+         
+      run: |
+         cd ./${{ inputs.build_file_path }}
+         [ -f ${{ inputs.build_file_name }} ] && chmod +x gradlew
+         ./${{ inputs.build_file_name }} ${{ inputs.build_phases }} ${{inputs.build_arguments}}
       shell: bash
       
     - name: Code Quality Analysis
