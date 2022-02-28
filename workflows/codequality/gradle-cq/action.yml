@@ -1,0 +1,60 @@
+name: 'Code Quality Scan for Maven Projects'
+description: 'Building and Pushing Artifact to Azure Artifact Repository'
+inputs:
+  jdk_version:
+    required: false
+  build_file_path:
+    required: false
+  build_file_name:
+    required: false
+  settings_file_path:
+    required: false
+  settings_file_name:
+    required: false
+ 
+  cq_project_key:
+    required: false
+  cq_host_url:
+    required: false
+  cq_token:
+    required: false
+  cq_scan_arguments: 
+    required: false
+ 
+    
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello, You are Executing Composite action to Execute Build
+      shell: bash
+    - run: ls -lart
+      shell: bash
+      
+    - name: install java version requested
+      uses: actions/setup-java@v2
+      with:
+        java-version: ${{inputs.jdk_version}}
+        distribution: 'adopt'
+      if: ${{inputs.jdk_version}}
+    - name: prep - current repo path to build
+      run: |
+         pwd
+         ls -lart
+         if [[ -f ./gradlew ]]; then 
+           chmod +x ./gradlew
+         fi
+      shell: bash   
+      
+    - name: Code Quality Analysis for Gradle project
+      
+      run: |
+        cd ./${{ inputs.build_file_path }}
+        [ -f ${{ inputs.build_file_name }} ] && chmod +x gradlew
+        pwd
+        ./${{ inputs.build_file_name }} sonarqube
+           -Dsonar.projectKey=${{inputs.cq_project_key}} 
+           -Dsonar.host.url=${{inputs.cq_host_url}} 
+           -Dsonar.login=${{inputs.cq_token}} ${{inputs.build_arguments}} ${{ inputs.cq_scan_arguments }}
+      shell: bash    
+      
+    
