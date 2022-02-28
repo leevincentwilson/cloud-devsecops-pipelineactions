@@ -40,8 +40,10 @@ runs:
   steps:
     - run: echo Hello, You are Executing Composite action to Execute Build
       shell: bash
-    - name: prep
+    - name: prep - current repo path to build
       run: |
+         pwd
+         ls -lart
          if [[ -f ./gradlew ]]; then 
            chmod +x ./gradlew
          fi
@@ -56,11 +58,9 @@ runs:
       if: ${{inputs.jdk_version}}
       
     - name: Build with Gradle
-         
       run: |
-         pwd
-         ls -lart
          cd ./${{ inputs.build_file_path }}
+         pwd
          [ -f ${{ inputs.build_file_name }} ] && chmod +x gradlew
          ./${{ inputs.build_file_name }} ${{ inputs.build_phases }} ${{inputs.build_arguments}}
       shell: bash
