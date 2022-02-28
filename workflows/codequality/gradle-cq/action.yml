@@ -46,7 +46,7 @@ runs:
       shell: bash   
       
     - name: Code Quality Analysis for Gradle
-      if: ${{ inputs.run_code_quality_analysis == 'true' && inputs.cq_project_key }}  
+      if: ${{ inputs.cq_project_key }}  
       run: |
         cd ./${{ inputs.build_file_path }}
         pwd
@@ -54,7 +54,7 @@ runs:
       shell: bash
       
     - name: Code Quality Analysis for Gradle
-      if: ${{ inputs.run_code_quality_analysis == 'true' && ( !inputs.cq_project_key || inputs.cq_project_key == '' )}}  
+      if: ${{ ( !inputs.cq_project_key || inputs.cq_project_key == '' ) }}  
       run: |
         cd ./${{ inputs.build_file_path }}
         pwd
