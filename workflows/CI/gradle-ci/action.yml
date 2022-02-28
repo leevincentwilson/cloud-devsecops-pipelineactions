@@ -67,7 +67,10 @@ runs:
       
     - name: Code Quality Analysis
       if: ${{ inputs.run_code_quality_analysis == 'true' }}  
-      run: ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} sonarqube
+      run: |
+        cd ./${{ inputs.build_file_path }}
+        pwd
+        ./${{ inputs.build_file_path }}/${{ inputs.build_file_name }} sonarqube
            -Dsonar.projectKey=${{inputs.cq_project_key}} 
            -Dsonar.host.url=${{inputs.cq_host_url}} 
            -Dsonar.login=${{inputs.cq_token}} ${{inputs.build_arguments}} ${{ inputs.cq_scan_arguments }}
