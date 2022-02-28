@@ -58,6 +58,8 @@ runs:
     - name: Build with Gradle
          
       run: |
+         pwd
+         ls -lart
          cd ./${{ inputs.build_file_path }}
          [ -f ${{ inputs.build_file_name }} ] && chmod +x gradlew
          ./${{ inputs.build_file_name }} ${{ inputs.build_phases }} ${{inputs.build_arguments}}
