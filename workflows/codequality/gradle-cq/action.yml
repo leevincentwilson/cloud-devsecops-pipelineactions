@@ -45,16 +45,21 @@ runs:
          fi
       shell: bash   
       
-    - name: Code Quality Analysis for Gradle project
-      
+    - name: Code Quality Analysis for Gradle
+      if: ${{ inputs.run_code_quality_analysis == 'true' && inputs.cq_project_key }}  
       run: |
         cd ./${{ inputs.build_file_path }}
-        [ -f ${{ inputs.build_file_name }} ] && chmod +x gradlew
         pwd
-        ./${{ inputs.build_file_name }} sonarqube
-           -Dsonar.projectKey=${{inputs.cq_project_key}} 
-           -Dsonar.host.url=${{inputs.cq_host_url}} 
-           -Dsonar.login=${{inputs.cq_token}} ${{inputs.build_arguments}} ${{ inputs.cq_scan_arguments }}
+        ./${{ inputs.build_file_name }} sonarqube -Dsonar.projectKey=${{inputs.cq_project_key}} -Dsonar.host.url=${{inputs.cq_host_url}} -Dsonar.login=${{inputs.cq_token}}  ${{inputs.build_arguments}} ${{ inputs.cq_scan_arguments }}
+      shell: bash
+      
+    - name: Code Quality Analysis for Gradle
+      if: ${{ inputs.run_code_quality_analysis == 'true' && ( !inputs.cq_project_key || inputs.cq_project_key == '' )}}  
+      run: |
+        cd ./${{ inputs.build_file_path }}
+        pwd
+        ./${{ inputs.build_file_name }} sonarqube -Dsonar.host.url=${{inputs.cq_host_url}} -Dsonar.login=${{ inputs.cq_token }} ${{ inputs.build_arguments }} ${{ inputs.cq_scan_arguments }}
       shell: bash    
+      
       
     
