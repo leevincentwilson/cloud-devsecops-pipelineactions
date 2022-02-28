@@ -62,8 +62,6 @@ runs:
       with:
         build_file_path: ${{ inputs.build_file_path }}
         build_file_name: ${{ inputs.build_file_name }}
-        settings_file_path: ${{ inputs.settings_file_path }}
-        settings_file_name: ${{ inputs.settings_file_name }}
         jdk_version: ${{ inputs.jdk_version }}
         cq_host_url: ${{ inputs.cq_host_url }} 
         cq_project_key: ${{ inputs.cq_project_key }} 
