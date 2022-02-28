@@ -50,6 +50,7 @@ runs:
       run: |
         cd ./${{ inputs.build_file_path }}
         pwd
+        [ -f ${{ inputs.build_file_name }} ] && chmod +x ${{ inputs.build_file_name }}
         ./${{ inputs.build_file_name }} sonarqube -Dsonar.projectKey=${{inputs.cq_project_key}} -Dsonar.host.url=${{inputs.cq_host_url}} -Dsonar.login=${{inputs.cq_token}}  ${{inputs.build_arguments}} ${{ inputs.cq_scan_arguments }}
       shell: bash
       
@@ -57,6 +58,7 @@ runs:
       if: ${{ ( !inputs.cq_project_key || inputs.cq_project_key == '' ) }}  
       run: |
         cd ./${{ inputs.build_file_path }}
+        [ -f ${{ inputs.build_file_name }} ] && chmod +x ${{ inputs.build_file_name }}
         pwd
         ./${{ inputs.build_file_name }} sonarqube -Dsonar.host.url=${{inputs.cq_host_url}} -Dsonar.login=${{ inputs.cq_token }} ${{ inputs.build_arguments }} ${{ inputs.cq_scan_arguments }}
       shell: bash    
