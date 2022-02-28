@@ -1,0 +1,51 @@
+name: 'Code Quality Scan for Maven Projects'
+description: 'Building and Pushing Artifact to Azure Artifact Repository'
+inputs:
+  maven_version:
+    required: false
+  jdk_version:
+    required: false
+  build_file_path:
+    required: false
+  build_file_name:
+    required: false
+  settings_file_path:
+    required: false
+  settings_file_name:
+    required: false
+ 
+  cq_project_key:
+    required: false
+  cq_host_url:
+    required: false
+  cq_token:
+    required: false
+  cq_scan_arguments: 
+    required: false
+ 
+    
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello, You are Executing Composite action to Execute Build
+      shell: bash
+    - run: ls -lart
+      shell: bash
+      
+    - name: install java version requested
+      uses: actions/setup-java@v2
+      with:
+        java-version: ${{inputs.jdk_version}}
+        distribution: 'adopt'
+      if: ${{inputs.jdk_version}}
+      
+    - name: Code Quality Analysis for maven project
+      
+      run: |
+        cd ${{inputs.build_file_path}}
+        mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar
+           -Dsonar.projectKey=${{inputs.cq_project_key}} 
+           -Dsonar.host.url=${{inputs.cq_host_url}} 
+           -Dsonar.login=${{inputs.cq_token}} ${{ inputs.cq_scan_arguments }}
+           
+      shell: bash  
