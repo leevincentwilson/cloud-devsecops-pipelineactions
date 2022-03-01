@@ -20,6 +20,8 @@ inputs:
     required: false
   cq_scan_arguments: 
     required: false
+  cq_project_name:
+    required: false  
  
     
 runs:
@@ -36,6 +38,7 @@ runs:
         java-version: ${{inputs.jdk_version}}
         distribution: 'adopt'
       if: ${{inputs.jdk_version}}
+
     - name: prep - current repo path to build
       run: |
          pwd
@@ -45,22 +48,22 @@ runs:
          fi
       shell: bash   
       
-    - name: Code Quality Analysis for Gradle
+    - name: Code Quality Analysis for Gradle with ProjectKey
       if: ${{ inputs.cq_project_key }}  
       run: |
         cd ./${{ inputs.build_file_path }}
         pwd
         [ -f ${{ inputs.build_file_name }} ] && chmod +x ${{ inputs.build_file_name }}
-        ./${{ inputs.build_file_name }} sonarqube -Dsonar.projectKey=${{inputs.cq_project_key}} -Dsonar.host.url=${{inputs.cq_host_url}} -Dsonar.login=${{inputs.cq_token}}  ${{inputs.build_arguments}} ${{ inputs.cq_scan_arguments }}
+        ./${{ inputs.build_file_name }} sonarqube -Dsonar.projectKey=${{inputs.cq_project_key}} -Dsonar.projectName=${{ inputs.cq_project_name }} -Dsonar.host.url=${{inputs.cq_host_url}} -Dsonar.login=${{inputs.cq_token}}  ${{inputs.build_arguments}} ${{ inputs.cq_scan_arguments }}
       shell: bash
       
-    - name: Code Quality Analysis for Gradle
+    - name: Code Quality Analysis for Gradle 
       if: ${{ ( !inputs.cq_project_key || inputs.cq_project_key == '' ) }}  
       run: |
         cd ./${{ inputs.build_file_path }}
         [ -f ${{ inputs.build_file_name }} ] && chmod +x ${{ inputs.build_file_name }}
         pwd
-        ./${{ inputs.build_file_name }} sonarqube -Dsonar.host.url=${{inputs.cq_host_url}} -Dsonar.login=${{ inputs.cq_token }} ${{ inputs.build_arguments }} ${{ inputs.cq_scan_arguments }}
+        ./${{ inputs.build_file_name }} sonarqube -Dsonar.host.url=${{inputs.cq_host_url}} -Dsonar.projectName=${{ inputs.cq_project_name }} -Dsonar.login=${{ inputs.cq_token }} ${{ inputs.build_arguments }} ${{ inputs.cq_scan_arguments }}
       shell: bash    
       
       

@@ -22,7 +22,8 @@ inputs:
     required: false
   cq_scan_arguments: 
     required: false
- 
+  cq_project_name:
+    required: false
     
 runs:
   using: "composite"
@@ -40,12 +41,15 @@ runs:
       if: ${{inputs.jdk_version}}
       
     - name: Code Quality Analysis for maven project
-      
+      if: ${{ inputs.cq_project_key }}
       run: |
         cd ${{inputs.build_file_path}}
-        mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar
-           -Dsonar.projectKey=${{inputs.cq_project_key}} 
-           -Dsonar.host.url=${{inputs.cq_host_url}} 
-           -Dsonar.login=${{inputs.cq_token}} ${{ inputs.cq_scan_arguments }}
-           
+        mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar -Dsonar.projectKey=${{inputs.cq_project_key}} -Dsonar.projectName=${{ inputs.cq_project_name }} -Dsonar.host.url=${{inputs.cq_host_url}} -Dsonar.login=${{inputs.cq_token}} ${{ inputs.cq_scan_arguments }}
       shell: bash  
+
+    - name: Code Quality Analysis for maven project
+      if: ${{ ( !inputs.cq_project_key || inputs.cq_project_key == '' ) }} 
+      run: |
+        cd ${{inputs.build_file_path}}
+        mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar -Dsonar.projectName=${{ inputs.cq_project_name }} -Dsonar.host.url=${{inputs.cq_host_url}} -Dsonar.login=${{inputs.cq_token}} ${{ inputs.cq_scan_arguments }}
+      shell: bash   

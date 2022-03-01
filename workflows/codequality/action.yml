@@ -29,6 +29,8 @@ inputs:
     required: false
   cq_scan_arguments:
     required: false
+  cq_project_name: 
+    required: false  
   
   
     
@@ -43,7 +45,7 @@ runs:
       shell: bash
       
     - name: ========== Run Code Quality Scan for Maven project ==========
-      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/codequality/maven-cq@main
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/codequality/maven-cq@latest
       with:
         build_file_path: ${{ inputs.build_file_path }}
         build_file_name: ${{ inputs.build_file_name }}
@@ -52,19 +54,21 @@ runs:
         jdk_version: ${{ inputs.jdk_version }}
         cq_host_url: ${{ inputs.cq_host_url }} 
         cq_project_key: ${{ inputs.cq_project_key }} 
+        cq_project_name: ${{ inputs.cq_project_name }}
         cq_token: ${{ inputs.cq_token }}
         cq_scan_arguments: ${{ inputs.cq_scan_arguments }}
         
       if: ${{ ( inputs.build_tool == 'maven' || inputs.build_tool == 'mvn' ) }}
     
     - name: ========== Run Code Quality Scan for Maven project ==========
-      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/codequality/gradle-cq@main
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/codequality/gradle-cq@latest
       with:
         build_file_path: ${{ inputs.build_file_path }}
         build_file_name: ${{ inputs.build_file_name }}
         jdk_version: ${{ inputs.jdk_version }}
         cq_host_url: ${{ inputs.cq_host_url }} 
-        cq_project_key: ${{ inputs.cq_project_key }} 
+        cq_project_key: ${{ inputs.cq_project_key }}
+        cq_project_name: ${{ inputs.cq_project_name }}
         cq_token: ${{ inputs.cq_token }}
         cq_scan_arguments: ${{ inputs.cq_scan_arguments }}
         
