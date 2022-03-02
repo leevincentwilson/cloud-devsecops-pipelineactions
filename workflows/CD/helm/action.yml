@@ -61,7 +61,7 @@ runs:
         file-url: 'https://github.com/mikefarah/yq/releases/download/v4.19.1/yq_linux_386.tar.gz'
         file-name: 'yq-linux.tar.gz'
         location: './yq_install'
-    - configure YQ
+    - name: configure YQ
       run: |
         pwd
         tar -xzf ./yq_install/yq-linux.tar.gz --directory ./yq_install
