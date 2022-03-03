@@ -1,0 +1,34 @@
+name: 'Observability Metrics actions'
+description: 'Observability Merics and Insight actions'
+
+inputs:
+  set_newRelic_Deployment_marker:
+    required: false
+  newRelic_key: 
+    required: false
+  newRelic_accountId:
+    required: false
+  newRelic_applicationId:
+    required: false
+  newRelic_user:
+    required: false
+  git_commit_id:
+    required: false
+  comment:
+    required: false
+  
+runs:
+  using: "composite"
+  steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+
+    - name: Create New Relic deployment marker
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/observability/newrelic_deploymarker@latest
+      with:
+        newRelic_key: ${{inputs.newRelic_key}}
+        newRelic_accountId: ${{inputs.newRelic_accountId}}
+        newRelic_applicationId: ${{inputs.newRelic_applicationId}}
+        git_commit_id: ${{inputs.git_commit_id}}
+        comment: ${{inputs.comment}}
+        newRelic_user: ${{inputs.newRelic_user}}
