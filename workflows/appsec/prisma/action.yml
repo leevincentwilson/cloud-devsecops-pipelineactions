@@ -52,7 +52,7 @@ runs:
       if: ${{ inputs.registry_server && ( !contains(inputs.registry_server, 'local') && !contains(inputs.registry_server,'docker.io') ) && contains(runner.name,'selfhosted')  }}
       run: |
          echo ctr -u user:passwrd pull ${{ inputs.registry_server }}/${{inputs.image_name}}:${{ inputs.image_tag }}
-         ctr pull -u "${{inputs.registry_username}}:${{inputs.registry_password}}" ${{ inputs.registry_server }}/${{inputs.image_name}}:${{ inputs.image_tag }}
+         ctr images pull -u "${{inputs.registry_username}}:${{inputs.registry_password}}" ${{ inputs.registry_server }}/${{inputs.image_name}}:${{ inputs.image_tag }}
          #./twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --details ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}
       shell: bash  
       
