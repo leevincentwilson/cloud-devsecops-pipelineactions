@@ -174,7 +174,7 @@ runs:
     shell: bash
     if: ${{inputs.run_container_scan == 'true' }}
   - name: Run Container Scan for Repostiory
-    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/prisma@latest
+    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/prisma@international-workflow
     with: 
       container_scan_user: ${{ inputs.container_scan_user }}
       container_scan_password: ${{ inputs.container_scan_password }}
