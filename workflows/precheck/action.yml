@@ -22,3 +22,4 @@ runs:
     run: |
       files=$(echo ${{ steps.file_changes.outputs.files}} | tr -d '[]' )
       echo ${files}
+    shell: bash
