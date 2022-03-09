@@ -18,8 +18,8 @@ suggest_version() {
   local CURRENT_MINOR
   local CURRENT_PATCH
   CURRENT_VERSION=$(cat ${VERSION_FILE})
-  BASE_STRING=`cat VERSION`
-  BASE_LIST=(`echo $BASE_STRING | tr '.' ' '`)
+  #BASE_STRING=`cat VERSION`
+  BASE_LIST=(`echo $CURRENT_VERSION | tr '.' ' '`)
   #CURRENT_MAJOR=$(echo "$CURRENT_VERSION" | cut -d. -f1)
   #CURRENT_MINOR=$(echo "$CURRENT_VERSION" | cut -d. -f2)
   #CURRENT_PATCH=$(echo "$CURRENT_VERSION" | cut -d. -f3)
