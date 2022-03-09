@@ -1,0 +1,10 @@
+name: 'Bump Version in Version file'
+inputs:
+  version_file:  # id of input
+    required: true
+    default: ./version
+runs:
+  using: "composite"
+  steps:
+    - run: ${{ github.action_path }}/bump_version.sh ${{inputs.version_file}}
+      shell: bash
