@@ -1,0 +1,24 @@
+name: 'File Changes'
+description: 'To check the file changes'
+    
+runs:
+  using: "composite"
+  steps:		  
+  - uses: actions/checkout@v2
+    with:
+      ref: ${{ github.event.pull_request.head.ref }}
+  - uses: trilom/file-changes-action@v1.2.3
+    id: file_changes
+  - name: Set up Python 3.9
+    uses: actions/setup-python@v2
+    with:
+      python-version: 3.9
+  - name: Install dependencies
+    run: |
+      python -m pip install --upgrade pip
+  - name: Run python script
+    env:
+      github_workspace: ${{ github.workspace }}        
+    run: |
+      files=$(echo ${{ steps.file_changes.outputs.files}} | tr -d '[]' )
+	    echo ${files}
