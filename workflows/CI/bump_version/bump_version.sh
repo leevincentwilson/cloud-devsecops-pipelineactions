@@ -66,7 +66,7 @@ if [ -f $VERSION_FILE ]; then
   if [ "$NEW_VERSION" = "" ]; then NEW_VERSION=$SUGGESTED_VERSION; fi
   echo "Will set new version to be $NEW_VERSION"
   update_version "$NEW_VERSION"
-  #push_tags "$NEW_VERSION"
+  push_tags "$NEW_VERSION"
 else
   echo "Could not find a $VERSION_FILE file."
 fi
