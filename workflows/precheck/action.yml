@@ -21,4 +21,4 @@ runs:
       github_workspace: ${{ github.workspace }}        
     run: |
       files=$(echo ${{ steps.file_changes.outputs.files}} | tr -d '[]' )
-	    echo ${files}
+      echo ${files}
