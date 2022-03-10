@@ -25,4 +25,5 @@ runs:
     run: |
       files=$(echo ${{ steps.file_changes.outputs.files}} | tr -d '[]' )
       echo ${files}
+      python3 workflows/precheck/pre_validation.py "${{ steps.file_changes.outputs.files_added}}" "${{ steps.file_changes.outputs.files_modified}}" "${{ steps.file_changes.outputs.files_removed}}" "${{inputs.files_not_to_be_updated}}"
     shell: bash
