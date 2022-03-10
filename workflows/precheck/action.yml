@@ -1,6 +1,8 @@
 name: 'File Changes'
 description: 'To check the file changes'
-    
+inputs:
+  files_not_to_be_updated:
+    required: true    
 runs:
   using: "composite"
   steps:		  
