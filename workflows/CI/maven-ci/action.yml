@@ -95,5 +95,16 @@ runs:
       run : |
         QGSTATUS=$(curl -s -u '${{ inputs.cq_token }}': ${{ inputs.cq_host_url }}/api/qualitygates/project_status?projectKey=${{ inputs.cq_project_key }} | jq '.projectStatus.status' | tr -d '"')
         echo ${QGSTATUS}
+        if [ "$QGSTATUS" = null ]
+        then
+        echo 'Sonarqube analysis in progress, Please check later in UI!'
+        elif [ "$QGSTATUS" = "ERROR" ]
+        then
+        echo 'Sonarqube analysis Project status is -- ERROR'
+        exit 1
+        elif [ "$QGSTATUS" = "OK" ]
+        then
+        echo 'Sonarqube analysis Project status is -- OK'
+        fi
       shell: bash
       
