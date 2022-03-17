@@ -19,8 +19,8 @@ metadata:
     - actions
     - build
     - code-quality
-    - Image
-    - Observability
+    - image
+    - observability
   links:
     - url: https://github.com/DigitalInnovation/cloud-devsecops-pipeline-java
       title: Cloud DevSecOps Java pipeline template Repo
