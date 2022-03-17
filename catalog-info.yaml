@@ -31,6 +31,9 @@ metadata:
     - url: https://github.com/DigitalInnovation/cloud-devsecops-pipelineactions
       title: Cloud DevSecOps reusable GitHub Actions repo
       icon: github
+    - url: https://mnscorp.sharepoint.com/sites/CloudHub/SitePages/Cloud-DevSecOps.aspx
+      title: Cloud DevSecOps on Cloud Hub
+      icon: Confluence      
       
 spec:
   type: template
