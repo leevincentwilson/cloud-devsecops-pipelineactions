@@ -1,0 +1,8 @@
+site_name: 'Cloud DevSecOps Reusable Composite Actions'
+site_description: 'Kickstarter reusable actions to get engineering teams up and running quickly with M&S CI/CD standards'
+
+plugins:
+  - techdocs-core
+
+nav:
+   - Overview: index.md
