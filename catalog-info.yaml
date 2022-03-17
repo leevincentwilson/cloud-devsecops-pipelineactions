@@ -1,0 +1,39 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: Cloud-DevSecOps-CICD-Pipelineactions
+  description: M&S Cloud DevSecOps reusable actions repository including Build, Test, Code Quality, Build and Image Artifacts, Observability and more... 
+  annotations:
+    github.com/project-slug: DigitalInnovation/cloud-devsecops-pipelineactions
+    backstage.io/techdocs-ref: url:https://github.com/DigitalInnovation/cloud-devsecops-pipelineactions
+    github.com/project-readme-path: README.md
+  tags:
+    - devsecops
+    - cicd
+    - pipeline
+    - workflow
+    - java
+    - node
+    - gradle
+    - github
+    - actions
+    - build
+    - code-quality
+    - Image
+    - Observability
+  links:
+    - url: https://github.com/DigitalInnovation/cloud-devsecops-pipeline-java
+      title: Cloud DevSecOps Java pipeline template Repo
+      icon: github
+    - url: https://github.com/DigitalInnovation/cloud-devsecops-pipeline-node
+      title: Cloud DevSecOps Node pipeline template Repo
+      icon: github
+    - url: https://github.com/DigitalInnovation/cloud-devsecops-pipelineactions
+      title: Cloud DevSecOps reusable GitHub Actions repo
+      icon: github
+      
+spec:
+  type: template
+  lifecycle: production
+  owner: cloud-devsecops
+  system: cloud-devsecops
