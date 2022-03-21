@@ -12,9 +12,7 @@ Welcome to the DevSecOps reusable actions repository containing sample reusable 
 ![Public repository attention](https://img.icons8.com/ios/32/000000/error--v1.png)
 **Please note** this repository is **Public** and as such no sensitive data should be stored. 
 
-
 ## Reusable actions
-The following reusable actions are available for a variety of tech stacks, please see the [Workflows folder](https://github.com/DigitalInnovation/cloud-devsecops-pipelineactions/tree/main/workflows).
 - CI
   - Build
   - Artifact publishing 
@@ -32,11 +30,13 @@ The following reusable actions are available for a variety of tech stacks, pleas
   - New Relic Deployment Marker
 - Insights (Coming soon)
 
+The above reusable actions are available for a variety of tech stacks, please see the [Workflows folder](https://github.com/DigitalInnovation/cloud-devsecops-pipelineactions/tree/main/workflows) for more.
+
 ## Want to contribute?
 We openly welcome contributors to enhance and grow our resuable actions to improve M&S engineering experience. Please feel free to raise a pull request against this repo with your suggestions / additions and one of the Cloud DevSecOps team will review. 
 
 ## Feedback or improvements?
-- Please contact the Cloud DevSecOps teams: itplatformscloudtechnologydevsecops@marks-and-spencer.com
+Please contact the Cloud DevSecOps teams: itplatformscloudtechnologydevsecops@marks-and-spencer.com
 
 
    
