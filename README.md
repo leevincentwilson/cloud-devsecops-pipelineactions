@@ -27,7 +27,7 @@ The following reusable actions are available for a variety of tech stacks, pleas
 ## Want to contribute?
 We openly welcome contributors to enhance and grow our resuable actions to improve M&S engineering experience. Please feel free to raise a pull request against this repo with your suggestions / additions and one of the Cloud DevSecOps team will review. 
 
-## Feedback or improvements?
+## Feedback or Support
 Please contact the Cloud DevSecOps teams: itplatformscloudtechnologydevsecops@marks-and-spencer.com
 
 
