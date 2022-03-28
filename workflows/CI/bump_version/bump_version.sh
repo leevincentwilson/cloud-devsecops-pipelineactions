@@ -50,9 +50,9 @@ push_tags() {
 
   echo "Pushing new version to the origin"
   git commit -m "Bump version to ${NEW_VERSION}."
-  git tag -a -m "Tag version ${NEW_VERSION}." "v$NEW_VERSION"
+  #git tag -a -m "Tag version ${NEW_VERSION}." "v$NEW_VERSION"
   git push origin
-  git push origin --tags
+  #git push origin --tags
 }
 
 
