@@ -17,8 +17,7 @@ suggest_version() {
   local CURRENT_MAJOR
   local CURRENT_MINOR
   local CURRENT_PATCH
-  CURRENT_VERSION=$(cat ${VERSION_FILE})
-  #BASE_STRING=`cat VERSION`
+  CURRENT_VERSION=`cat ${VERSION_FILE}`
   BASE_LIST=(`echo $CURRENT_VERSION | tr '.' ' '`)
   #CURRENT_MAJOR=$(echo "$CURRENT_VERSION" | cut -d. -f1)
   #CURRENT_MINOR=$(echo "$CURRENT_VERSION" | cut -d. -f2)
@@ -60,7 +59,7 @@ push_tags() {
 if [ -f $VERSION_FILE ]; then
   SUGGESTED_VERSION=$(suggest_version)
 
-  echo "Current version: $(cat VERSION)"
+  echo "Current version: $(cat ${VERSION_FILE})"
   echo "next version: $SUGGESTED_VERSION"
   NEW_VERSION=""
 
