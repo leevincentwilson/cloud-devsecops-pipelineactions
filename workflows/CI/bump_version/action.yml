@@ -3,8 +3,17 @@ inputs:
   version_file:  # id of input
     required: true
     default: ./version
+outputs:
+  bumped_version:
+    description: "the version the is newly bumped to"
+    value: ${{ steps.bump-version.outputs.new_version }}    
 runs:
   using: "composite"
   steps:
-    - run: ${{ github.action_path }}/bump_version.sh ${{inputs.version_file}}
+    - name: run script to bump version file provided
+      run: ${{ github.action_path }}/bump_version.sh ${{inputs.version_file}}
       shell: bash
+    - id: bump-version
+      run: echo "::set-output name=new_version::$(cat ${{inputs.version_file}})"
+      shell: bash
+     
