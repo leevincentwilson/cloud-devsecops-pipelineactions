@@ -84,6 +84,11 @@ runs:
         shell: bash
         if: ${{ contains( inputs.build_phases,'typescript') }}
         
+      - name: Build
+        run: npm run build
+        shell: bash
+        if: ${{ contains( inputs.build_phases,'build') }}  
+        
       - name: Npm Publish
         run: npm publish
         shell: bash
