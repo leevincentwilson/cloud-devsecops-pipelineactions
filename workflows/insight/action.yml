@@ -97,7 +97,7 @@ runs:
       then
         echo "File exists"
         echo ""
-        cat runtime_details.csv
+        #cat runtime_details.csv
         echo "${{env.REPOSITORY_NAME}},${{env.REPOSITORY_ID}},${{env.BRANCH_NAME}},${{ env.WORKFLOW_NAME }},${{ env.WORKFLOW_ID }},${{ env.WORKFLOW_RUN_ID }},${{env.WORKFLOW_RUN_NUMBER}},$WORKFLOW_JOBS_COUNT,$TOTAL_STEPS,${{ env.WORKFLOW_START_TIME}},${{ env.WORKFLOW_END_TIME}},$TOTAL_RUN_TIME,$ACTUAL_RUNTIME,${{env.WORKFLOW_STATUS}}">> runtime_details.csv
       else
         echo "File does not exist"
@@ -106,7 +106,7 @@ runs:
         echo "${{env.REPOSITORY_NAME}},${{env.REPOSITORY_ID}},${{env.BRANCH_NAME}},${{ env.WORKFLOW_NAME }},${{ env.WORKFLOW_ID }},${{ env.WORKFLOW_RUN_ID }},${{env.WORKFLOW_RUN_NUMBER}},$WORKFLOW_JOBS_COUNT,$TOTAL_STEPS,${{ env.WORKFLOW_START_TIME}},${{ env.WORKFLOW_END_TIME}},$TOTAL_RUN_TIME,$ACTUAL_RUNTIME,${{env.WORKFLOW_STATUS}}">> runtime_details.csv
       fi  
       echo "===================================Updated file is==================================="
-      cat runtime_details.csv
+      #cat runtime_details.csv
       echo "TOTAL_RUN_TIME="$TOTAL_RUN_TIME >> $GITHUB_ENV
       ls
     shell: bash
