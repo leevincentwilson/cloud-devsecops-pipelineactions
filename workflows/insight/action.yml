@@ -21,23 +21,21 @@ inputs:
   
 runs:
   using: "composite"
-  
-  env:
-    REPOSITORY_NAME : ${{github.event.repository.name}}
-    REPOSITORY_ID : ${{github.event.repository.id}}
-    BRANCH_NAME: ${{ github.event.workflow_run.head_branch}}
-    WORKFLOW_ID : ${{ github.event.workflow.id }}
-    WORKFLOW_NAME : ${{ github.event.workflow.name }}
-    WORKFLOW_RUN_ID : ${{ github.event.workflow_run.id }}
-    WORKFLOW_RUN_NUMBER: ${{ github.event.workflow_run.run_number}}
-    WORKFLOW_START_TIME: ${{ github.event.workflow_run.run_started_at}}
-    WORKFLOW_END_TIME: ${{ github.event.workflow_run.updated_at}}
-    WORKFLOW_STATUS: ${{github.event.workflow_run.conclusion}}
-    COMMIT_BY: ${{github.event.sender.login}}
-  
   steps:
   #Displaying the Job & Steps details
   - name: Job Details
+    env:
+      REPOSITORY_NAME : ${{github.event.repository.name}}
+      REPOSITORY_ID : ${{github.event.repository.id}}
+      BRANCH_NAME: ${{ github.event.workflow_run.head_branch}}
+      WORKFLOW_ID : ${{ github.event.workflow.id }}
+      WORKFLOW_NAME : ${{ github.event.workflow.name }}
+      WORKFLOW_RUN_ID : ${{ github.event.workflow_run.id }}
+      WORKFLOW_RUN_NUMBER: ${{ github.event.workflow_run.run_number}}
+      WORKFLOW_START_TIME: ${{ github.event.workflow_run.run_started_at}}
+      WORKFLOW_END_TIME: ${{ github.event.workflow_run.updated_at}}
+      WORKFLOW_STATUS: ${{github.event.workflow_run.conclusion}}
+      COMMIT_BY: ${{github.event.sender.login}}
     run: |
       mkdir -p /root/GitMetrics/"${{env.REPOSITORY_NAME}}"
       cd /root/GitMetrics/"${{env.REPOSITORY_NAME}}"
@@ -102,6 +100,18 @@ runs:
     
   #saving the job runtime details in a csv file
   - name: Update the file
+    env:
+      REPOSITORY_NAME : ${{github.event.repository.name}}
+      REPOSITORY_ID : ${{github.event.repository.id}}
+      BRANCH_NAME: ${{ github.event.workflow_run.head_branch}}
+      WORKFLOW_ID : ${{ github.event.workflow.id }}
+      WORKFLOW_NAME : ${{ github.event.workflow.name }}
+      WORKFLOW_RUN_ID : ${{ github.event.workflow_run.id }}
+      WORKFLOW_RUN_NUMBER: ${{ github.event.workflow_run.run_number}}
+      WORKFLOW_START_TIME: ${{ github.event.workflow_run.run_started_at}}
+      WORKFLOW_END_TIME: ${{ github.event.workflow_run.updated_at}}
+      WORKFLOW_STATUS: ${{github.event.workflow_run.conclusion}}
+      COMMIT_BY: ${{github.event.sender.login}}
     run: |
       TOTAL_RUN_TIME=$(($(date -d "${{env.WORKFLOW_END_TIME}}" +%s)-$(date -d "${{env.WORKFLOW_START_TIME}}" +%s)))
       cd /
@@ -127,6 +137,18 @@ runs:
     
   #sending ddata to New relic. 
   - name: Send_data_to_newRelic
+    env:
+      REPOSITORY_NAME : ${{github.event.repository.name}}
+      REPOSITORY_ID : ${{github.event.repository.id}}
+      BRANCH_NAME: ${{ github.event.workflow_run.head_branch}}
+      WORKFLOW_ID : ${{ github.event.workflow.id }}
+      WORKFLOW_NAME : ${{ github.event.workflow.name }}
+      WORKFLOW_RUN_ID : ${{ github.event.workflow_run.id }}
+      WORKFLOW_RUN_NUMBER: ${{ github.event.workflow_run.run_number}}
+      WORKFLOW_START_TIME: ${{ github.event.workflow_run.run_started_at}}
+      WORKFLOW_END_TIME: ${{ github.event.workflow_run.updated_at}}
+      WORKFLOW_STATUS: ${{github.event.workflow_run.conclusion}}
+      COMMIT_BY: ${{github.event.sender.login}}
     run: |
       echo "Sending Data to New Relic"
       jq -n \
