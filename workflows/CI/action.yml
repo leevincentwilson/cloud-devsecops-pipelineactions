@@ -188,7 +188,7 @@ runs:
  ##======================== INVOKE IMAGE BUILD and PUSH to CONTAINER REGISTRY ===================##
     
     - name: =========  Build and push image to Container Registry. ===========
-      if: ${{ ( inputs.build_and_push_container_image == true  ) }}
+      if: ${{ ( inputs.build_and_push_container_image == 'true'  ) }}
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/push_image@latest
       with:
         cr_dockerfile_name: ${{inputs.cr_dockerfile_name}}
