@@ -160,6 +160,7 @@ runs:
       --arg Workflow_ID "${{env.WORKFLOW_ID}}" \
       --arg Run_Id "${{env.WORKFLOW_RUN_ID}}" \
       --arg Run_Number ${{env.WORKFLOW_RUN_NUMBER}} \
+      --arg Workflow_Actor "${{env.COMMIT_BY}}" \
       --arg Jobs_Count $WORKFLOW_JOBS_COUNT \
       --arg Steps_Count $TOTAL_STEPS \
       --arg Run_Started "${{env.WORKFLOW_START_TIME}}" \
@@ -167,7 +168,7 @@ runs:
       --arg Total_Duration $TOTAL_RUN_TIME \
       --arg Jobs_Duration $ACTUAL_RUNTIME \
       --arg Workflow_Status "${{env.WORKFLOW_STATUS}}" \
-      '[{"eventType": $eventType,"Repository_Name": $Repository_Name,"Repo_ID": $Repo_ID,"Branch": $Branch,"Workflow_Name": $Workflow_Name,"Workflow_ID": $Workflow_ID,"Run_Id": $Run_Id,"Run_Number": ($Run_Number | tonumber),"Jobs_Count": ($Jobs_Count | tonumber),"Steps_Count": ($Steps_Count | tonumber),"Run_Started": $Run_Started,"Run_Ended": $Run_Ended,"Total_Duration": ($Total_Duration | tonumber),"Jobs_Duration":($Jobs_Duration | tonumber),"Workflow_Status":$Workflow_Status}]' > /root/GitMetrics/git_insights.json
+      '[{"eventType": $eventType,"Repository_Name": $Repository_Name,"Repo_ID": $Repo_ID,"Branch": $Branch,"Workflow_Name": $Workflow_Name,"Workflow_ID": $Workflow_ID,"Run_Id": $Run_Id,"Run_Number": ($Run_Number | tonumber),"Actor": $Workflow_Actor,"Jobs_Count": ($Jobs_Count | tonumber),"Steps_Count": ($Steps_Count | tonumber),"Run_Started": $Run_Started,"Run_Ended": $Run_Ended,"Total_Duration": ($Total_Duration | tonumber),"Jobs_Duration":($Jobs_Duration | tonumber),"Workflow_Status":$Workflow_Status}]' > /root/GitMetrics/git_insights.json
       cat /root/GitMetrics/git_insights.json
       gzip -c /root/GitMetrics/git_insights.json | curl -X POST -H "Content-Type: application/json" -H "Api-Key: ${{inputs.newRelic_key}}" -H "Content-Encoding: gzip" https://insights-collector.newrelic.com/v1/accounts/${{inputs.newRelic_accountId}}/events --data-binary @-
     shell: bash
