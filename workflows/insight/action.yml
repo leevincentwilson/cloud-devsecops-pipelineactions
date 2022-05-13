@@ -82,9 +82,9 @@ runs:
        echo "Curl status: " $CURL_STATUS
          if [[ $CURL_STATUS == *"\"success\":true"* ]];
          then
-           echo "Metrics Succesfully sent to NewRelic"
+           echo "-e "\e[1;32mMetrics Succesfully sent to NewRelic"
          else
-           echo "Error in sending metrics to New Relic. Please check the API Key and account ID"
+           echo "-e "\e[1;31mError in sending metrics to New Relic. Please check the API Key and account ID"
            exit -1
          fi
        echo "========================================================================"
