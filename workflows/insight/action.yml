@@ -51,11 +51,11 @@ runs:
       echo "========================================================================"
       for ((n=0;n<$num;n++));
       do
-       echo "Job ID: " $(jq -r '.jobs['$n'].id' jobs_details.json)
-       echo "Job Name: " $(jq -r '.jobs['$n'].name' jobs_details.json)
-       echo "Job Status : " $(jq -r '.jobs['$n'].conclusion' jobs_details.json)
-       echo "Started at: " $(jq -r '.jobs['$n'].started_at' jobs_details.json)
-       echo "Ended at :" $(jq -r '.jobs['$n'].completed_at' jobs_details.json)
+       #echo "Job ID: " $(jq -r '.jobs['$n'].id' jobs_details.json)
+       #echo "Job Name: " $(jq -r '.jobs['$n'].name' jobs_details.json)
+       #echo "Job Status : " $(jq -r '.jobs['$n'].conclusion' jobs_details.json)
+       #echo "Started at: " $(jq -r '.jobs['$n'].started_at' jobs_details.json)
+       #echo "Ended at :" $(jq -r '.jobs['$n'].completed_at' jobs_details.json)
        START_TIME=$(date -d "$(jq -r '.jobs['$n'].started_at' jobs_details.json)" +%s)
        END_TIME=$(date -d "$(jq -r '.jobs['$n'].completed_at' jobs_details.json)" +%s)
        ELAPSE=$(( $END_TIME - $START_TIME ))
@@ -78,6 +78,7 @@ runs:
        CURL_STATUS=$(gzip -c /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"/git_jobs_insights.json | curl -sS -X POST -H "Content-Type: application/json" -H "Api-Key: ${{inputs.newRelic_key}}" -H "Content-Encoding: gzip" https://insights-collector.newrelic.com/v1/accounts/${{inputs.newRelic_accountId}}/events --data-binary @-)
        
        # Checking the status of New relic Metrics ingestion
+       echo "========================================================================"
        echo "Curl status: " $CURL_STATUS
          if [[ $CURL_STATUS == *"\"success\":true"* ]];
          then
@@ -86,23 +87,24 @@ runs:
            echo "Error in sending metrics to New Relic. Please check the API Key and account ID"
            exit -1
          fi
-       echo "Job Runtime: " $ELAPSE "s"
-       ACTUAL_RUNTIME=$ACTUAL_RUNTIME+$ELAPSE
-       echo "$(($ELAPSE/60))m $(($ELAPSE%60))s"
-       steps_count=$(jq -r '.jobs['$n'].steps|length' jobs_details.json)
-       echo "Number of Steps: "$steps_count
-       TOTAL_STEPS=$TOTAL_STEPS+$steps_count
-       echo "__Details on each Steps__"
-       for ((i=0;i<$steps_count;i++))
-       do
-         echo "     Step Name: " $(jq -r '.jobs['$n'].steps['$i'].name' jobs_details.json)
-         echo "     Status: " $(jq -r '.jobs['$n'].steps['$i'].conclusion' jobs_details.json)
-         echo "     Start time: " $(jq -r '.jobs['$n'].steps['$i'].started_at' jobs_details.json)
-         echo "     End time: " $(jq -r '.jobs['$n'].steps['$i'].completed_at' jobs_details.json)
-         echo "."
-       done  
        echo "========================================================================"
-      done
+       #echo "Job Runtime: " $ELAPSE "s"
+       ACTUAL_RUNTIME=$ACTUAL_RUNTIME+$ELAPSE
+       #echo "$(($ELAPSE/60))m $(($ELAPSE%60))s"
+       steps_count=$(jq -r '.jobs['$n'].steps|length' jobs_details.json)
+       #echo "Number of Steps: "$steps_count
+       TOTAL_STEPS=$TOTAL_STEPS+$steps_count
+       #echo "__Details on each Steps__"
+       #for ((i=0;i<$steps_count;i++))
+       #do
+         #echo "     Step Name: " $(jq -r '.jobs['$n'].steps['$i'].name' jobs_details.json)
+         #echo "     Status: " $(jq -r '.jobs['$n'].steps['$i'].conclusion' jobs_details.json)
+         #echo "     Start time: " $(jq -r '.jobs['$n'].steps['$i'].started_at' jobs_details.json)
+         #echo "     End time: " $(jq -r '.jobs['$n'].steps['$i'].completed_at' jobs_details.json)
+         #echo "."
+       #done  
+       #echo "========================================================================"
+      #done
       echo "ACTUAL_RUNTIME="$ACTUAL_RUNTIME >> $GITHUB_ENV
       echo "TOTAL_STEPS="$TOTAL_STEPS >> $GITHUB_ENV
     shell: bash
@@ -128,18 +130,18 @@ runs:
       cd /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"
       if [ -e runtime_details.csv ]
       then
-        echo "File exists"
-        echo ""
+        #echo "File exists"
+        #echo ""
         cat runtime_details.csv
         echo "${{env.REPOSITORY_NAME}},${{env.REPOSITORY_ID}},${{env.BRANCH_NAME}},${{ env.WORKFLOW_NAME }},${{ env.WORKFLOW_ID }},${{ env.WORKFLOW_RUN_ID }},${{env.WORKFLOW_RUN_NUMBER}},$WORKFLOW_JOBS_COUNT,$TOTAL_STEPS,${{ env.WORKFLOW_START_TIME}},${{ env.WORKFLOW_END_TIME}},$TOTAL_RUN_TIME,$ACTUAL_RUNTIME,${{env.WORKFLOW_STATUS}}">> runtime_details.csv
       else
-        echo "File does not exist"
-        echo ""
+        #echo "File does not exist"
+        #echo ""
         echo "Repository_Name,Repo_ID,Branch,Workflow_Name,Workflow_ID,Run_Id,Run_Number,Jobs_Count,Steps_Count,Run_Started,Run_Ended,Total_Duration,Jobs_Duration,status" >> runtime_details.csv
         echo "${{env.REPOSITORY_NAME}},${{env.REPOSITORY_ID}},${{env.BRANCH_NAME}},${{ env.WORKFLOW_NAME }},${{ env.WORKFLOW_ID }},${{ env.WORKFLOW_RUN_ID }},${{env.WORKFLOW_RUN_NUMBER}},$WORKFLOW_JOBS_COUNT,$TOTAL_STEPS,${{ env.WORKFLOW_START_TIME}},${{ env.WORKFLOW_END_TIME}},$TOTAL_RUN_TIME,$ACTUAL_RUNTIME,${{env.WORKFLOW_STATUS}}">> runtime_details.csv
       fi  
       echo "===================================Updated file is==================================="
-      cat runtime_details.csv
+      #cat runtime_details.csv
       echo "TOTAL_RUN_TIME="$TOTAL_RUN_TIME >> $GITHUB_ENV
     shell: bash
     
