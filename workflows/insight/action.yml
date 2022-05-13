@@ -51,11 +51,11 @@ runs:
       echo "========================================================================"
       for ((n=0;n<$num;n++));
       do
-       #echo "Job ID: " $(jq -r '.jobs['$n'].id' jobs_details.json)
-       #echo "Job Name: " $(jq -r '.jobs['$n'].name' jobs_details.json)
-       #echo "Job Status : " $(jq -r '.jobs['$n'].conclusion' jobs_details.json)
-       #echo "Started at: " $(jq -r '.jobs['$n'].started_at' jobs_details.json)
-       #echo "Ended at :" $(jq -r '.jobs['$n'].completed_at' jobs_details.json)
+       echo "Job ID: " $(jq -r '.jobs['$n'].id' jobs_details.json)
+       echo "Job Name: " $(jq -r '.jobs['$n'].name' jobs_details.json)
+       echo "Job Status : " $(jq -r '.jobs['$n'].conclusion' jobs_details.json)
+       echo "Started at: " $(jq -r '.jobs['$n'].started_at' jobs_details.json)
+       echo "Ended at :" $(jq -r '.jobs['$n'].completed_at' jobs_details.json)
        START_TIME=$(date -d "$(jq -r '.jobs['$n'].started_at' jobs_details.json)" +%s)
        END_TIME=$(date -d "$(jq -r '.jobs['$n'].completed_at' jobs_details.json)" +%s)
        ELAPSE=$(( $END_TIME - $START_TIME ))
@@ -88,23 +88,23 @@ runs:
            exit -1
          fi
        echo "========================================================================"
-       #echo "Job Runtime: " $ELAPSE "s"
+       echo "Job Runtime: " $ELAPSE "s"
        ACTUAL_RUNTIME=$ACTUAL_RUNTIME+$ELAPSE
-       #echo "$(($ELAPSE/60))m $(($ELAPSE%60))s"
+       echo "$(($ELAPSE/60))m $(($ELAPSE%60))s"
        steps_count=$(jq -r '.jobs['$n'].steps|length' jobs_details.json)
-       #echo "Number of Steps: "$steps_count
+       echo "Number of Steps: "$steps_count
        TOTAL_STEPS=$TOTAL_STEPS+$steps_count
-       #echo "__Details on each Steps__"
-       #for ((i=0;i<$steps_count;i++))
-       #do
-         #echo "     Step Name: " $(jq -r '.jobs['$n'].steps['$i'].name' jobs_details.json)
-         #echo "     Status: " $(jq -r '.jobs['$n'].steps['$i'].conclusion' jobs_details.json)
-         #echo "     Start time: " $(jq -r '.jobs['$n'].steps['$i'].started_at' jobs_details.json)
-         #echo "     End time: " $(jq -r '.jobs['$n'].steps['$i'].completed_at' jobs_details.json)
-         #echo "."
-       #done  
-       #echo "========================================================================"
-      #done
+       echo "__Details on each Steps__"
+       for ((i=0;i<$steps_count;i++))
+       do
+         echo "     Step Name: " $(jq -r '.jobs['$n'].steps['$i'].name' jobs_details.json)
+         echo "     Status: " $(jq -r '.jobs['$n'].steps['$i'].conclusion' jobs_details.json)
+         echo "     Start time: " $(jq -r '.jobs['$n'].steps['$i'].started_at' jobs_details.json)
+         echo "     End time: " $(jq -r '.jobs['$n'].steps['$i'].completed_at' jobs_details.json)
+         echo "."
+       done  
+       echo "========================================================================"
+      done
       echo "ACTUAL_RUNTIME="$ACTUAL_RUNTIME >> $GITHUB_ENV
       echo "TOTAL_STEPS="$TOTAL_STEPS >> $GITHUB_ENV
     shell: bash
