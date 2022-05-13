@@ -75,7 +75,7 @@ runs:
        --arg Job_Status $(jq -r '.jobs['$n'].conclusion' jobs_details.json) \
        '[{"eventType": $eventType,"Repository_Name": $Repository_Name,"Repo_ID": $Repo_ID,"Workflow_ID": $Workflow_ID,"Run_Id": $Run_Id,"Run_Number": $Run_Number,"Job_Id": $Job_Id,"Job_Name": $Job_Name,"Job_Duration": ($Job_Duration | tonumber),"Job_Status":$Job_Status}]' > /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"/git_jobs_insights.json
        #cat /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"/git_jobs_insights.json
-       CURL_STATUS=$(gzip -c /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"/git_jobs_insights.json | curl -X POST -H "Content-Type: application/json" -H "Api-Key: ${{inputs.newRelic_key}}" -H "Content-Encoding: gzip" https://insights-collector.newrelic.com/v1/accounts/${{inputs.newRelic_accountId}}/events --data-binary @-)
+       CURL_STATUS=$(gzip -c /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"/git_jobs_insights.json | curl -sS -X POST -H "Content-Type: application/json" -H "Api-Key: ${{inputs.newRelic_key}}" -H "Content-Encoding: gzip" https://insights-collector.newrelic.com/v1/accounts/${{inputs.newRelic_accountId}}/events --data-binary @-)
        
        # Checking the status of New relic Metrics ingestion
        echo "Curl status: " $CURL_STATUS
@@ -123,28 +123,27 @@ runs:
       COMMIT_BY: ${{github.event.sender.login}}
     run: |
       TOTAL_RUN_TIME=$(($(date -d "${{env.WORKFLOW_END_TIME}}" +%s)-$(date -d "${{env.WORKFLOW_START_TIME}}" +%s)))
-      cd /
-      mkdir -p /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"
-      cd /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"
-      if [ -e runtime_details.csv ]
-      then
-        echo "File exists"
-        echo ""
+      #cd /
+      #mkdir -p /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"
+      #cd /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"
+      #if [ -e runtime_details.csv ]
+      #then
+        #echo "File exists"
+        #echo ""
         #cat runtime_details.csv
-        echo "${{env.REPOSITORY_NAME}},${{env.REPOSITORY_ID}},${{env.BRANCH_NAME}},${{ env.WORKFLOW_NAME }},${{ env.WORKFLOW_ID }},${{ env.WORKFLOW_RUN_ID }},${{env.WORKFLOW_RUN_NUMBER}},$WORKFLOW_JOBS_COUNT,$TOTAL_STEPS,${{ env.WORKFLOW_START_TIME}},${{ env.WORKFLOW_END_TIME}},$TOTAL_RUN_TIME,$ACTUAL_RUNTIME,${{env.WORKFLOW_STATUS}}">> runtime_details.csv
-      else
-        echo "File does not exist"
-        echo ""
-        echo "Repository_Name,Repo_ID,Branch,Workflow_Name,Workflow_ID,Run_Id,Run_Number,Jobs_Count,Steps_Count,Run_Started,Run_Ended,Total_Duration,Jobs_Duration,status" >> runtime_details.csv
-        echo "${{env.REPOSITORY_NAME}},${{env.REPOSITORY_ID}},${{env.BRANCH_NAME}},${{ env.WORKFLOW_NAME }},${{ env.WORKFLOW_ID }},${{ env.WORKFLOW_RUN_ID }},${{env.WORKFLOW_RUN_NUMBER}},$WORKFLOW_JOBS_COUNT,$TOTAL_STEPS,${{ env.WORKFLOW_START_TIME}},${{ env.WORKFLOW_END_TIME}},$TOTAL_RUN_TIME,$ACTUAL_RUNTIME,${{env.WORKFLOW_STATUS}}">> runtime_details.csv
-      fi  
-      echo "===================================Updated file is==================================="
+        #echo "${{env.REPOSITORY_NAME}},${{env.REPOSITORY_ID}},${{env.BRANCH_NAME}},${{ env.WORKFLOW_NAME }},${{ env.WORKFLOW_ID }},${{ env.WORKFLOW_RUN_ID }},${{env.WORKFLOW_RUN_NUMBER}},$WORKFLOW_JOBS_COUNT,$TOTAL_STEPS,${{ env.WORKFLOW_START_TIME}},${{ env.WORKFLOW_END_TIME}},$TOTAL_RUN_TIME,$ACTUAL_RUNTIME,${{env.WORKFLOW_STATUS}}">> runtime_details.csv
+     # else
+        #echo "File does not exist"
+        #echo ""
+        #echo "Repository_Name,Repo_ID,Branch,Workflow_Name,Workflow_ID,Run_Id,Run_Number,Jobs_Count,Steps_Count,Run_Started,Run_Ended,Total_Duration,Jobs_Duration,status" >> runtime_details.csv
+        #echo "${{env.REPOSITORY_NAME}},${{env.REPOSITORY_ID}},${{env.BRANCH_NAME}},${{ env.WORKFLOW_NAME }},${{ env.WORKFLOW_ID }},${{ env.WORKFLOW_RUN_ID }},${{env.WORKFLOW_RUN_NUMBER}},$WORKFLOW_JOBS_COUNT,$TOTAL_STEPS,${{ env.WORKFLOW_START_TIME}},${{ env.WORKFLOW_END_TIME}},$TOTAL_RUN_TIME,$ACTUAL_RUNTIME,${{env.WORKFLOW_STATUS}}">> runtime_details.csv
+      #fi  
+      #echo "===================================Updated file is==================================="
       #cat runtime_details.csv
       echo "TOTAL_RUN_TIME="$TOTAL_RUN_TIME >> $GITHUB_ENV
-      ls
     shell: bash
     
-  #sending ddata to New relic. 
+  #sending data to New relic. 
   - name: Send_data_to_newRelic
     env:
       REPOSITORY_NAME : ${{github.event.repository.name}}
@@ -179,5 +178,5 @@ runs:
       --arg Workflow_Status "${{env.WORKFLOW_STATUS}}" \
       '[{"eventType": $eventType,"Repository_Name": $Repository_Name,"Repo_ID": $Repo_ID,"Branch": $Branch,"Workflow_Name": $Workflow_Name,"Workflow_ID": $Workflow_ID,"Run_Id": $Run_Id,"Run_Number": ($Run_Number | tonumber),"Actor": $Workflow_Actor,"Jobs_Count": ($Jobs_Count | tonumber),"Steps_Count": ($Steps_Count | tonumber),"Run_Started": $Run_Started,"Run_Ended": $Run_Ended,"Total_Duration": ($Total_Duration | tonumber),"Jobs_Duration":($Jobs_Duration | tonumber),"Workflow_Status":$Workflow_Status}]' > /home/runner/work/GitMetrics/git_insights.json
       cat /home/runner/work/GitMetrics/git_insights.json
-      gzip -c /home/runner/work/GitMetrics/git_insights.json | curl -X POST -H "Content-Type: application/json" -H "Api-Key: ${{inputs.newRelic_key}}" -H "Content-Encoding: gzip" https://insights-collector.newrelic.com/v1/accounts/${{inputs.newRelic_accountId}}/events --data-binary @-
+      gzip -c /home/runner/work/GitMetrics/git_insights.json | curl -sS -X POST -H "Content-Type: application/json" -H "Api-Key: ${{inputs.newRelic_key}}" -H "Content-Encoding: gzip" https://insights-collector.newrelic.com/v1/accounts/${{inputs.newRelic_accountId}}/events --data-binary @-
     shell: bash
