@@ -44,18 +44,18 @@ runs:
 
       num=$(jq -r '.total_count' jobs_details.json)
       echo "====================================Details on the Jobs & Steps===================================="
-      echo "Total Number of Jobs :"$num
+      #echo "Total Number of Jobs :"$num
       echo "WORKFLOW_JOBS_COUNT="$num >> $GITHUB_ENV
       declare -i ACTUAL_RUNTIME=0
       declare -i TOTAL_STEPS=0
       echo "========================================================================"
       for ((n=0;n<$num;n++));
       do
-       echo "Job ID: " $(jq -r '.jobs['$n'].id' jobs_details.json)
-       echo "Job Name: " $(jq -r '.jobs['$n'].name' jobs_details.json)
-       echo "Job Status : " $(jq -r '.jobs['$n'].conclusion' jobs_details.json)
-       echo "Started at: " $(jq -r '.jobs['$n'].started_at' jobs_details.json)
-       echo "Ended at :" $(jq -r '.jobs['$n'].completed_at' jobs_details.json)
+       #echo "Job ID: " $(jq -r '.jobs['$n'].id' jobs_details.json)
+       #echo "Job Name: " $(jq -r '.jobs['$n'].name' jobs_details.json)
+       #echo "Job Status : " $(jq -r '.jobs['$n'].conclusion' jobs_details.json)
+       #echo "Started at: " $(jq -r '.jobs['$n'].started_at' jobs_details.json)
+       #echo "Ended at :" $(jq -r '.jobs['$n'].completed_at' jobs_details.json)
        START_TIME=$(date -d "$(jq -r '.jobs['$n'].started_at' jobs_details.json)" +%s)
        END_TIME=$(date -d "$(jq -r '.jobs['$n'].completed_at' jobs_details.json)" +%s)
        ELAPSE=$(( $END_TIME - $START_TIME ))
@@ -79,7 +79,7 @@ runs:
        
        # Checking the status of New relic Metrics ingestion
        echo "========================================================================"
-       echo "Curl status: " $CURL_STATUS
+       echo "Metrics Injestion Status: " $CURL_STATUS
          if [[ $CURL_STATUS == *"\"success\":true"* ]];
          then
            echo -e "\e[1;32mMetrics Succesfully sent to NewRelic"
