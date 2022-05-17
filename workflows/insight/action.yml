@@ -43,19 +43,19 @@ runs:
       curl -s -H "Authorization: token ${{github.token}}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{github.event.repository.owner.login}}/${{github.event.repository.name}}/actions/runs/${{github.event.workflow_run.id}}/jobs -o jobs_details.json
 
       num=$(jq -r '.total_count' jobs_details.json)
-      #echo "====================================Details on the Jobs & Steps===================================="
-      #echo "Total Number of Jobs :"$num
+      echo "====================================Details on the Jobs & Steps===================================="
+      echo "Total Number of Jobs :"$num
       echo "WORKFLOW_JOBS_COUNT="$num >> $GITHUB_ENV
       declare -i ACTUAL_RUNTIME=0
       declare -i TOTAL_STEPS=0
-      #echo "========================================================================"
+      echo "========================================================================"
       for ((n=0;n<$num;n++));
       do
-       #echo "Job ID: " $(jq -r '.jobs['$n'].id' jobs_details.json)
-       #echo "Job Name: " $(jq -r '.jobs['$n'].name' jobs_details.json)
-       #echo "Job Status : " $(jq -r '.jobs['$n'].conclusion' jobs_details.json)
-       #echo "Started at: " $(jq -r '.jobs['$n'].started_at' jobs_details.json)
-       #echo "Ended at :" $(jq -r '.jobs['$n'].completed_at' jobs_details.json)
+       echo "Job ID: " $(jq -r '.jobs['$n'].id' jobs_details.json)
+       echo "Job Name: " $(jq -r '.jobs['$n'].name' jobs_details.json)
+       echo "Job Status : " $(jq -r '.jobs['$n'].conclusion' jobs_details.json)
+       echo "Started at: " $(jq -r '.jobs['$n'].started_at' jobs_details.json)
+       echo "Ended at :" $(jq -r '.jobs['$n'].completed_at' jobs_details.json)
        START_TIME=$(date -d "$(jq -r '.jobs['$n'].started_at' jobs_details.json)" +%s)
        END_TIME=$(date -d "$(jq -r '.jobs['$n'].completed_at' jobs_details.json)" +%s)
        ELAPSE=$(( $END_TIME - $START_TIME ))
@@ -183,5 +183,17 @@ runs:
       --arg Workflow_Status "${{env.WORKFLOW_STATUS}}" \
       '[{"eventType": $eventType,"Repository_Name": $Repository_Name,"Repo_ID": $Repo_ID,"Branch": $Branch,"Workflow_Name": $Workflow_Name,"Workflow_ID": $Workflow_ID,"Run_Id": $Run_Id,"Run_Number": ($Run_Number | tonumber),"Actor": $Workflow_Actor,"Jobs_Count": ($Jobs_Count | tonumber),"Steps_Count": ($Steps_Count | tonumber),"Run_Started": $Run_Started,"Run_Ended": $Run_Ended,"Total_Duration": ($Total_Duration | tonumber),"Jobs_Duration":($Jobs_Duration | tonumber),"Workflow_Status":$Workflow_Status}]' > /home/runner/work/GitMetrics/git_insights.json
       cat /home/runner/work/GitMetrics/git_insights.json
-      gzip -c /home/runner/work/GitMetrics/git_insights.json | curl -sS -X POST -H "Content-Type: application/json" -H "Api-Key: ${{inputs.newRelic_key}}" -H "Content-Encoding: gzip" https://insights-collector.newrelic.com/v1/accounts/${{inputs.newRelic_accountId}}/events --data-binary @-
+      CURL_STATUS=$(gzip -c /home/runner/work/GitMetrics/git_insights.json | curl -sS -X POST -H "Content-Type: application/json" -H "Api-Key: ${{inputs.newRelic_key}}" -H "Content-Encoding: gzip" https://insights-collector.newrelic.com/v1/accounts/${{inputs.newRelic_accountId}}/events --data-binary @-)
+      
+      # Checking the status of New relic Metrics ingestion
+       echo "========================================================================"
+       echo "Metrics Ingestion Status of the Pipeline: " $CURL_STATUS
+         if [[ $CURL_STATUS == *"\"success\":true"* ]];
+         then
+           echo -e "\e[1;32mMetrics Succesfully sent to NewRelic"
+         else
+           echo -e "\e[1;31mError in sending metrics to New Relic. Please check the API Key and account ID"
+           exit -1
+         fi
+       #echo "========================================================================"
     shell: bash
