@@ -78,7 +78,7 @@ runs:
        CURL_STATUS=$(gzip -c /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"/git_jobs_insights.json | curl -sS -X POST -H "Content-Type: application/json" -H "Api-Key: ${{inputs.newRelic_key}}" -H "Content-Encoding: gzip" https://insights-collector.newrelic.com/v1/accounts/${{inputs.newRelic_accountId}}/events --data-binary @-)
        
        # Checking the status of New relic Metrics ingestion
-       echo "========================================================================"
+       #echo "========================================================================"
        echo "Metrics Ingestion Status: " $CURL_STATUS
          if [[ $CURL_STATUS == *"\"success\":true"* ]];
          then
@@ -87,7 +87,7 @@ runs:
            echo -e "\e[1;31mError in sending metrics to New Relic. Please check the API Key and account ID"
            exit -1
          fi
-       #echo "========================================================================"
+       echo "========================================================================"
        #echo "Job Runtime: " $ELAPSE "s"
        ACTUAL_RUNTIME=$ACTUAL_RUNTIME+$ELAPSE
        #echo "$(($ELAPSE/60))m $(($ELAPSE%60))s"
