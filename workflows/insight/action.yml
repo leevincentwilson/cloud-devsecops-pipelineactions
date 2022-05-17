@@ -43,12 +43,12 @@ runs:
       curl -s -H "Authorization: token ${{github.token}}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{github.event.repository.owner.login}}/${{github.event.repository.name}}/actions/runs/${{github.event.workflow_run.id}}/jobs -o jobs_details.json
 
       num=$(jq -r '.total_count' jobs_details.json)
-      echo "====================================Details on the Jobs & Steps===================================="
+      #echo "====================================Details on the Jobs & Steps===================================="
       #echo "Total Number of Jobs :"$num
       echo "WORKFLOW_JOBS_COUNT="$num >> $GITHUB_ENV
       declare -i ACTUAL_RUNTIME=0
       declare -i TOTAL_STEPS=0
-      echo "========================================================================"
+      #echo "========================================================================"
       for ((n=0;n<$num;n++));
       do
        #echo "Job ID: " $(jq -r '.jobs['$n'].id' jobs_details.json)
@@ -79,7 +79,7 @@ runs:
        
        # Checking the status of New relic Metrics ingestion
        echo "========================================================================"
-       echo "Metrics Injestion Status: " $CURL_STATUS
+       echo "Metrics Ingestion Status: " $CURL_STATUS
          if [[ $CURL_STATUS == *"\"success\":true"* ]];
          then
            echo -e "\e[1;32mMetrics Succesfully sent to NewRelic"
@@ -87,23 +87,26 @@ runs:
            echo -e "\e[1;31mError in sending metrics to New Relic. Please check the API Key and account ID"
            exit -1
          fi
-       echo "========================================================================"
-       echo "Job Runtime: " $ELAPSE "s"
+       #echo "========================================================================"
+       #echo "Job Runtime: " $ELAPSE "s"
        ACTUAL_RUNTIME=$ACTUAL_RUNTIME+$ELAPSE
-       echo "$(($ELAPSE/60))m $(($ELAPSE%60))s"
+       #echo "$(($ELAPSE/60))m $(($ELAPSE%60))s"
        steps_count=$(jq -r '.jobs['$n'].steps|length' jobs_details.json)
-       echo "Number of Steps: "$steps_count
+       #echo "Number of Steps: "$steps_count
        TOTAL_STEPS=$TOTAL_STEPS+$steps_count
-       echo "__Details on each Steps__"
-       for ((i=0;i<$steps_count;i++))
-       do
-         echo "     Step Name: " $(jq -r '.jobs['$n'].steps['$i'].name' jobs_details.json)
-         echo "     Status: " $(jq -r '.jobs['$n'].steps['$i'].conclusion' jobs_details.json)
-         echo "     Start time: " $(jq -r '.jobs['$n'].steps['$i'].started_at' jobs_details.json)
-         echo "     End time: " $(jq -r '.jobs['$n'].steps['$i'].completed_at' jobs_details.json)
-         echo "."
-       done  
-       echo "========================================================================"
+       
+       #Parsing through each steps.
+       
+       #echo "__Details on each Steps__"
+       #for ((i=0;i<$steps_count;i++))
+       #do
+         #echo "     Step Name: " $(jq -r '.jobs['$n'].steps['$i'].name' jobs_details.json)
+         #echo "     Status: " $(jq -r '.jobs['$n'].steps['$i'].conclusion' jobs_details.json)
+         #echo "     Start time: " $(jq -r '.jobs['$n'].steps['$i'].started_at' jobs_details.json)
+         #echo "     End time: " $(jq -r '.jobs['$n'].steps['$i'].completed_at' jobs_details.json)
+         #echo "."
+       #done  
+       #echo "========================================================================"
       done
       echo "ACTUAL_RUNTIME="$ACTUAL_RUNTIME >> $GITHUB_ENV
       echo "TOTAL_STEPS="$TOTAL_STEPS >> $GITHUB_ENV
