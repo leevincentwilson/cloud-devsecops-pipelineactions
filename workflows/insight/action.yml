@@ -37,8 +37,8 @@ runs:
       WORKFLOW_STATUS: ${{github.event.workflow_run.conclusion}}
       COMMIT_BY: ${{github.event.sender.login}}
     run: |
-      mkdir -p /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"
-      cd /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"
+      mkdir -p $GITHUB_WORKSPACE/GitMetrics/"${{env.REPOSITORY_NAME}}"
+      cd $GITHUB_WORKSPACE/GitMetrics/"${{env.REPOSITORY_NAME}}"
 
       curl -s -H "Authorization: token ${{github.token}}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{github.event.repository.owner.login}}/${{github.event.repository.name}}/actions/runs/${{github.event.workflow_run.id}}/jobs -o jobs_details.json
 
@@ -73,9 +73,9 @@ runs:
        --arg Job_Name "$(jq -r '.jobs['$n'].name' jobs_details.json)" \
        --arg Job_Duration $ELAPSE \
        --arg Job_Status $(jq -r '.jobs['$n'].conclusion' jobs_details.json) \
-       '[{"eventType": $eventType,"Repository_Name": $Repository_Name,"Repo_ID": $Repo_ID,"Workflow_ID": $Workflow_ID,"Run_Id": $Run_Id,"Run_Number": $Run_Number,"Job_Id": $Job_Id,"Job_Name": $Job_Name,"Job_Duration": ($Job_Duration | tonumber),"Job_Status":$Job_Status}]' > /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"/git_jobs_insights.json
-       #cat /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"/git_jobs_insights.json
-       CURL_STATUS=$(gzip -c /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"/git_jobs_insights.json | curl -sS -X POST -H "Content-Type: application/json" -H "Api-Key: ${{inputs.newRelic_key}}" -H "Content-Encoding: gzip" https://insights-collector.newrelic.com/v1/accounts/${{inputs.newRelic_accountId}}/events --data-binary @-)
+       '[{"eventType": $eventType,"Repository_Name": $Repository_Name,"Repo_ID": $Repo_ID,"Workflow_ID": $Workflow_ID,"Run_Id": $Run_Id,"Run_Number": $Run_Number,"Job_Id": $Job_Id,"Job_Name": $Job_Name,"Job_Duration": ($Job_Duration | tonumber),"Job_Status":$Job_Status}]' > $GITHUB_WORKSPACE/GitMetrics/"${{env.REPOSITORY_NAME}}"/git_jobs_insights.json
+       #cat $GITHUB_WORKSPACE/GitMetrics/"${{env.REPOSITORY_NAME}}"/git_jobs_insights.json
+       CURL_STATUS=$(gzip -c $GITHUB_WORKSPACE/GitMetrics/"${{env.REPOSITORY_NAME}}"/git_jobs_insights.json | curl -sS -X POST -H "Content-Type: application/json" -H "Api-Key: ${{inputs.newRelic_key}}" -H "Content-Encoding: gzip" https://insights-collector.newrelic.com/v1/accounts/${{inputs.newRelic_accountId}}/events --data-binary @-)
        
        # Checking the status of New relic Metrics ingestion
        #echo "========================================================================"
@@ -129,8 +129,8 @@ runs:
     run: |
       TOTAL_RUN_TIME=$(($(date -d "${{env.WORKFLOW_END_TIME}}" +%s)-$(date -d "${{env.WORKFLOW_START_TIME}}" +%s)))
       cd /
-      mkdir -p /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"
-      cd /home/runner/work/GitMetrics/"${{env.REPOSITORY_NAME}}"
+      mkdir -p $GITHUB_WORKSPACE/GitMetrics/"${{env.REPOSITORY_NAME}}"
+      cd $GITHUB_WORKSPACE/GitMetrics/"${{env.REPOSITORY_NAME}}"
       if [ -e runtime_details.csv ]
       then
         #echo "File exists"
@@ -181,9 +181,9 @@ runs:
       --arg Total_Duration $TOTAL_RUN_TIME \
       --arg Jobs_Duration $ACTUAL_RUNTIME \
       --arg Workflow_Status "${{env.WORKFLOW_STATUS}}" \
-      '[{"eventType": $eventType,"Repository_Name": $Repository_Name,"Repo_ID": $Repo_ID,"Branch": $Branch,"Workflow_Name": $Workflow_Name,"Workflow_ID": $Workflow_ID,"Run_Id": $Run_Id,"Run_Number": ($Run_Number | tonumber),"Actor": $Workflow_Actor,"Jobs_Count": ($Jobs_Count | tonumber),"Steps_Count": ($Steps_Count | tonumber),"Run_Started": $Run_Started,"Run_Ended": $Run_Ended,"Total_Duration": ($Total_Duration | tonumber),"Jobs_Duration":($Jobs_Duration | tonumber),"Workflow_Status":$Workflow_Status}]' > /home/runner/work/GitMetrics/git_insights.json
-      cat /home/runner/work/GitMetrics/git_insights.json
-      CURL_STATUS=$(gzip -c /home/runner/work/GitMetrics/git_insights.json | curl -sS -X POST -H "Content-Type: application/json" -H "Api-Key: ${{inputs.newRelic_key}}" -H "Content-Encoding: gzip" https://insights-collector.newrelic.com/v1/accounts/${{inputs.newRelic_accountId}}/events --data-binary @-)
+      '[{"eventType": $eventType,"Repository_Name": $Repository_Name,"Repo_ID": $Repo_ID,"Branch": $Branch,"Workflow_Name": $Workflow_Name,"Workflow_ID": $Workflow_ID,"Run_Id": $Run_Id,"Run_Number": ($Run_Number | tonumber),"Actor": $Workflow_Actor,"Jobs_Count": ($Jobs_Count | tonumber),"Steps_Count": ($Steps_Count | tonumber),"Run_Started": $Run_Started,"Run_Ended": $Run_Ended,"Total_Duration": ($Total_Duration | tonumber),"Jobs_Duration":($Jobs_Duration | tonumber),"Workflow_Status":$Workflow_Status}]' > $GITHUB_WORKSPACE/GitMetrics/git_insights.json
+      cat $GITHUB_WORKSPACE/GitMetrics/git_insights.json
+      CURL_STATUS=$(gzip -c $GITHUB_WORKSPACE/GitMetrics/git_insights.json | curl -sS -X POST -H "Content-Type: application/json" -H "Api-Key: ${{inputs.newRelic_key}}" -H "Content-Encoding: gzip" https://insights-collector.newrelic.com/v1/accounts/${{inputs.newRelic_accountId}}/events --data-binary @-)
       
       # Checking the status of New relic Metrics ingestion
        echo "========================================================================"
