@@ -53,9 +53,8 @@ runs:
         images: ${{inputs.image_name}}:${{inputs.image_tag}}
 
 
-    - name: 'Deploy to Azure Webapp using Service Principal'
+    - name: 'Deploy to Azure Webapp using Service Principal - by login to Azure'
       if:  ${{ !inputs.azure_profile && !inputs.source_path }} 
-    - name: "Login via Azure CLI"
       uses: azure/login@v1
       with:
         creds: '{"clientId": "${{ inputs.azure_client_id }}", "clientSecret": "${{ inputs.azure_client_secret }}", "subscriptionId": "${{ inputs.subscription }}", "tenantId": "${{ inputs.azure_tenant_id }}"}'
