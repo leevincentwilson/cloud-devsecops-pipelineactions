@@ -36,7 +36,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: 'Deploy to Azure WebApp using Profile and SOURCE'
+    - name: 'Deploy to Azure WebApp using Profile and Source'
       if: ${{ inputs.azure_profile && inputs.source_path }}
       uses: azure/webapps-deploy@v2
       with: 
@@ -44,7 +44,7 @@ runs:
         publish-profile: ${{ inputs.azure_profile }}
         package: ${{inputs.source_path}}
         
-    - name: 'Deploy to Azure WebApp using Profile and CONTAINER IMAGE '
+    - name: 'Deploy to Azure WebApp using Profile and Container'
       if: ${{ inputs.azure_profile && (inputs.image_name && inputs.image_tag) }}
       uses: azure/webapps-deploy@v2
       with: 
@@ -53,16 +53,16 @@ runs:
         images: ${{inputs.image_name}}:${{inputs.image_tag}}
 
 
-    # - name: 'Deploy to Azure Webapp using Service Principal - by login to Azure'
-    #   if:  ${{ !inputs.azure_profile && !inputs.source_path }} 
-    #   uses: azure/login@v1
-    #   with:
-    #     creds: '{"clientId": "${{ inputs.azure_client_id }}", "clientSecret": "${{ inputs.azure_client_secret }}", "subscriptionId": "${{ inputs.subscription }}", "tenantId": "${{ inputs.azure_tenant_id }}"}'
-    # - uses: azure/webapps-deploy@v2
-    #   if:  ${{ !inputs.azure_profile && !inputs.source_path }} 
-    #   with:
-    #     app-name: ${{inputs.webapp_name}}
-    #     images: ${{inputs.image_name}}:${{inputs.image_tag}}
+    - name: 'Deploy to Azure Webapp using Service Principal - by login to Azure'
+      if:  ${{ inputs.azure_profile == '' && !nputs.source_path == ''}} 
+      uses: azure/login@v1
+      with:
+        creds: '{"clientId": "${{ inputs.azure_client_id }}", "clientSecret": "${{ inputs.azure_client_secret }}", "subscriptionId": "${{ inputs.subscription }}", "tenantId": "${{ inputs.azure_tenant_id }}"}'
+    - uses: azure/webapps-deploy@v2
+      if:  ${{ inputs.azure_profile == '' && !nputs.source_path == ''}} 
+      with:
+        app-name: ${{inputs.webapp_name}}
+        images: ${{inputs.image_name}}:${{inputs.image_tag}}
 
 
 
