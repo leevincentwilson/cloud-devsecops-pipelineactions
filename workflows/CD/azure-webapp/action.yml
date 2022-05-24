@@ -8,8 +8,10 @@ inputs:
     default: dev    
   application_release_name:
     required: false
+  release_version:
+    required: false  
   webapp_name:
-    required: true
+    required: false
   resource_group:
     required: false
   source_path:
@@ -26,6 +28,10 @@ inputs:
     required: false
   azure_client_secret: 
     required: false
+  azure_tenant_id:
+    required: false
+  subscription:
+    required: false    
   
 runs:
   using: "composite"

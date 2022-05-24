@@ -57,6 +57,10 @@ inputs:
     required: false
   azure_client_secret: 
     required: false
+  azure_tenant_id:
+    required: false
+  subscription:
+    required: false
 
 runs:
   using: "composite"
@@ -103,6 +107,8 @@ runs:
         azure_sp: ${{inputs.azure_sp}}
         azure_client_id: ${{inputs.azure_client_id}}
         azure_client_secret: ${{inputs.azure_client_secret}}
+        azure_tenant_id: ${{inputs.azure_tenant_id}}
+        subscription: ${{inputs.subscription}}
         
   
 #     - name: Check out repository code
