@@ -12,7 +12,7 @@ inputs:
   kube_config:
     required: false
   is_helm_deployment:
-    required: true
+    required: false
   helm_chart_path:
     required: false
   helm_values_file:
@@ -38,6 +38,24 @@ inputs:
   deployment_script_path:
     required: false
   deployment_script_name:
+    required: false
+    
+    
+  is_azure_webapp_deployment:
+    required: false
+  webapp_name:
+    required: true
+  resource_group:
+    required: false
+  source_path:
+    required: false
+  azure_profile:
+    required: false
+  azure_sp: 
+    required: false
+  azure_client_id: 
+    required: false
+  azure_client_secret: 
     required: false
 
 runs:
@@ -69,6 +87,22 @@ runs:
         deployment_script_path: ${{inputs.deployment_script_path}}
         deployment_script_name: ${{inputs.deployment_script_name}}
         
+    - name: ========== AZURE WEB APP Deployment ==========
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD/helm@latest
+      if: ${{ inputs.is_azure_webapp_deployment == 'true'}}
+      with:
+        environment: ${{inputs.environment}}
+        application_release_name: ${{inputs.application_release_name}}
+        release_version: ${{inputs.release_version}}
+        source_path: ${{inputs.source_path}}
+        image_name: ${{inputs.image_name}}
+        image_tag: ${{inputs.image_tag}}
+        webapp_name: ${{inputs.webapp_name}}
+        resource_group: ${{inputs.resource_group}}
+        azure_profile: ${{inputs.azure_profile}}
+        azure_sp: ${{inputs.azure_sp}}
+        azure_client_id: ${{inputs.azure_client_id}}
+        azure_client_secret: ${{inputs.azure_client_secret}}
         
   
 #     - name: Check out repository code
