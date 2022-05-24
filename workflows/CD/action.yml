@@ -88,7 +88,7 @@ runs:
         deployment_script_name: ${{inputs.deployment_script_name}}
         
     - name: ========== AZURE WEB APP Deployment ==========
-      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD/helm@latest
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD/azure-webapp@latest
       if: ${{ inputs.is_azure_webapp_deployment == 'true'}}
       with:
         environment: ${{inputs.environment}}
