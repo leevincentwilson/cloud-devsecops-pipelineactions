@@ -44,7 +44,7 @@ runs:
       with: 
         app-name: ${{inputs.webapp_name}}
         publish-profile: ${{ inputs.azure_profile }}
-        package: ${{inputs.source_path}}
+        source-path: ${{inputs.source_path}}
         
     
     - run: echo 'Deploy to Azure WebApp using Profile and Container Image'
@@ -55,10 +55,10 @@ runs:
       with: 
         app-name: ${{inputs.webapp_name}}
         publish-profile: ${{ inputs.azure_profile }}
-        images: ${{inputs.image_name}}:${{inputs.image_tag}}
+        image: ${{inputs.image_name}}:${{inputs.image_tag}}
 
 
-    - run: 'Deploy to Azure Webapp using Service Principal and Credential'
+    - run: 'Deploy to Azure Webapp using Service Principal and Credential using Image'
       if:  ${{ inputs.azure_profile == '' && inputs.source_path == ''}}
     - name: 'Deploy to Azure Webapp using Service Principal - by login to Azure'
       if:  ${{ inputs.azure_profile == '' && inputs.source_path == ''}} 
@@ -69,7 +69,7 @@ runs:
       if:  ${{ inputs.azure_profile == '' && inputs.source_path == ''}} 
       with:
         app-name: ${{inputs.webapp_name}}
-        images: ${{inputs.image_name}}:${{inputs.image_tag}}
+        image: ${{inputs.image_name}}:${{inputs.image_tag}}
 
 
 
