@@ -67,17 +67,17 @@ runs:
       shell: bash
       
     - name: 'Deploy to Azure Webapp using Service Principal - by login to Azure'
-      if:  ${{ inputs.azure_profile == '' }} 
       uses: azure/login@v1
       with:
         creds: '{"clientId": "${{ inputs.azure_client_id }}", "clientSecret": "${{ inputs.azure_client_secret }}", "subscriptionId": "${{ inputs.subscription }}", "tenantId": "${{ inputs.azure_tenant_id }}"}'
+      if:  ${{ inputs.azure_profile == '' }}
+      
     - uses: azure/webapps-deploy@v2
-      if:  ${{ inputs.azure_profile == '' }} 
       with:
         app-name: ${{inputs.webapp_name}}
         image: ${{inputs.image_name}}:${{inputs.image_tag}}
         source_path: ${{inputs.source_path}}
-
+      if:  ${{ inputs.azure_profile == '' }}
 
 
 #   - name: Deploy to Azure Web Apps
