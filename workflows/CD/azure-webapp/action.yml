@@ -62,9 +62,10 @@ runs:
 #         image: ${{inputs.image_name}}:${{inputs.image_tag}}
 
 
-    - run: 'Deploy to Azure Webapp using Service Principal and Credential '
+    - run: echo 'Deploy to Azure Webapp using Service Principal and Credential '
       if:  ${{ inputs.azure_profile == '' }}
       shell: bash
+      
     - name: 'Deploy to Azure Webapp using Service Principal - by login to Azure'
       if:  ${{ inputs.azure_profile == '' }} 
       uses: azure/login@v1
