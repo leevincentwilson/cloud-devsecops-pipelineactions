@@ -36,44 +36,46 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: echo 'Deploy to Azure WebApp using Profile and Source path'
-      if: ${{ inputs.azure_profile != '' && inputs.source_path != '' }}
+    - run: echo 'Deploy to Azure WebApp using Profile and Source path / Image'
+      if: ${{ inputs.azure_profile != ''  }}
       shell: bash
       
     - name: 'Deploy to Azure WebApp using Profile and Source'
-      if: ${{ inputs.azure_profile != '' && inputs.source_path != '' }}
+      if: ${{ inputs.azure_profile != '' }}
       uses: azure/webapps-deploy@v2
       with: 
         app-name: ${{inputs.webapp_name}}
         publish-profile: ${{ inputs.azure_profile }}
         source-path: ${{inputs.source_path}}
+        image: ${{inputs.image_name}}:${{inputs.image_tag}}
         
     
-    - run: echo 'Deploy to Azure WebApp using Profile and Container Image'
-      if: ${{ inputs.azure_profile != '' && inputs.image_name != '' }}
-      shell: bash
-    - name: 'Deploy to Azure WebApp using Profile and Container'
-      if: ${{ inputs.azure_profile != '' && inputs.image_name != '' }}
-      uses: azure/webapps-deploy@v2
-      with: 
-        app-name: ${{inputs.webapp_name}}
-        publish-profile: ${{ inputs.azure_profile }}
-        image: ${{inputs.image_name}}:${{inputs.image_tag}}
+#     - run: echo 'Deploy to Azure WebApp using Profile and Container Image'
+#       if: ${{ inputs.azure_profile != '' && ( inputs.image_name != '' && inputs.source_path == '') }}
+#       shell: bash
+#     - name: 'Deploy to Azure WebApp using Profile and Container'
+#       if: ${{ inputs.azure_profile != '' && ( inputs.image_name != '' && inputs.source_path == '') }}
+#       uses: azure/webapps-deploy@v2
+#       with: 
+#         app-name: ${{inputs.webapp_name}}
+#         publish-profile: ${{ inputs.azure_profile }}
+#         image: ${{inputs.image_name}}:${{inputs.image_tag}}
 
 
-    - run: 'Deploy to Azure Webapp using Service Principal and Credential using Image'
-      if:  ${{ inputs.azure_profile == '' && inputs.source_path == ''}}
+    - run: 'Deploy to Azure Webapp using Service Principal and Credential '
+      if:  ${{ inputs.azure_profile == '' }}
       shell: bash
     - name: 'Deploy to Azure Webapp using Service Principal - by login to Azure'
-      if:  ${{ inputs.azure_profile == '' && inputs.source_path == ''}} 
+      if:  ${{ inputs.azure_profile == '' }} 
       uses: azure/login@v1
       with:
         creds: '{"clientId": "${{ inputs.azure_client_id }}", "clientSecret": "${{ inputs.azure_client_secret }}", "subscriptionId": "${{ inputs.subscription }}", "tenantId": "${{ inputs.azure_tenant_id }}"}'
     - uses: azure/webapps-deploy@v2
-      if:  ${{ inputs.azure_profile == '' && inputs.source_path == ''}} 
+      if:  ${{ inputs.azure_profile == '' }} 
       with:
         app-name: ${{inputs.webapp_name}}
         image: ${{inputs.image_name}}:${{inputs.image_tag}}
+        source_path: ${{inputs.source_path}}
 
 
 
