@@ -200,13 +200,13 @@ runs:
         cr_servername: ${{inputs.cr_servername}}
  # below properties is required if  you are using ACR
         cr_tenant: ${{inputs.cr_tenant}}    
+        cr_subscription: ${{inputs.cr_subscription}} 
     
     
     
     
     
-    
-    
+ ==================================================================================================   
     
     
     
