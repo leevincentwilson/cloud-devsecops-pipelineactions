@@ -36,17 +36,18 @@ runs:
       
 ########### Login and Push image to Azure Container Registry ##############
 
-#     - name: 'login to Azure'
-#       if: ${{ contains(runner.name, 'selfhosted') }}
-#       uses: azure/login@v1
-#       with:
-#         creds: '{"clientId": "${{ inputs.cr_username }}", "clientSecret": "${{ inputs.cr_password }}", "subscriptionId": "${{ inputs.cr_subscription }}", "tenantId": "${{ inputs.cr_tenant }}"}'
+    - name: 'login to Azure'
+      if: ${{ contains(runner.name, 'selfhosted') }}
+      uses: azure/login@v1
+      with:
+        creds: '{"clientId": "${{ inputs.cr_username }}", "clientSecret": "${{ inputs.cr_password }}", "subscriptionId": "${{ inputs.cr_subscription }}", "tenantId": "${{ inputs.cr_tenant }}"}'
             
       
     - name: Run AZ Build and Push Docker to ACR       
       run: |
-        [ -z ${{ inputs.cr_subscription }} ] && az account set --subscription ${{ inputs.cr_subscription }} 
-        az login --service-principal --username ${{inputs.cr_username}} --password ${{inputs.cr_password}} --tenant ${{inputs.cr_tenant}}
+        #ACC_SUBSCRIPTION= {{ inputs.cr_subscription }}
+        #az login --service-principal --username ${{inputs.cr_username}} --password ${{inputs.cr_password}} --tenant ${{inputs.cr_tenant}}
+        #[ -z $ACC_SUBSCRIPTION ] && az account set --subscription $ACC_SUBSCRIPTION
         az acr build --registry ${{ inputs.cr_servername }} -t ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} --file ./${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} .
       shell: bash
       if: ${{ contains(runner.name, 'selfhosted') }}
