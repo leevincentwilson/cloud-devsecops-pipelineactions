@@ -99,38 +99,35 @@ runs:
        #done  
        #echo "========================================================================"
       done
+      
+      # Calculating Total_runtime, actual runtime and steps count. 
       echo "ACTUAL_RUNTIME="$ACTUAL_RUNTIME >> $GITHUB_ENV
       echo "TOTAL_STEPS="$TOTAL_STEPS >> $GITHUB_ENV
+      TOTAL_RUN_TIME=$(($(date -d "${{env.WORKFLOW_END_TIME}}" +%s)-$(date -d "${{env.WORKFLOW_START_TIME}}" +%s))) 
+      echo "TOTAL_RUN_TIME="$TOTAL_RUN_TIME >> $GITHUB_ENV
     shell: bash
     
   #saving the job runtime details in a csv file
-  - name: Update the file
-    env:
-      REPOSITORY_NAME : ${{github.event.repository.name}}
-      REPOSITORY_ID : ${{github.event.repository.id}}
-      BRANCH_NAME: ${{ github.event.workflow_run.head_branch}}
-      WORKFLOW_ID : ${{ github.event.workflow.id }}
-      WORKFLOW_NAME : ${{ github.event.workflow.name }}
-      WORKFLOW_RUN_ID : ${{ github.event.workflow_run.id }}
-      WORKFLOW_RUN_NUMBER: ${{ github.event.workflow_run.run_number}}
-      WORKFLOW_START_TIME: ${{ github.event.workflow_run.run_started_at}}
-      WORKFLOW_END_TIME: ${{ github.event.workflow_run.updated_at}}
-      WORKFLOW_STATUS: ${{github.event.workflow_run.conclusion}}
-      COMMIT_BY: ${{github.event.sender.login}}
-    run: |
-      TOTAL_RUN_TIME=$(($(date -d "${{env.WORKFLOW_END_TIME}}" +%s)-$(date -d "${{env.WORKFLOW_START_TIME}}" +%s)))
-      cd /
-      mkdir -p $GITHUB_WORKSPACE/GitMetrics/"${{env.REPOSITORY_NAME}}"
-      cd $GITHUB_WORKSPACE/GitMetrics/"${{env.REPOSITORY_NAME}}"
-      #if [ -e runtime_details.csv ]
-      #then
-      #  echo "${{env.REPOSITORY_NAME}},${{env.REPOSITORY_ID}},${{env.BRANCH_NAME}},${{ env.WORKFLOW_NAME }},${{ env.WORKFLOW_ID }},${{ env.WORKFLOW_RUN_ID }},${{env.WORKFLOW_RUN_NUMBER}},$WORKFLOW_JOBS_COUNT,$TOTAL_STEPS,${{ env.WORKFLOW_START_TIME}},${{ env.WORKFLOW_END_TIME}},$TOTAL_RUN_TIME,$ACTUAL_RUNTIME,${{env.WORKFLOW_STATUS}}">> runtime_details.csv
-      #else
-      #  echo "Repository_Name,Repo_ID,Branch,Workflow_Name,Workflow_ID,Run_Id,Run_Number,Jobs_Count,Steps_Count,Run_Started,Run_Ended,Total_Duration,Jobs_Duration,status" >> runtime_details.csv
-      #  echo "${{env.REPOSITORY_NAME}},${{env.REPOSITORY_ID}},${{env.BRANCH_NAME}},${{ env.WORKFLOW_NAME }},${{ env.WORKFLOW_ID }},${{ env.WORKFLOW_RUN_ID }},${{env.WORKFLOW_RUN_NUMBER}},$WORKFLOW_JOBS_COUNT,$TOTAL_STEPS,${{ env.WORKFLOW_START_TIME}},${{ env.WORKFLOW_END_TIME}},$TOTAL_RUN_TIME,$ACTUAL_RUNTIME,${{env.WORKFLOW_STATUS}}">> runtime_details.csv
-      #fi  
-      echo "TOTAL_RUN_TIME="$TOTAL_RUN_TIME >> $GITHUB_ENV
-    shell: bash
+  #- name: Update the file
+  #  env:
+  #    REPOSITORY_NAME : ${{github.event.repository.name}}
+  #    REPOSITORY_ID : ${{github.event.repository.id}}
+  #    BRANCH_NAME: ${{ github.event.workflow_run.head_branch}}
+  #    WORKFLOW_ID : ${{ github.event.workflow.id }}
+  #    WORKFLOW_NAME : ${{ github.event.workflow.name }}
+  #    WORKFLOW_RUN_ID : ${{ github.event.workflow_run.id }}
+  #    WORKFLOW_RUN_NUMBER: ${{ github.event.workflow_run.run_number}}
+  #    WORKFLOW_START_TIME: ${{ github.event.workflow_run.run_started_at}}
+  #    WORKFLOW_END_TIME: ${{ github.event.workflow_run.updated_at}}
+  #    WORKFLOW_STATUS: ${{github.event.workflow_run.conclusion}}
+  #   COMMIT_BY: ${{github.event.sender.login}}
+  #  run: |
+  #   TOTAL_RUN_TIME=$(($(date -d "${{env.WORKFLOW_END_TIME}}" +%s)-$(date -d "${{env.WORKFLOW_START_TIME}}" +%s)))
+  #    cd /
+  #    mkdir -p $GITHUB_WORKSPACE/GitMetrics/"${{env.REPOSITORY_NAME}}"
+  #    cd $GITHUB_WORKSPACE/GitMetrics/"${{env.REPOSITORY_NAME}}" 
+  #    echo "TOTAL_RUN_TIME="$TOTAL_RUN_TIME >> $GITHUB_ENV
+  #  shell: bash
     
   #sending data to New relic. 
   - name: Send_data_to_newRelic
