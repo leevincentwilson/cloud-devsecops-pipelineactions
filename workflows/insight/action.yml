@@ -80,19 +80,10 @@ runs:
        # Checking the status of New relic Metrics ingestion
        #echo "========================================================================"
        echo "Metrics Ingestion Status: " $CURL_STATUS
-         if [[ $CURL_STATUS == *"\"success\":true"* ]];
-         then
-           echo -e "\e[1;32mMetrics Succesfully sent to NewRelic"
-         else
-           echo -e "\e[1;31mError in sending metrics to New Relic. Please check the API Key and account ID"
-           exit -1
-         fi
        echo "========================================================================"
-       #echo "Job Runtime: " $ELAPSE "s"
+       
        ACTUAL_RUNTIME=$ACTUAL_RUNTIME+$ELAPSE
-       #echo "$(($ELAPSE/60))m $(($ELAPSE%60))s"
        steps_count=$(jq -r '.jobs['$n'].steps|length' jobs_details.json)
-       #echo "Number of Steps: "$steps_count
        TOTAL_STEPS=$TOTAL_STEPS+$steps_count
        
        #Parsing through each steps.
@@ -131,20 +122,13 @@ runs:
       cd /
       mkdir -p $GITHUB_WORKSPACE/GitMetrics/"${{env.REPOSITORY_NAME}}"
       cd $GITHUB_WORKSPACE/GitMetrics/"${{env.REPOSITORY_NAME}}"
-      if [ -e runtime_details.csv ]
-      then
-        #echo "File exists"
-        #echo ""
-        #cat runtime_details.csv
-        echo "${{env.REPOSITORY_NAME}},${{env.REPOSITORY_ID}},${{env.BRANCH_NAME}},${{ env.WORKFLOW_NAME }},${{ env.WORKFLOW_ID }},${{ env.WORKFLOW_RUN_ID }},${{env.WORKFLOW_RUN_NUMBER}},$WORKFLOW_JOBS_COUNT,$TOTAL_STEPS,${{ env.WORKFLOW_START_TIME}},${{ env.WORKFLOW_END_TIME}},$TOTAL_RUN_TIME,$ACTUAL_RUNTIME,${{env.WORKFLOW_STATUS}}">> runtime_details.csv
-      else
-        #echo "File does not exist"
-        #echo ""
-        echo "Repository_Name,Repo_ID,Branch,Workflow_Name,Workflow_ID,Run_Id,Run_Number,Jobs_Count,Steps_Count,Run_Started,Run_Ended,Total_Duration,Jobs_Duration,status" >> runtime_details.csv
-        echo "${{env.REPOSITORY_NAME}},${{env.REPOSITORY_ID}},${{env.BRANCH_NAME}},${{ env.WORKFLOW_NAME }},${{ env.WORKFLOW_ID }},${{ env.WORKFLOW_RUN_ID }},${{env.WORKFLOW_RUN_NUMBER}},$WORKFLOW_JOBS_COUNT,$TOTAL_STEPS,${{ env.WORKFLOW_START_TIME}},${{ env.WORKFLOW_END_TIME}},$TOTAL_RUN_TIME,$ACTUAL_RUNTIME,${{env.WORKFLOW_STATUS}}">> runtime_details.csv
-      fi  
-      #echo "===================================Updated file is==================================="
-      #cat runtime_details.csv
+      #if [ -e runtime_details.csv ]
+      #then
+      #  echo "${{env.REPOSITORY_NAME}},${{env.REPOSITORY_ID}},${{env.BRANCH_NAME}},${{ env.WORKFLOW_NAME }},${{ env.WORKFLOW_ID }},${{ env.WORKFLOW_RUN_ID }},${{env.WORKFLOW_RUN_NUMBER}},$WORKFLOW_JOBS_COUNT,$TOTAL_STEPS,${{ env.WORKFLOW_START_TIME}},${{ env.WORKFLOW_END_TIME}},$TOTAL_RUN_TIME,$ACTUAL_RUNTIME,${{env.WORKFLOW_STATUS}}">> runtime_details.csv
+      #else
+      #  echo "Repository_Name,Repo_ID,Branch,Workflow_Name,Workflow_ID,Run_Id,Run_Number,Jobs_Count,Steps_Count,Run_Started,Run_Ended,Total_Duration,Jobs_Duration,status" >> runtime_details.csv
+      #  echo "${{env.REPOSITORY_NAME}},${{env.REPOSITORY_ID}},${{env.BRANCH_NAME}},${{ env.WORKFLOW_NAME }},${{ env.WORKFLOW_ID }},${{ env.WORKFLOW_RUN_ID }},${{env.WORKFLOW_RUN_NUMBER}},$WORKFLOW_JOBS_COUNT,$TOTAL_STEPS,${{ env.WORKFLOW_START_TIME}},${{ env.WORKFLOW_END_TIME}},$TOTAL_RUN_TIME,$ACTUAL_RUNTIME,${{env.WORKFLOW_STATUS}}">> runtime_details.csv
+      #fi  
       echo "TOTAL_RUN_TIME="$TOTAL_RUN_TIME >> $GITHUB_ENV
     shell: bash
     
@@ -188,12 +172,5 @@ runs:
       # Checking the status of New relic Metrics ingestion
        echo "========================================================================"
        echo "Metrics Ingestion Status of the Pipeline: " $CURL_STATUS
-         if [[ $CURL_STATUS == *"\"success\":true"* ]];
-         then
-           echo -e "\e[1;32mMetrics Succesfully sent to NewRelic"
-         else
-           echo -e "\e[1;31mError in sending metrics to New Relic. Please check the API Key and account ID"
-           exit -1
-         fi
-       #echo "========================================================================"
+      #echo "========================================================================"
     shell: bash
