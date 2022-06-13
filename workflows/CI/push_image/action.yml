@@ -11,6 +11,8 @@ inputs:
     required: true
   cr_dockerfile_path:
     required: true
+  cr_docker_arguments:
+    required: false
   cr_servername:
     required: true
   cr_subscription:
@@ -72,7 +74,7 @@ runs:
       
     - name: run docker build and push
       run: |
-        docker build -f ${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} . -t ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
+        docker build -f ${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} . -t ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} ${{inputs.cr_docker_arguments }}
         docker tag ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
         docker push ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
       shell: bash
@@ -82,7 +84,7 @@ runs:
     
     - name: Execute build 
       run: |
-        docker build -f ${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} . -t ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
+        docker build -f ${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} . -t ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} ${{inputs.cr_docker_arguments }}
         docker tag  ${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
         docker images
         docker push ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
