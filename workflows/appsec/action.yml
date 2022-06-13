@@ -64,50 +64,7 @@ runs:
     shell: bash
     
     
-  - run: echo  argument for run_dependency_scan = ${{inputs.run_dependency_scan}}
-    shell: bash
-  - name: Message
-    run: |
-       echo #===================================================================================================#
-    shell: bash   
-    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
-  - name: Message
-    run: |
-       echo #                                      Running Dependency SCAN                                            #
-    shell: bash
-    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
-  - name: Message
-    run: |
-       echo #===================================================================================================#
-    shell: bash
-    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
-  
-  - name: Snyk SCA Scanning
-    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/snyk@latest
-    with:      
-      dependency_scan_token: ${{ inputs.dependency_scan_token }}
-      dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
-      build_tool: ${{ inputs.build_tool }}
-    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
-  
-  - name: Message
-    run: |
-       echo #===================================================================================================#
-    shell: bash
-    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
-  - name: Message
-    run: |
-       echo #                                      Finished Dependency SCAN                                            #
-    shell: bash
-    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
-  - name: Message
-    run: |
-       echo #===================================================================================================#
-    shell: bash
-    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
-    
-         
- 
+
   - run: echo  argument for run_sast_scan = ${{inputs.run_sast_scan}}
     shell: bash
   - name: Message
@@ -204,7 +161,48 @@ runs:
    
    
    
-   
+  
+  - run: echo  argument for run_dependency_scan = ${{inputs.run_dependency_scan}}
+    shell: bash
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash   
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+  - name: Message
+    run: |
+       echo #                                      Running Dependency SCAN                                            #
+    shell: bash
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+  
+  - name: Snyk SCA Scanning
+    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/snyk@latest
+    with:      
+      dependency_scan_token: ${{ inputs.dependency_scan_token }}
+      dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
+      build_tool: ${{ inputs.build_tool }}
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+  
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+  - name: Message
+    run: |
+       echo #                                      Finished Dependency SCAN                                            #
+    shell: bash
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
    
    
    
