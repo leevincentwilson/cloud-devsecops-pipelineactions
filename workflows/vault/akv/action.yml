@@ -35,6 +35,7 @@ runs:
 
 ########### Get info from key vault ##############            
     - uses: Azure/get-keyvault-secrets@v1
+      id: getakvsecrets
       with:
         keyvault: ${{inputs.keyvault}} # name of key vault in Azure portal
         secrets: ${{inputs.secret_keys}} # comma separated list of secret keys to fetch from key vault 
