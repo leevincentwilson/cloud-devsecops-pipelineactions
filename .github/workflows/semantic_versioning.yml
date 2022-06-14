@@ -68,11 +68,11 @@ jobs:
         tag1=$(echo ${{needs.Defining_Semantic_Version.outputs.old_version}} | cut -c1-6)
         new_tag=${{needs.Defining_Semantic_Version.outputs.new_version}}
         echo "***************Printing $tag1 mentioned places****************"
-        grep -rn "@latest" *  
-        #grep -rn "@$tag1" *  
+        #grep -rn "@latest" *  
+        grep -rn "@$tag1" *  
         echo "******************Replacing $tag1 with $new_tag in all action.yml files*******************"
-        #find ./workflows/ -type f -exec sed -i -e "s|@$tag1|@$new_tag|g" {} \;
-        find ./workflows/ -type f -exec sed -i -e "s|@latest|@$new_tag|g" {} \;
+        find ./workflows/ -type f -exec sed -i -e "s|@$tag1|@$new_tag|g" {} \;
+        #find ./workflows/ -type f -exec sed -i -e "s|@latest|@$new_tag|g" {} \;
         echo "Replacing $tag1 with $new_tag in all action.yml files"
         echo "******************After replacing new version, Printing $new_tag mentioned places**************************"
         grep -rn "@$new_tag" *
