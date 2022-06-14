@@ -24,7 +24,7 @@ runs:
       uses: actions/checkout@v2
 
     - name: Create New Relic deployment marker
-      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/observability/newrelic_deploymarker@latest
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/observability/newrelic_deploymarker@v1.0.1
       with:
         newRelic_key: ${{inputs.newRelic_key}}
         newRelic_accountId: ${{inputs.newRelic_accountId}}
