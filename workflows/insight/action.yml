@@ -63,7 +63,7 @@ runs:
        #Sending Job details to new Relic
 
        jq -n \
-       --arg eventType DSOGitJobsInsightsPOV \
+       --arg eventType pipelinejobmetricsdb \
        --arg Repository_Name "${{env.REPOSITORY_NAME}}" \
        --arg Repo_ID "${{env.REPOSITORY_ID}}" \
        --arg Workflow_ID "${{env.WORKFLOW_ID}}" \
@@ -125,7 +125,7 @@ runs:
     run: |
       echo "Sending Data to New Relic"
       jq -n \
-      --arg eventType DSOGitInsightsPOV \
+      --arg eventType pipelinemetricsdb \
       --arg Repository_Name "${{env.REPOSITORY_NAME}}" \
       --arg Repo_ID "${{env.REPOSITORY_ID}}" \
       --arg Branch "${{env.BRANCH_NAME}}" \
