@@ -1,0 +1,41 @@
+# push_image.yml
+name: 'Get Secrets from Azure key Vault'
+description: 'Get Secrets from Azure key Vault'
+inputs:
+   
+  sp_client_id:
+    required: true
+  sp_client_secret:
+    required: true
+  subscription_id:
+    required: true
+  tenent_id:
+    required: true
+  keyvault:
+    required: true
+  secret_keys:
+    required: false
+    
+runs:
+  using: "composite"
+  steps:
+    - run: ls -lart
+      shell: bash
+    - run : echo $RUNNER_NAME $RUNNER_OS $RUNNER_ARCH $RUNNER_TEMP
+      shell: bash
+      
+        
+########### Login and Push image to Azure Container Registry ##############
+
+    - name: 'login to Azure'
+      if: ${{ contains(runner.name, 'selfhosted') }}
+      uses: azure/login@v1
+      with:
+        creds: '{"clientId": "${{ inputs.sp_client_id }}", "clientSecret": "${{ inputs.sp_client_secret }}", "subscriptionId": "${{ inputs.subscription_id }}", "tenantId": "${{ inputs.tenent_id }}"}'
+
+########### Get info from key vault ##############            
+    - uses: Azure/get-keyvault-secrets@v1
+      with:
+        keyvault: ${{inputs.keyvault}} # name of key vault in Azure portal
+        secrets: ${{inputs.secret_keys}} # comma separated list of secret keys to fetch from key vault 
+      
