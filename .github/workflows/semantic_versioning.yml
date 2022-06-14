@@ -1,6 +1,6 @@
 name: Create Tag and release
 on:
-  push:
+  pull_request:
     branches:
       - main
 
