@@ -7,7 +7,7 @@ inputs:
     default: maven
   build_environment:
     required: true
-    default: nonprod
+    default: Nonprod
   build_tool_version:
     required: false
   application_name:
@@ -38,6 +38,8 @@ inputs:
   cr_dockerfile_name:
     required: false
   cr_dockerfile_path:
+    required: false
+  cr_docker_arguments:
     required: false
   cr_servername:
     required: false
@@ -80,7 +82,7 @@ inputs:
   run_unit_test:
     required: false
     default: false
-    
+  
  
     
 runs:
@@ -193,6 +195,7 @@ runs:
       with:
         cr_dockerfile_name: ${{inputs.cr_dockerfile_name}}
         cr_dockerfile_path: ${{inputs.cr_dockerfile_path}}
+        cr_docker_arguments: ${{inputs.cr_docker_arguments}}
         cr_imagename: ${{inputs.cr_imagename}}
         cr_imagetag: ${{inputs.cr_imagetag}}
         cr_username: ${{inputs.cr_username}}
@@ -200,7 +203,7 @@ runs:
         cr_servername: ${{inputs.cr_servername}}
  # below properties is required if  you are using ACR
         cr_tenant: ${{inputs.cr_tenant}}    
-        cr_subscription: ${{inputs.cr_subscription}} 
+        cr_subscription: ${{inputs.cr_subscription}}
     
     
     
