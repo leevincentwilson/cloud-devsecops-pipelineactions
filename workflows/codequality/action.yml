@@ -75,7 +75,7 @@ runs:
     - name: verify and prepare for Scan
       if: ${{ ( inputs.build_tool != 'maven' || inputs.build_tool != 'mvn' || inputs.build_tool != 'gradle' || inputs.build_tool != 'gradlew' ) }}
       run: |
-        [ -f sonar-project.properties ] || ( echo -e "sonar.projectKey=${{secrets.SONAR_PROJECT_KEY}}\nsonar.organization=digitalinnovation\nsonar.projectName=${{secrets.SONAR_PROJECT_NAME}}" > sonar-project.properties )
+        [ -f sonar-project.properties ] || ( echo -e "sonar.projectKey=${{inputs.cq_project_key}}\nsonar.organization=digitalinnovation\nsonar.projectName=${{inputs.cq_project_name}}" > sonar-project.properties )
         ls -lart
         [ -f sonar-project.properties ] && cat sonar-project.properties
       shell: bash
