@@ -73,14 +73,14 @@ runs:
     
     
     - name: verify and prepare for Scan
-      if: ${{ ( inputs.build_tool != 'maven' || inputs.build_tool != 'mvn' inputs.build_tool != 'gradle' || inputs.build_tool != 'gradlew' ) }}
+      if: ${{ ( inputs.build_tool != 'maven' || inputs.build_tool != 'mvn' || inputs.build_tool != 'gradle' || inputs.build_tool != 'gradlew' ) }}
       run: |
         [ -f sonar-project.properties ] || ( echo -e "sonar.projectKey=${{secrets.SONAR_PROJECT_KEY}}\nsonar.organization=digitalinnovation\nsonar.projectName=${{secrets.SONAR_PROJECT_NAME}}" > sonar-project.properties )
         ls -lart
         [ -f sonar-project.properties ] && cat sonar-project.properties
         
     - name: SonarCloud Scan
-      if: ${{ ( inputs.build_tool != 'maven' || inputs.build_tool != 'mvn' inputs.build_tool != 'gradle' || inputs.build_tool != 'gradlew' ) }}
+      if: ${{ ( inputs.build_tool != 'maven' || inputs.build_tool != 'mvn' || inputs.build_tool != 'gradle' || inputs.build_tool != 'gradlew' ) }}
       uses: SonarSource/sonarcloud-github-action@master
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}  # Needed to get PR information, if any
