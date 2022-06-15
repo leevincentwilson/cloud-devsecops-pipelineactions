@@ -181,7 +181,7 @@ runs:
     if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
   
   - name: Snyk SCA Scanning
-    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/snyk@1.0.2
+    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/snyk@v1.0.2
     with:      
       dependency_scan_token: ${{ inputs.dependency_scan_token }}
       dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
