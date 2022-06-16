@@ -36,7 +36,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: echo Hello, You are Executing Composite action to Execute Code Scan
+    - run: echo Hello, You are Executing Composite action for Code Quality Scan
       shell: bash
     - run : echo $RUNNER_NAME $RUNNER_OS $RUNNER_ARCH $RUNNER_TEMP
       shell: bash
@@ -54,8 +54,9 @@ runs:
         cq_project_name: ${{ inputs.cq_project_name }}
         cq_token: ${{ inputs.cq_token }}
         cq_scan_arguments: ${{ inputs.cq_scan_arguments }}
-        
       if: ${{ ( inputs.build_tool == 'maven' || inputs.build_tool == 'mvn' ) }}
+      
+      
     
     - name: ========== Run Code Quality Scan for Maven project ==========
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/codequality/gradle-cq@v1.0.4
@@ -68,20 +69,20 @@ runs:
         cq_project_name: ${{ inputs.cq_project_name }}
         cq_token: ${{ inputs.cq_token }}
         cq_scan_arguments: ${{ inputs.cq_scan_arguments }}
-        
       if: ${{ ( inputs.build_tool == 'gradle' || inputs.build_tool == 'gradlew' ) }}
     
     
-    - name: verify and prepare for Scan
-      if: ${{ ( inputs.build_tool != 'maven' || inputs.build_tool != 'mvn' || inputs.build_tool != 'gradle' || inputs.build_tool != 'gradlew' ) }}
+    
+    - name: verify and prepare for Scan for Genric projects
+      if: ${{ ( inputs.build_tool != 'maven' && inputs.build_tool != 'mvn' && inputs.build_tool != 'gradle' && inputs.build_tool != 'gradlew' ) }}
       run: |
         [ -f sonar-project.properties ] || ( echo -e "sonar.projectKey=${{inputs.cq_project_key}}\nsonar.organization=digitalinnovation\nsonar.projectName=${{inputs.cq_project_name}}" > sonar-project.properties )
         ls -lart
         [ -f sonar-project.properties ] && cat sonar-project.properties
       shell: bash
       
-    - name: SonarCloud Scan
-      if: ${{ ( inputs.build_tool != 'maven' || inputs.build_tool != 'mvn' || inputs.build_tool != 'gradle' || inputs.build_tool != 'gradlew' ) }}
+    - name: SonarCloud Scan run for Generic projects
+      if: ${{ ( inputs.build_tool != 'maven' && inputs.build_tool != 'mvn' && inputs.build_tool != 'gradle' && inputs.build_tool != 'gradlew' ) }}
       uses: SonarSource/sonarcloud-github-action@master
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}  # Needed to get PR information, if any
