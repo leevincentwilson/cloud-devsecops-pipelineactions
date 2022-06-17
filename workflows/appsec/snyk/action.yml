@@ -38,6 +38,10 @@ runs:
     with:      
       dependency_scan_token: ${{ inputs.dependency_scan_token }}
       dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
+      build_tool: ${{ inputs.build_tool }}
+      
+      
+      
       
 #     uses: snyk/actions@0.3.0
 #     env:
