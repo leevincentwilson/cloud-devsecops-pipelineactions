@@ -64,7 +64,101 @@ runs:
     shell: bash
     
     
+##################  DEPENDENCY SCAN PROCESS - SNYK ############################    
 
+  - run: echo  argument for run_dependency_scan = ${{inputs.run_dependency_scan}}
+    shell: bash
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash   
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+  - name: Message
+    run: |
+       echo #                                      Running Dependency SCAN                                            #
+    shell: bash
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+  
+  - name: Snyk SCA Scanning
+    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/snyk@v1.0.5
+    with:      
+      dependency_scan_token: ${{ inputs.dependency_scan_token }}
+      dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
+      build_tool: ${{ inputs.build_tool }}
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+  
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+  - name: Message
+    run: |
+       echo #                                      Finished Dependency SCAN                                            #
+    shell: bash
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash
+    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+    
+    
+    
+##################  CONTAINER SCAN PROCESS - PRISMA ############################
+
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash
+    if: ${{inputs.run_container_scan == 'true' }}
+  - name: Message
+    run: |
+       echo #                                      Running Container SCAN                                       #
+    shell: bash
+    if: ${{inputs.run_container_scan == 'true' }}
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash
+    if: ${{inputs.run_container_scan == 'true' }}
+  - name: Run Container Scan for Repostiory
+    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/prisma@v1.0.5
+    with: 
+      container_scan_user: ${{ inputs.container_scan_user }}
+      container_scan_password: ${{ inputs.container_scan_password }}
+      container_scan_url: ${{ inputs.container_scan_url }}
+      image_name: ${{inputs.image_name}}
+      image_tag: ${{inputs.image_tag}}
+      registry_server: ${{inputs.registry_server}}
+      registry_username: ${{ inputs.registry_username }}
+      registry_password: ${{ inputs.registry_password }}
+    if: ${{ inputs.run_container_scan == 'true' }}  
+    
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash
+    if: ${{inputs.run_container_scan == 'true' }}
+  - name: Message
+    run: |
+       echo #                                      Finished Container SCAN                                       #
+    shell: bash
+    if: ${{inputs.run_container_scan == 'true' }}
+  - name: Message
+    run: |
+       echo #===================================================================================================#
+    shell: bash
+    if: ${{inputs.run_container_scan == 'true' }}
+   
+
+##################  SAST SCAN PROCESS - FOD ############################
+  
   - run: echo  argument for run_sast_scan = ${{inputs.run_sast_scan}}
     shell: bash
   - name: Message
@@ -112,95 +206,7 @@ runs:
        echo #===================================================================================================#
     shell: bash
     if: ${{inputs.run_sast_scan == 'true' }}
-
-
-
-  - name: Message
-    run: |
-       echo #===================================================================================================#
-    shell: bash
-    if: ${{inputs.run_container_scan == 'true' }}
-  - name: Message
-    run: |
-       echo #                                      Running Container SCAN                                       #
-    shell: bash
-    if: ${{inputs.run_container_scan == 'true' }}
-  - name: Message
-    run: |
-       echo #===================================================================================================#
-    shell: bash
-    if: ${{inputs.run_container_scan == 'true' }}
-  - name: Run Container Scan for Repostiory
-    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/prisma@v1.0.5
-    with: 
-      container_scan_user: ${{ inputs.container_scan_user }}
-      container_scan_password: ${{ inputs.container_scan_password }}
-      container_scan_url: ${{ inputs.container_scan_url }}
-      image_name: ${{inputs.image_name}}
-      image_tag: ${{inputs.image_tag}}
-      registry_server: ${{inputs.registry_server}}
-      registry_username: ${{ inputs.registry_username }}
-      registry_password: ${{ inputs.registry_password }}
-    if: ${{ inputs.run_container_scan == 'true' }}  
-    
-  - name: Message
-    run: |
-       echo #===================================================================================================#
-    shell: bash
-    if: ${{inputs.run_container_scan == 'true' }}
-  - name: Message
-    run: |
-       echo #                                      Finished Container SCAN                                       #
-    shell: bash
-    if: ${{inputs.run_container_scan == 'true' }}
-  - name: Message
-    run: |
-       echo #===================================================================================================#
-    shell: bash
-    if: ${{inputs.run_container_scan == 'true' }}
-   
-   
    
   
-  - run: echo  argument for run_dependency_scan = ${{inputs.run_dependency_scan}}
-    shell: bash
-  - name: Message
-    run: |
-       echo #===================================================================================================#
-    shell: bash   
-    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
-  - name: Message
-    run: |
-       echo #                                      Running Dependency SCAN                                            #
-    shell: bash
-    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
-  - name: Message
-    run: |
-       echo #===================================================================================================#
-    shell: bash
-    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
-  
-  - name: Snyk SCA Scanning
-    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/snyk@v1.0.5
-    with:      
-      dependency_scan_token: ${{ inputs.dependency_scan_token }}
-      dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
-      build_tool: ${{ inputs.build_tool }}
-    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
-  
-  - name: Message
-    run: |
-       echo #===================================================================================================#
-    shell: bash
-    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
-  - name: Message
-    run: |
-       echo #                                      Finished Dependency SCAN                                            #
-    shell: bash
-    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
-  - name: Message
-    run: |
-       echo #===================================================================================================#
-    shell: bash
-    if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
+
        
