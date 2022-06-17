@@ -17,12 +17,27 @@ runs:
   using: "composite"
   steps:
   
-#   - name: Snyk SCA Scanning for java scripts
-#     if: ${{ inputs.build_tool == 'npm' || inputs.build_tool == 'yarn' }}
-#     uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/snyk/nodejs-snyk@main
-#     with:      
-#       dependency_scan_token: ${{ inputs.dependency_scan_token }}
-#       dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
+       
+  - name: Snyc scan for maven and gradle     
+    run: |
+      echo SNYK token is provided running SNYK scan for the project
+      echo "----------Download Latest Snyk CLI-----------"
+      curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.950.0/snyk-linux"
+      chmod +x snyk
+      ./snyk auth ${{inputs.dependency_scan_token}}
+      ./snyk test --all-projects ${{inputs.dependency_scan_arguments}}  || echo "snyk scan completed"
+      ./snyk monitor --all-projects ${{inputs.dependency_scan_arguments}}  || echo "snyk monitor enabling completed"
+    shell: bash 
+    if: ${{ inputs.build_tool != 'npm' || inputs.build_tool != 'yarn' }}
+    
+
+  ############ SNYK using MarketPlace Actions   ##################
+  - name: Snyk SCA Scanning for java scripts
+    if: ${{ inputs.build_tool == 'npm' || inputs.build_tool == 'yarn' }}
+    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/snyk/nodejs-snyk@latest
+    with:      
+      dependency_scan_token: ${{ inputs.dependency_scan_token }}
+      dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
       
 #     uses: snyk/actions@0.3.0
 #     env:
@@ -37,22 +52,6 @@ runs:
 #        SNYK_TOKEN: ${{ inputs.dependency_scan_token }}
 #     with:
 #        command: monitor
-       
-       
-       
-  - name: Snyc scan for maven and gradle     
-    run: |
-      echo SNYK token is provided running SNYK scan for the project
-      echo "----------Download Latest Snyk CLI-----------"
-      curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.950.0/snyk-linux"
-      chmod +x snyk
-      ./snyk auth ${{inputs.dependency_scan_token}}
-      ./snyk test --all-projects ${{inputs.dependency_scan_arguments}}  || echo "snyk scan completed"
-      ./snyk monitor --all-projects ${{inputs.dependency_scan_arguments}}  || echo "snyk monitor enabling completed"
-    shell: bash 
-    if: ${{ inputs.build_tool != 'npm' || inputs.build_tool != 'yarn' }}
-    
-    
     
 #   - name: Upload result to GitHub Code Scanning
 #     uses: github/codeql-action/upload-sarif@v1
