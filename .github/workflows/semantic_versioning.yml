@@ -69,8 +69,8 @@ jobs:
       run: |
         ta1=$(echo ${{needs.Defining_Semantic_Version.outputs.old_version}})
         ta2=${ta1//"-"/ }
-        #tag1=${ta2[0]}
-        tag1="v1.0.20"
+        tag1=${ta2[0]}
+        #tag1="v1.0.20"
         new_tag=${{needs.Defining_Semantic_Version.outputs.new_version}}
         echo "***************Printing $tag1 mentioned places****************"
         #grep -rn "@v1.0.20" *  
