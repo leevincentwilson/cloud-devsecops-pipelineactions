@@ -50,8 +50,8 @@ runs:
         #ACC_SUBSCRIPTION= {{ inputs.cr_subscription }}
         #az login --service-principal --username ${{inputs.cr_username}} --password ${{inputs.cr_password}} --tenant ${{inputs.cr_tenant}}
         #[ -z $ACC_SUBSCRIPTION ] && az account set --subscription $ACC_SUBSCRIPTION
-        az acr build --registry ${{ inputs.cr_servername }} -t ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} --file ./${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} .
-      shell: bash
+        az acr build --registry ${{ inputs.cr_servername }} -t ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} --file ./${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} . ${{inputs.cr_docker_arguments}}
+       shell: bash
       if: ${{ contains(runner.name, 'selfhosted') }}
 
 
