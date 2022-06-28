@@ -70,10 +70,10 @@ jobs:
         ta1=$(echo ${{needs.Defining_Semantic_Version.outputs.old_version}})
         ta2=${ta1//"-"/ }
         tag1=${ta2[0]}
-        #tag1="v1.0.20"
+        echo "old Tag:$tag1"
         new_tag=${{needs.Defining_Semantic_Version.outputs.new_version}}
+        echo "New Tag:$new_tag"
         echo "***************Printing $tag1 mentioned places****************"
-        #grep -rn "@v1.0.20" *  
         grep -rn "@$tag1" *  
         echo "******************Replacing $tag1 with $new_tag in all action.yml files*******************"
         find ./workflows/ -type f -exec sed -i -e "s|@$tag1|@$new_tag|g" {} \;
