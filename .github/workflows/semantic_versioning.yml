@@ -68,7 +68,7 @@ jobs:
     - name: Replacing new version in files
       run: |
         ta1=$(echo ${{needs.Defining_Semantic_Version.outputs.old_version}})
-        ta2=${ta1//"-"/ }
+        ta2=(${ta1//"-"/ })
         tag1=${ta2[0]}
         echo "old Tag:$tag1"
         new_tag=${{needs.Defining_Semantic_Version.outputs.new_version}}
