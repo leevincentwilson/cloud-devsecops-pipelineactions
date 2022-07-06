@@ -75,7 +75,7 @@ runs:
     if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
   - name: Message
     run: |
-       echo #                                      Running Dependency SCAN                                            #
+       echo #                                      Running Dependency SCAN 000                                           #
     shell: bash
     if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
   - name: Message
