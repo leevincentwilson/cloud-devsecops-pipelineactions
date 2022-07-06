@@ -67,7 +67,7 @@ runs:
       env:
         SAST_PORTAL_URL: https://emea.fortify.com/
         SAST_API_URL: https://api.emea.fortify.com/
-        SAST_OPTIONS: '-ep 2 -a 2 -rp 0 -pp 1 -I 1'
+        SAST_OPTIONS: '-ep 2 -a 2 -rp 0 -pp 0 -I 1'
         ARTIFACT_ZIP_PATH: ${{inputs.application_artifact_zip_path}}
   
     - name: Download Results
