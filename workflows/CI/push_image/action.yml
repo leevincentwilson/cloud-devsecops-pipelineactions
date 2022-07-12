@@ -39,7 +39,6 @@ runs:
 ########### Login and Push image to Azure Container Registry ##############
 
     - name: 'login to Azure'
-      if: ${{ contains(runner.name, 'selfhosted') }}
       uses: azure/login@v1
       with:
         creds: '{"clientId": "${{ inputs.cr_username }}", "clientSecret": "${{ inputs.cr_password }}", "subscriptionId": "${{ inputs.cr_subscription }}", "tenantId": "${{ inputs.cr_tenant }}"}'
