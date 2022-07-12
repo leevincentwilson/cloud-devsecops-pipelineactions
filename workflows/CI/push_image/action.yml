@@ -43,7 +43,8 @@ runs:
       uses: azure/login@v1
       with:
         creds: '{"clientId": "${{ inputs.cr_username }}", "clientSecret": "${{ inputs.cr_password }}", "subscriptionId": "${{ inputs.cr_subscription }}", "tenantId": "${{ inputs.cr_tenant }}"}'
-            
+      if: ${{ contains(runner.name, 'selfhosted') && !contains(inputs.cr_servername, 'ghcr.io') }}
+      
       
 #     - name: Run AZ Build and Push Docker to ACR       
 #       run: |
@@ -93,9 +94,6 @@ runs:
 #         docker push ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }}
 #       shell: bash
 #       if: ${{ !contains(runner.name, 'selfhosted') && contains(inputs.cr_servername, 'ghcr.io')  }}
-
-
-
 
 
 
