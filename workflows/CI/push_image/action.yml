@@ -44,17 +44,6 @@ runs:
         creds: '{"clientId": "${{ inputs.cr_username }}", "clientSecret": "${{ inputs.cr_password }}", "subscriptionId": "${{ inputs.cr_subscription }}", "tenantId": "${{ inputs.cr_tenant }}"}'
       if: ${{ contains(runner.name, 'selfhosted') && !contains(inputs.cr_servername, 'ghcr.io') }}
       
-      
-#     - name: Run AZ Build and Push Docker to ACR       
-#       run: |
-#         #ACC_SUBSCRIPTION= {{ inputs.cr_subscription }}
-#         #az login --service-principal --username ${{inputs.cr_username}} --password ${{inputs.cr_password}} --tenant ${{inputs.cr_tenant}}
-#         #[ -z $ACC_SUBSCRIPTION ] && az account set --subscription $ACC_SUBSCRIPTION
-#         az acr build --registry ${{ inputs.cr_servername }} -t ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} --file ./${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} . ${{inputs.cr_docker_arguments}}
-#       shell: bash
-#       if: ${{ contains(runner.name, 'selfhosted') }}
-
-
 
     - uses: Azure/docker-login@v1
       with:
@@ -70,8 +59,9 @@ runs:
       with:
         registry: ghcr.io
         username: ${{inputs.cr_username}}
-        password: ${{inputs.cr_password}}  
-      if: ${{ !contains(runner.name, 'selfhosted') && contains(inputs.cr_servername, 'ghcr.io')  }}
+        password: ${{inputs.cr_password}}
+      if: ${{ contains(inputs.cr_servername, 'ghcr.io')  }}  
+      #if: ${{ !contains(runner.name, 'selfhosted') && contains(inputs.cr_servername, 'ghcr.io')  }}
       
       
     - name: run docker build and push
@@ -95,6 +85,17 @@ runs:
 #       if: ${{ !contains(runner.name, 'selfhosted') && contains(inputs.cr_servername, 'ghcr.io')  }}
 
 
+
+
+
+#     - name: Run AZ Build and Push Docker to ACR       
+#       run: |
+#         #ACC_SUBSCRIPTION= {{ inputs.cr_subscription }}
+#         #az login --service-principal --username ${{inputs.cr_username}} --password ${{inputs.cr_password}} --tenant ${{inputs.cr_tenant}}
+#         #[ -z $ACC_SUBSCRIPTION ] && az account set --subscription $ACC_SUBSCRIPTION
+#         az acr build --registry ${{ inputs.cr_servername }} -t ${{ inputs.cr_servername }}/${{inputs.cr_imagename}}:${{ inputs.cr_imagetag }} --file ./${{inputs.cr_dockerfile_path}}${{inputs.cr_dockerfile_name}} . ${{inputs.cr_docker_arguments}}
+#       shell: bash
+#       if: ${{ contains(runner.name, 'selfhosted') }}
 
 #     - name: Log in with Azure
 #       uses: azure/login@v1
