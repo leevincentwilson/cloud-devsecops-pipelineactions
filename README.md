@@ -22,6 +22,8 @@ The following reusable actions are available for a variety of tech stacks, pleas
   - AKS Helm Deployment
 - Observability 
   - New Relic Deployment Marker
+  - Pipeline Insights 
+  
 ## Insights 
 The insights workflow sends the pipeline run metrics to New Relic events db based on the New Relic Account ID and API Key provided as secrets.
   
