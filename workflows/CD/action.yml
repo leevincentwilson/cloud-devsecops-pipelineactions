@@ -61,7 +61,13 @@ inputs:
     required: false
   subscription:
     required: false
-
+  slot_name:
+    required: false
+  configuration-file:
+    required: false
+  startup-command:
+    required: false
+    
 runs:
   using: "composite"
   steps:
@@ -109,6 +115,10 @@ runs:
         azure_client_secret: ${{inputs.azure_client_secret}}
         azure_tenant_id: ${{inputs.azure_tenant_id}}
         subscription: ${{inputs.subscription}}
+        slot_name: ${{inputs.slot_name}}
+        configuration_file: ${{inputs.configuration_file}}
+        startup_command: ${{inputs.startup_command}}
+    
         
   
 #     - name: Check out repository code
