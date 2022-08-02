@@ -34,9 +34,9 @@ inputs:
     required: false
   slot_name:
     required: false
-  configuration-file:
+  configuration_file:
     required: false
-  startup-command:
+  startup_command:
     required: false
   
 runs:
