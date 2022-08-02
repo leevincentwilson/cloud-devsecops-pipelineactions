@@ -38,18 +38,18 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
      
   2. Pipeline Metrics data is being sent to the below event tables in New Relic.
   
-    - `**pipelinemetricsdb** -> Contains the details about the workflow`
-    - `**pipelinejobmetricsdb** -> Contains the details about the Jobs in each workflow`
+     - `**pipelinemetricsdb** -> Contains the details about the workflow`
+     - `**pipelinejobmetricsdb** -> Contains the details about the Jobs in each workflow`
       
    - You can duplicate the below Demo Dashbaord to view the metrics.
     https://onenr.io/0bRK984bEQE
 
-- Or you can use the below sample queries to view in New Relic Dashboard (Custom queries can be created based on the data) 
+   - Or you can use the below sample queries to view in New Relic Dashboard (Custom queries can be created based on the data) 
      - * _FROM pipelinemetricsdb SELECT latest(Repository_Name) as 'Repository Name' Facet Repo_ID SINCE 7 days ago_
      - * _FROM pipelinemetricsdb SELECT latest(Total_Duration) FACET Workflow_ID SINCE 7 days ago TIMESERIES 30 minutes LIMIT MAX_
      - * _FROM pipelinejobmetricsdb SELECT latest(Job_Duration) FACET Workflow_ID,Job_Name SINCE 7 days ago TIMESERIES 30 minutes  LIMIT MAX_
       
-- If you are unable to view the demo dashbaord because of permission issue, then please use the below json to create the dashbaord.
+   - If you are unable to view the demo dashbaord because of permission issue, then please use the below json to create the dashbaord.
      - Copy the json
 <details><summary>Click here for the JSON snippet</summary>
 
