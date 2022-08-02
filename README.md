@@ -50,7 +50,11 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
      - * _FROM pipelinejobmetricsdb SELECT latest(Job_Duration) FACET Workflow_ID,Job_Name SINCE 7 days ago TIMESERIES 30 minutes  LIMIT MAX_
       
    - If you are unable to view the demo dashbaord because of permission issue, then please use the below json to create the dashbaord.
-     - Copy the json
+     - Copy the below given JSON
+     - Replace the value for all the entries of **_accountId_** with your Account ID.
+     - Go to NewRelic -> Dashbaord
+     - Click on **Import Dashbaord** and paste the json and create the dashbaord.
+     
 <details><summary>Click here for the JSON snippet</summary>
 
 ```json
@@ -547,9 +551,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
 
 </details>
 
-     - Replace the value for all the entries of _accountId_ with your Account ID.
-     - Go to NewRelic -> Dashbaord
-     - Click on **Import Dashbaord** and paste the json and create the dashbaord.
+     
      
 ## Want to contribute?
 We openly welcome contributors to enhance and grow our resuable actions to improve M&S engineering experience. Please feel free to raise a pull request against this repo with your suggestions / additions and one of the Cloud DevSecOps team will review. 
