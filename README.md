@@ -51,7 +51,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
       
    - If you are unable to view the demo dashbaord because of permission issue, then please use the below json to create the dashbaord.
      - Copy the below given JSON
-     - Replace the value for all the entries of **_accountId_** with your Account ID.
+     - Replace the value for all the entries of **_accountId_** with your NewRelic account ID.
      - Go to NewRelic -> Dashbaord
      - Click on **Import Dashbaord** and paste the json and create the dashbaord.
      
@@ -104,7 +104,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
             },
             "nrqlQueries": [
               {
-                "accountId": 3020403,
+                "accountId": 1234567,
                 "query": "FROM pipelinemetricsdb SELECT latest(Repository_Name) as 'Repository Name' Facet Repo_ID SINCE 7 days ago"
               }
             ],
@@ -133,7 +133,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
             },
             "nrqlQueries": [
               {
-                "accountId": 3020403,
+                "accountId": 1234567,
                 "query": "FROM pipelinemetricsdb SELECT latest(Workflow_Name) FACET Workflow_ID SINCE 7 days ago LIMIT MAX"
               }
             ],
@@ -163,7 +163,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
             },
             "nrqlQueries": [
               {
-                "accountId": 3020403,
+                "accountId": 1234567,
                 "query": "FROM pipelinemetricsdb SELECT count(*) facet Workflow_Status SINCE 7 days ago LIMIT max"
               }
             ],
@@ -192,7 +192,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
             },
             "nrqlQueries": [
               {
-                "accountId": 3020403,
+                "accountId": 1234567,
                 "query": "FROM pipelinemetricsdb SELECT latest(Run_Number) FACET Run_Id SINCE 7 days ago LIMIT MAX "
               }
             ],
@@ -219,7 +219,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
             },
             "nrqlQueries": [
               {
-                "accountId": 3020403,
+                "accountId": 1234567,
                 "query": "FROM pipelinemetricsdb SELECT percentage(count(*), WHERE Workflow_Status = 'success') as 'Workflow Success Rate' FACET Workflow_ID,Workflow_Name SINCE 7 days ago LIMIT MAX "
               }
             ],
@@ -275,7 +275,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
             },
             "nrqlQueries": [
               {
-                "accountId": 3020403,
+                "accountId": 1234567,
                 "query": "FROM pipelinemetricsdb SELECT latest(Total_Duration) FACET Workflow_ID SINCE 7 days ago TIMESERIES 30 minutes LIMIT MAX"
               }
             ],
@@ -308,7 +308,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
             },
             "nrqlQueries": [
               {
-                "accountId": 3020403,
+                "accountId": 1234567,
                 "query": "FROM pipelinejobmetricsdb SELECT latest(Run_Number) FACET Workflow_ID SINCE 7 days ago TIMESERIES 30 minutes LIMIT MAX"
               }
             ],
@@ -341,7 +341,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
             },
             "nrqlQueries": [
               {
-                "accountId": 3020403,
+                "accountId": 1234567,
                 "query": "FROM pipelinejobmetricsdb SELECT latest(Job_Duration) FACET Workflow_ID,Job_Name SINCE 7 days ago TIMESERIES 30 minutes  LIMIT MAX"
               }
             ],
@@ -368,7 +368,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
             },
             "nrqlQueries": [
               {
-                "accountId": 3020403,
+                "accountId": 1234567,
                 "query": "FROM pipelinemetricsdb SELECT Repository_Name,Branch,Workflow_Name,Workflow_ID,Actor,Run_Number,Total_Duration as 'Total Duration in Seconds',Workflow_Status, Run_Started, Run_Ended SINCE 7 days ago limit max"
               }
             ],
@@ -395,7 +395,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
             },
             "nrqlQueries": [
               {
-                "accountId": 3020403,
+                "accountId": 1234567,
                 "query": "FROM pipelinejobmetricsdb SELECT  Workflow_ID,Run_Number,Job_Name,Job_Duration as 'Job Run time in seconds',Job_Status  SINCE 7 days ago LIMIT MAX"
               }
             ],
@@ -422,7 +422,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
             },
             "nrqlQueries": [
               {
-                "accountId": 3020403,
+                "accountId": 1234567,
                 "query": "FROM pipelinemetricsdb SELECT count(*) FACET Actor since 7 days ago"
               }
             ],
@@ -449,7 +449,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
             },
             "nrqlQueries": [
               {
-                "accountId": 3020403,
+                "accountId": 1234567,
                 "query": "FROM pipelinemetricsdb SELECT count(Run_Id) FACET Workflow_ID,Workflow_Name SINCE 7 days ago"
               }
             ],
@@ -476,7 +476,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
             },
             "nrqlQueries": [
               {
-                "accountId": 3020403,
+                "accountId": 1234567,
                 "query": "FROM pipelinejobmetricsdb SELECT count(Job_Name) where Job_Status = 'failure' FACET Workflow_ID,Job_Name SINCE 7 days ago LIMIT max"
               }
             ],
@@ -506,7 +506,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
             },
             "nrqlQueries": [
               {
-                "accountId": 3020403,
+                "accountId": 1234567,
                 "query": "FROM pipelinemetricsdb SELECT average(Total_Duration) as 'Average Total Execution Time' facet Workflow_Name,Workflow_ID SINCE last week TIMESERIES Limit max"
               }
             ],
@@ -533,7 +533,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
             },
             "nrqlQueries": [
               {
-                "accountId": 3020403,
+                "accountId": 1234567,
                 "query": "FROM pipelinemetricsdb SELECT max(Total_Duration) as 'Max Duration in seconds', min(Total_Duration) as 'Min Duration in seconds',average(Total_Duration) as 'Average Duration' FACET Workflow_ID SINCE last month"
               }
             ],
