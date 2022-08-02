@@ -37,6 +37,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
      https://github.com/DigitalInnovation/Cloud-DevSecOps-Reusable-Templates/blob/main/.github/workflows/pipeline-insights-reusable-template.yaml
      
   2. Pipeline Metrics data is being sent to the below event tables in New Relic.
+  
     * **pipelinemetricsdb** -> Contains the details about the workflow
     * **pipelinejobmetricsdb** -> Contains the details about the Jobs in each workflow
       
@@ -50,7 +51,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
       
 - If you are unable to view the demo dashbaord because of permission issue, then please use the below json to create the dashbaord.
      - Copy the json
-     - <details><summary>Click here for the JSON snippet</summary>
+<details><summary>Click here for the JSON snippet</summary>
 
 ```json
   
