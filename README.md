@@ -38,10 +38,10 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
      
   2. Pipeline Metrics data is being sent to the below event tables in New Relic.
   
-    * **pipelinemetricsdb** -> Contains the details about the workflow
-    * **pipelinejobmetricsdb** -> Contains the details about the Jobs in each workflow
+    - `**pipelinemetricsdb** -> Contains the details about the workflow`
+    - `**pipelinejobmetricsdb** -> Contains the details about the Jobs in each workflow`
       
-   - You an duplicate the below Demo Dashbaord to view the metrics.
+   - You can duplicate the below Demo Dashbaord to view the metrics.
     https://onenr.io/0bRK984bEQE
 
 - Or you can use the below sample queries to view in New Relic Dashboard (Custom queries can be created based on the data) 
@@ -546,6 +546,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
 ```
 
 </details>
+
      - Replace the value for all the entries of _accountId_ with your Account ID.
      - Go to NewRelic -> Dashbaord
      - Click on **Import Dashbaord** and paste the json and create the dashbaord.
