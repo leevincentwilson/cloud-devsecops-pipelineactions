@@ -51,7 +51,7 @@ The insights workflow sends the pipeline run metrics to New Relic events db base
       
    - If you are unable to view the demo dashbaord because of permission issue, then please use the below json to create the dashbaord.
      - Copy the json
-       <details><summary>Click here for the JSON snippet</summary>
+<details><summary>Click here for the JSON snippet</summary>
 
 ```json
   
