@@ -1,0 +1,41 @@
+name: 'International release customization'
+description: 'Release customization for all International Repos'
+inputs:
+  github-token:
+    required: false
+  prerelease-branches:
+    required: false
+  release-branches:
+    required: false
+  default-prerelease-bump:
+    required: false
+    
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello, You are Executing Composite action to Execute Build
+      shell: bash
+    - run: ls -lart
+      shell: bash
+      
+    - name: Bump version and push tag
+      id: tag_version
+      uses: mathieudutour/github-tag-action@v6.0
+      with:
+        github_token: ${{ inputs.github-token }}
+        pre_release_branches: ${{ inputs.prerelease-branches }}
+        default_prerelease_bump : ${{ inputs.default-prerelease-bump }}
+        release_branches: ${{ inputs.release-branches }}
+        #commit_sha: ${{ env.GITHUB_SHA }}
+        custom_release_rules: "Bug:patch:Bug Fix,Config:minor:Configuration Changes,Revert:patch:Changes Reverted,Docs:patch:Document Changes,Feat:minor:New Feature,Feature:minor:New Feature,Breaking Change:major:BREAKING CHANGE!!!,CICD:minor:CICD Changes,Monitoring:minor:Monitoring Changes"
+    - name: Display version Number
+      id: next-version
+      run: |
+        echo "${{steps.tag_version.outputs.new_version}}"
+        nextversion=$(echo ${{steps.tag_version.outputs.new_version}} | cut -d "-" -f1)
+        newversion="v$nextversion"
+        echo "::set-output name=NEWVERSION::$newversion"
+    outputs:
+      NEWVERSION: ${{steps.next-version.outputs.NEWVERSION}}
+      CHANGELOG: ${{steps.next-version.outputs.changelog}}
+      shell: bash  
