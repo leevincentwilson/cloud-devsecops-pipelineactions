@@ -30,11 +30,11 @@ runs:
           if [ ${avg} -gt ${{ inputs.junit-threshold }} ]
           then
             echo "Unit test results below 80 percent. So failing the pipeline"
-            curl -H 'Content-Type: application/json' -d '{"text": "Unit test results failed."}' https://mnscorp.webhook.office.com/webhookb2/782d3295-e956-4b99-8065-b96fddff4af4@bd5c6713-7399-4b31-be79-78f2d078e543/IncomingWebhook/d49307c27aa14d289d8b7d91a16f7942/d8d2edb4-db07-43c0-bd6b-4307cb39d29c
+            curl -H 'Content-Type: application/json' -d '{"text": "Unit test results failed."}' ${{ inputs.teams-webhook }}
             exit 1
           else
             echo "Unit test results successful"
-            curl -H 'Content-Type: application/json' -d '{"text": "Unit test results sucess."}' https://mnscorp.webhook.office.com/webhookb2/782d3295-e956-4b99-8065-b96fddff4af4@bd5c6713-7399-4b31-be79-78f2d078e543/IncomingWebhook/d49307c27aa14d289d8b7d91a16f7942/d8d2edb4-db07-43c0-bd6b-4307cb39d29c
+            curl -H 'Content-Type: application/json' -d '{"text": "Unit test results sucess."}' ${{ inputs.teams-webhook }}
           fi
         done
       shell: bash  
