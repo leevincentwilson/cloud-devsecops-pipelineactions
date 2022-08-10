@@ -1,0 +1,61 @@
+
+name: 'International PR Validation'
+description: 'PR validation for all International Repos'
+inputs:
+  base_branch:
+    required: false
+  head_branch:
+    required: false
+  commit_description:
+    required: false
+    
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello, You are Executing Composite action to Execute Build
+      shell: bash
+    - run: ls -lart
+      shell: bash
+      
+    - name: Check for Resolves / Fixes
+      uses: gsactions/commit-message-checker@v1
+      with:
+        pattern: '^.+(Feature|Fixes|Issue): \#[0-9]+$'
+        error: 'You need at least one "Feature|Fixes: #<Feature/Issue number>" line.'
+      
+    - name: Branch Name Validation
+      id: branchNameValidation
+      run: |
+        if [[ ${{ inputs.base_branch }} = "development" ]]
+        then
+          if [[ ${{ inputs.head_branch }} == "Feature/"* && ${{ inputs.head_branch }} =~ [0-9]$ ]]
+          then
+            echo "Base branch name is perfect"
+          else
+            echo "Branch name should be of format Feature/<jira-story>"
+            exit 1
+          fi
+        elif [[ ${{ inputs.base_branch }} = "stage" ]]
+        then
+          if [[ ${{ inputs.head_branch }} == "Hotfix/"* && ${{ inputs.head_branch }} =~ [0-9]$ ]]
+          then
+            echo "Base branch name is perfect"
+          else
+            echo "Branch name should be of format Hotfix/<jira-story> (or) <Incident> (or) <Some ticket reference>"
+            exit 1
+          fi
+        fi
+      shell: bash  
+    
+    - name: Commit Message Description Validation
+      id: commitDescriptionValidation
+      run: |
+        descr="${{ inputs.commit_description }}"
+        if [[ ${descr} == "Bugfix:"* || ${descr} == "Bugfix :"* || ${descr} == "Config:"* || ${descr} == "Config :"* || ${descr} == "Revert:"* || ${descr} == "Revert :"* || ${descr} == "Docs:"* || ${descr} == "Docs :"* || ${descr} == "Feat:"* || ${descr} == "Feat :"* || ${descr} == "Feature:"* || ${descr} == "Feature :"* || ${descr} == "Breaking Change:"* || ${descr} == "Breaking Change :"* || ${descr} == "CICD:"* || ${descr} == "CICD :"* || ${descr} == "Monitoring:"* || ${descr} == "Monitoring :"* || ${descr} == "Major Feature:"* || ${descr} == "Major Feature :"* ]]
+        then
+          echo "Description of pr is perfect"
+        else
+          echo "Description of pull request is not proper. It should be of format <Release-Type>: <Release Description>"
+          exit 1
+        fi
+      shell: bash
