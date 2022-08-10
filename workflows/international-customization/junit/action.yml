@@ -1,0 +1,40 @@
+name: 'International junit customization'
+description: 'Junit customization for all International Repos'
+inputs:
+  report_location:
+    required: false
+  junit-threshold:
+    required: false
+  teams-webhook:
+    required: false
+    
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello, You are Executing Composite action to Execute Build
+      shell: bash
+    - run: ls -lart
+      shell: bash
+      
+    - name: junit_test_result_analysis
+      id: junit_result_analysis
+      run: |
+        for file in `ls ${{ inputs.report_location }}/*.txt`
+        do
+          tests=`cat ${file} | grep -i "Tests run:" | cut -d "," -f1 | cut -d ":" -f2 | sed 's/ //g'`
+          failed=`cat ${file} | grep -i "Tests run:" | cut -d "," -f2 | cut -d ":" -f2 | sed 's/ //g'`
+          error=`cat ${file} | grep -i "Tests run:" | cut -d "," -f3 | cut -d ":" -f2 | sed 's/ //g'`
+          skipped=`cat ${file} | grep -i "Tests run:" | cut -d "," -f4 | cut -d ":" -f2 | sed 's/ //g'`
+          total_fail=$((failed+error+skipped))
+          avg=$(((total_fail/tests)*100))
+          if [ ${avg} -gt ${{ inputs.junit-threshold }} ]
+          then
+            echo "Unit test results below 80 percent. So failing the pipeline"
+            curl -H 'Content-Type: application/json' -d '{"text": "Unit test results failed."}' https://mnscorp.webhook.office.com/webhookb2/782d3295-e956-4b99-8065-b96fddff4af4@bd5c6713-7399-4b31-be79-78f2d078e543/IncomingWebhook/d49307c27aa14d289d8b7d91a16f7942/d8d2edb4-db07-43c0-bd6b-4307cb39d29c
+            exit 1
+          else
+            echo "Unit test results successful"
+            curl -H 'Content-Type: application/json' -d '{"text": "Unit test results sucess."}' https://mnscorp.webhook.office.com/webhookb2/782d3295-e956-4b99-8065-b96fddff4af4@bd5c6713-7399-4b31-be79-78f2d078e543/IncomingWebhook/d49307c27aa14d289d8b7d91a16f7942/d8d2edb4-db07-43c0-bd6b-4307cb39d29c
+          fi
+        done
+      shell: bash  
