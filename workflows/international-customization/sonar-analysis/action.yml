@@ -1,0 +1,39 @@
+name: 'Sonar Analysis Customization'
+description: 'Sonar Customization for all International Repos'
+inputs:
+  github-token:
+    required: false
+  sonar-project-token:
+    required: false
+  sonar-project-key:
+    required: false
+  teams-webhook:
+    required: false
+    
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello, You are Executing Composite action to Execute Build
+      shell: bash
+    - run: ls -lart
+      shell: bash
+      
+    - name: sonar Quality Gate Check
+      id: sonar_result_analysis
+      run: |
+        QGSTATUS=$(curl -s -u '${{ inputs.sonar-project-token }}': https://sonarcloud.io/api/qualitygates/project_status?projectKey=${{ inputs.sonar-project-key }} | jq '.projectStatus.status' | tr -d '"')
+        if [ "$QGSTATUS" = null ]
+        then
+          echo 'Sonarqube analysis in progress, Please check later in UI!'
+          curl -H 'Content-Type: application/json' -d '{"text": "Sonar test result not available. Please run again."}' ${{ inputs.teams-webhook }}
+        elif [ "$QGSTATUS" = "ERROR" ]
+        then
+          echo 'Sonarqube analysis Project status is -- ERROR'
+          curl -H 'Content-Type: application/json' -d '{"text": "Sonar test result failed. Please run workflow again."}' ${{ inputs.teams-webhook }}
+          exit 1
+        elif [ "$QGSTATUS" = "OK" ]
+        then
+          echo 'Sonarqube analysis Project status is -- OK'
+          curl -H 'Content-Type: application/json' -d '{"text": "Sonar test result success."}' ${{ inputs.teams-webhook }}
+        fi
+      shell: bash
