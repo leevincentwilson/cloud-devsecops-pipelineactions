@@ -1,8 +1,6 @@
 name: 'Sonar Analysis Customization'
 description: 'Sonar Customization for all International Repos'
 inputs:
-  github-token:
-    required: false
   sonar-project-token:
     required: false
   sonar-project-key:
