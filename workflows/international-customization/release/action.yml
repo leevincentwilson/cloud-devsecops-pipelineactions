@@ -36,4 +36,5 @@ runs:
         nextversion=$(echo ${{steps.tag_version.outputs.new_version}} | cut -d "-" -f1)
         newversion="v$nextversion"
         echo "::set-output name=NEWVERSION::$newversion"
+        echo "NEWVERSION=$newversion" >> $GITHUB_ENV
       shell: bash
