@@ -28,6 +28,7 @@ runs:
         release_branches: ${{ inputs.release-branches }}
         #commit_sha: ${{ env.GITHUB_SHA }}
         custom_release_rules: "Bug:patch:Bug Fix,Config:minor:Configuration Changes,Revert:patch:Changes Reverted,Docs:patch:Document Changes,Feat:minor:New Feature,Feature:minor:New Feature,Breaking Change:major:BREAKING CHANGE!!!,CICD:minor:CICD Changes,Monitoring:minor:Monitoring Changes"
+      shell: bash
 
     - name: Display version Number
       id: next-version
