@@ -44,3 +44,4 @@ runs:
       id: next-version
       run: |
         echo "${{steps.getakvsecrets.outputs.nexus-setting-xml}}"
+      shell: bash
