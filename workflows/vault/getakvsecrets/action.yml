@@ -40,10 +40,9 @@ runs:
         keyvault: ${{inputs.keyvault}} # name of key vault in Azure portal
         secrets: ${{inputs.secret_keys}} # comma separated list of secret keys to fetch from key vault 
       
-    - name: Display version Number
-      id: next-version
+    - name: 'Setting secrets as environment value'
+      id: secret-set-env
       run: |
-        echo "${{steps.getakvsecrets.outputs.registryurl}}"
         for var in `echo ${{inputs.secret_keys}} | sed 's/,/ /'`
         do
           echo "$var=${{steps.getakvsecrets.outputs.registryurl}}" >> $GITHUB_ENV
