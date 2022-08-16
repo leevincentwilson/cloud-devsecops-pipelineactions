@@ -43,8 +43,9 @@ runs:
     - name: 'Setting secrets as environment value'
       id: secret-set-env
       run: |
-        for var in `echo ${{inputs.secret_keys}} | sed 's/,/ /'`
+        for var in `echo ${{inputs.secret_keys}} | sed 's/,/ /g'`
         do
-          echo "$var=${{steps.getakvsecrets.outputs.registryurl}}" >> $GITHUB_ENV
+          env_name=`echo ${var} | sed 's/-/_/g'`
+          echo "$env_name=${{steps.getakvsecrets.outputs.${var}}}" >> $GITHUB_ENV
         done
       shell: bash
