@@ -43,7 +43,7 @@ runs:
     - name: Display version Number
       id: next-version
       run: |
-        echo "${{steps.getakvsecrets.outputs.nexus-setting-xml}}"
-        var="nexus-setting-xml"
-        echo "$var=${{steps.getakvsecrets.outputs.nexus-setting-xml}}" >> $GITHUB_ENV
+        echo "${{steps.getakvsecrets.outputs.registryurl}}"
+        var="registryurl"
+        echo "$var=${{steps.getakvsecrets.outputs.registryurl}}" >> $GITHUB_ENV
       shell: bash
