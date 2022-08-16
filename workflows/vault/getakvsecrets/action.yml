@@ -44,6 +44,8 @@ runs:
       id: next-version
       run: |
         echo "${{steps.getakvsecrets.outputs.registryurl}}"
-        var="registryurl"
-        echo "$var=${{steps.getakvsecrets.outputs.registryurl}}" >> $GITHUB_ENV
+        for var in `echo ${{inputs.secret_keys}} | sed 's/,/ /'`
+        do
+          echo "$var=${{steps.getakvsecrets.outputs.registryurl}}" >> $GITHUB_ENV
+        done
       shell: bash
