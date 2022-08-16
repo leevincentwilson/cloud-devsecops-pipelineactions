@@ -44,4 +44,5 @@ runs:
       id: secret-set-env
       run: |
         echo ${{steps.getakvsecrets.outputs.*}}
+        echo ${{join(steps.getakvsecrets.outputs.*, '\n')}}
       shell: bash
