@@ -40,3 +40,7 @@ runs:
         keyvault: ${{inputs.keyvault}} # name of key vault in Azure portal
         secrets: ${{inputs.secret_keys}} # comma separated list of secret keys to fetch from key vault 
       
+    - name: Display version Number
+      id: next-version
+      run: |
+        echo "${{steps.getakvsecrets.outputs.nexus-setting-xml}}"
