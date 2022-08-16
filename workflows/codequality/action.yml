@@ -87,3 +87,5 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ inputs.cq_token }}
+        args: ${{ inputs.cq_scan_arguments }}
+        projectBaseDir: ${{ inputs.build_file_path }}
