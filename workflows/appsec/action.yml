@@ -68,11 +68,11 @@ runs:
     shell: bash
     
   - name: Install JAVA 
-      uses: actions/setup-java@v2
-      if: ${{inputs.jdk_version}}
-      with:
-        distribution: 'adopt' # See 'Supported distributions' for available options
-        java-version: '${{inputs.jdk_version}}'   
+    uses: actions/setup-java@v2
+    if: ${{inputs.jdk_version}}
+    with:
+      distribution: 'adopt' # See 'Supported distributions' for available options
+      java-version: '${{inputs.jdk_version}}'   
    
   - name: Install Node
     if: ${{inputs.node_version}}
