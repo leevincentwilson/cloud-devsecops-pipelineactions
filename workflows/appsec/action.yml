@@ -6,6 +6,10 @@ inputs:
     required: true
   build_tool:
     required: true
+  jdk_version:
+    required: false
+  node_version: 
+    required: false
   run_dependency_scan:
     required: true
   dependency_scan_token:
@@ -63,7 +67,20 @@ runs:
   - run : echo $RUNNER_NAME $RUNNER_OS $RUNNER_ARCH $RUNNER_TEMP
     shell: bash
     
-    
+  - name: Install JAVA 
+      uses: actions/setup-java@v2
+      if: ${{inputs.jdk_version}}
+      with:
+        distribution: 'adopt' # See 'Supported distributions' for available options
+        java-version: '${{inputs.jdk_version}}'   
+   
+  - name: Install Node
+    if: ${{inputs.node_version}}
+    uses: actions/setup-node@v3
+    with:
+      node-version: ${{inputs.node_version}}
+      
+      
 ##################  DEPENDENCY SCAN PROCESS - SNYK ############################    
 
   - run: echo  argument for run_dependency_scan = ${{inputs.run_dependency_scan}}
@@ -85,7 +102,7 @@ runs:
     if: ${{inputs.run_dependency_scan == 'true' &&  inputs.dependency_scan_token }}
   
   - name: Snyk SCA Scanning
-    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/snyk@v1.0.28
+    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/snyk@marketplace_upgrade_appsec
     with:      
       dependency_scan_token: ${{ inputs.dependency_scan_token }}
       dependency_scan_arguments: ${{ inputs.dependency_scan_arguments }}
@@ -110,6 +127,8 @@ runs:
     
     
     
+    
+    
 ##################  CONTAINER SCAN PROCESS - PRISMA ############################
 
   - name: Message
@@ -128,7 +147,7 @@ runs:
     shell: bash
     if: ${{inputs.run_container_scan == 'true' }}
   - name: Run Container Scan for Repostiory
-    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/prisma@v1.0.28
+    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/prisma@marketplace_upgrade_appsec
     with: 
       container_scan_user: ${{ inputs.container_scan_user }}
       container_scan_password: ${{ inputs.container_scan_password }}
@@ -156,6 +175,9 @@ runs:
     shell: bash
     if: ${{inputs.run_container_scan == 'true' }}
    
+   
+   
+   
 
 ##################  SAST SCAN PROCESS - FOD ############################
   
@@ -178,7 +200,7 @@ runs:
     if: ${{inputs.run_sast_scan == 'true' }}
     
   - name: Fortify Scan Create source Zip upload to FOD for Scanning
-    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/fortify@v1.0.28
+    uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec/fortify@marketplace_upgrade_appsec
     with:
       sast_release_id: ${{inputs.sast_release_id }}
       sast_api_key: ${{ inputs.sast_api_key}}
