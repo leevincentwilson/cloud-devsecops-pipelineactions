@@ -22,13 +22,13 @@ runs:
     run: snyk test --all-projects ${{inputs.dependency_scan_arguments}} || echo "snyk scan completed"
     shell: bash
     env:
-      SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
+      SNYK_TOKEN: ${{inputs.dependency_scan_token}}
       
   - name: Snyk Continuous Monitor
     run: snyk monitor || echo "snyk monitor enabling completed"
     shell: bash
     env:
-      SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
+      SNYK_TOKEN: ${{inputs.dependency_scan_token}}
       
       
       
