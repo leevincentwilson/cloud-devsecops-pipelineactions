@@ -19,13 +19,14 @@ runs:
   
   - uses: snyk/actions/setup@master
   - name: Snyk monitor
-    continue-on--error: true
-    run: snyk test --all-projects ${{inputs.dependency_scan_arguments}}
+    run: snyk test --all-projects ${{inputs.dependency_scan_arguments}} || echo "snyk scan completed"
+    shell: bash
     env:
       SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
       
   - name: Snyk Continuous Monitor
-    run: snyk monitor
+    run: snyk monitor || echo "snyk monitor enabling completed"
+    shell: bash
     env:
       SNYK_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
       
