@@ -29,11 +29,11 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Run Prisma Scan for Repository
-      run: |
-        curl --user ${{ inputs.container_scan_user }}:${{ inputs.container_scan_password }} --output ./twistcli ${{ inputs.container_scan_url }}/api/v1/util/twistcli
-        chmod a+x ./twistcli     
-      shell: bash
+#     - name: Run Prisma Scan for Repository
+#       run: |
+#         curl --user ${{ inputs.container_scan_user }}:${{ inputs.container_scan_password }} --output ./twistcli ${{ inputs.container_scan_url }}/api/v1/util/twistcli
+#         chmod a+x ./twistcli     
+#       shell: bash
       
     ########## Login to Registry server if Registru server info is provided ########  
     - name: Login to Registry Server
@@ -68,11 +68,11 @@ runs:
       shell: bash  
       
       
-    - name: Scan the image using Prisma Cloud from docker hub or local
-      run: |
-        ./twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --details ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}
-      shell: bash
-      #if: ${{ !inputs.registry_server || contains(inputs.registry_server,'docker.io')  }}
+#     - name: Scan the image using Prisma Cloud from docker hub or local
+#       run: |
+#         ./twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --details ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}
+#       shell: bash
+#       #if: ${{ !inputs.registry_server || contains(inputs.registry_server,'docker.io')  }}
       
     - name: Prisma Cloud image scan
       id: scan
