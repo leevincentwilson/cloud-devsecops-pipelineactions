@@ -16,8 +16,7 @@ inputs:
     required: false
   dependency_scan_arguments:
     required: false
-    
-      
+  
   run_sast_scan:
     required: true
   sast_release_id:
@@ -60,6 +59,10 @@ inputs:
   registry_password:
     required: false
   
+  json_results_file_name:
+    required: false
+  sarif_results_file_name:
+    required: false
   
 runs:
   using: "composite"
@@ -157,6 +160,9 @@ runs:
       registry_server: ${{inputs.registry_server}}
       registry_username: ${{ inputs.registry_username }}
       registry_password: ${{ inputs.registry_password }}
+      json_results_file_name: ${{ inputs.json_results_file_name }}
+      sarif_results_file_name: ${{ inputs.sarif_results_file_name }}
+    
     if: ${{ inputs.run_container_scan == 'true' }}  
     
   - name: Message
