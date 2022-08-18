@@ -68,11 +68,11 @@ runs:
       shell: bash  
       
       
-#     - name: Scan the image using Prisma Cloud from docker hub or local
-#       run: |
-#         ./twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --details ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}
-#       shell: bash
-#       #if: ${{ !inputs.registry_server || contains(inputs.registry_server,'docker.io')  }}
+    - name: Scan the image using Prisma Cloud from docker hub or local
+      run: |
+        ./twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --details ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}
+      shell: bash
+      #if: ${{ !inputs.registry_server || contains(inputs.registry_server,'docker.io')  }}
       
     - name: Prisma Cloud image scan
       id: scan
@@ -82,8 +82,8 @@ runs:
         pcc_user: ${{ inputs.container_scan_user }}
         pcc_pass: ${{ inputs.container_scan_password }}
         image_name: ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}
-        results_file: ${{ inputs.json_results_file_name }}
-        sarif_file: ${{ inputs.sarif_results_file_name }}
+        #results_file: ${{ inputs.json_results_file_name }}
+        #sarif_file: ${{ inputs.sarif_results_file_name }}
       
 #      - name: Scan the LOCAL image using Prisma Cloud 
 #       run: |
