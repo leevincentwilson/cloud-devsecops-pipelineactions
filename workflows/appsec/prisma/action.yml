@@ -18,6 +18,10 @@ inputs:
     required: false
   registry_password:
     required: false
+  json_results_file_name:
+    required: false
+  sarif_results_file_name:
+    required: false
     
     
   
@@ -77,7 +81,9 @@ runs:
         pcc_console_url: ${{ inputs.container_scan_url }}
         pcc_user: ${{ inputs.container_scan_user }}
         pcc_pass: ${{ inputs.container_scan_password }}
-        image_name: ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}   
+        image_name: ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}
+        results_file: ${{ inputs.json_results_file_name }}
+        sarif_file: ${{ inputs.sarif_results_file_name }}
       
 #      - name: Scan the LOCAL image using Prisma Cloud 
 #       run: |
