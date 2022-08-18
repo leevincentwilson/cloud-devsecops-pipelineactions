@@ -29,11 +29,11 @@ inputs:
 runs:
   using: "composite"
   steps:
-#     - name: Run Prisma Scan for Repository
-#       run: |
-#         curl --user ${{ inputs.container_scan_user }}:${{ inputs.container_scan_password }} --output ./twistcli ${{ inputs.container_scan_url }}/api/v1/util/twistcli
-#         chmod a+x ./twistcli     
-#       shell: bash
+    - name: Run Prisma Scan for Repository
+      run: |
+        curl --user ${{ inputs.container_scan_user }}:${{ inputs.container_scan_password }} --output ./twistcli ${{ inputs.container_scan_url }}/api/v1/util/twistcli
+        chmod a+x ./twistcli     
+      shell: bash
       
     ########## Login to Registry server if Registru server info is provided ########  
     - name: Login to Registry Server
