@@ -160,8 +160,8 @@ runs:
       registry_server: ${{inputs.registry_server}}
       registry_username: ${{ inputs.registry_username }}
       registry_password: ${{ inputs.registry_password }}
-      json_results_file_name: ${{ inputs.json_results_file_name }}
-      sarif_results_file_name: ${{ inputs.sarif_results_file_name }}
+      #json_results_file_name: ${{ inputs.json_results_file_name }}
+      #sarif_results_file_name: ${{ inputs.sarif_results_file_name }}
     
     if: ${{ inputs.run_container_scan == 'true' }}  
     
