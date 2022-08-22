@@ -17,17 +17,33 @@ runs:
   using: "composite"
   steps:
   
-       
-  - name: Snyc scan for maven and gradle     
-    run: |
-      echo SNYK token is provided running SNYK scan for the project
-      echo "----------Download Latest Snyk CLI-----------"
-      curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.950.0/snyk-linux"
-      chmod +x snyk
-      ./snyk auth ${{inputs.dependency_scan_token}}
-      ./snyk test --all-projects ${{inputs.dependency_scan_arguments}}  || echo "snyk scan completed"
-      ./snyk monitor --all-projects ${{inputs.dependency_scan_arguments}}  || echo "snyk monitor enabling completed"
-    shell: bash 
+  - uses: snyk/actions/setup@master
+  - name: Snyk monitor
+    run: snyk test --all-projects ${{inputs.dependency_scan_arguments}} || echo "snyk scan completed"
+    shell: bash
+    env:
+      SNYK_TOKEN: ${{inputs.dependency_scan_token}}
+      
+  - name: Snyk Continuous Monitor
+    run: snyk monitor || echo "snyk monitor enabling completed"
+    shell: bash
+    env:
+      SNYK_TOKEN: ${{inputs.dependency_scan_token}}
+      
+      
+      
+      
+      
+#   - name: Snyc scan for maven and gradle     
+#     run: |
+#       echo SNYK token is provided running SNYK scan for the project
+#       echo "----------Download Latest Snyk CLI-----------"
+#       curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.950.0/snyk-linux"
+#       chmod +x snyk
+#       ./snyk auth ${{inputs.dependency_scan_token}}
+#       ./snyk test --all-projects ${{inputs.dependency_scan_arguments}}  || echo "snyk scan completed"
+#       ./snyk monitor --all-projects ${{inputs.dependency_scan_arguments}}  || echo "snyk monitor enabling completed"
+#     shell: bash 
     if: ${{ inputs.build_tool != 'npm' || inputs.build_tool != 'yarn' }}
     
 

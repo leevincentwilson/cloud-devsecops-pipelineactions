@@ -6,14 +6,17 @@ inputs:
     required: true
   build_tool:
     required: true
+  jdk_version:
+    required: false
+  node_version: 
+    required: false
   run_dependency_scan:
     required: true
   dependency_scan_token:
     required: false
   dependency_scan_arguments:
     required: false
-    
-      
+  
   run_sast_scan:
     required: true
   sast_release_id:
@@ -56,6 +59,10 @@ inputs:
   registry_password:
     required: false
   
+  json_results_file_name:
+    required: false
+  sarif_results_file_name:
+    required: false
   
 runs:
   using: "composite"
@@ -63,7 +70,20 @@ runs:
   - run : echo $RUNNER_NAME $RUNNER_OS $RUNNER_ARCH $RUNNER_TEMP
     shell: bash
     
-    
+  - name: Install JAVA 
+    uses: actions/setup-java@v2
+    if: ${{inputs.jdk_version}}
+    with:
+      distribution: 'adopt' # See 'Supported distributions' for available options
+      java-version: '${{inputs.jdk_version}}'   
+   
+  - name: Install Node
+    if: ${{inputs.node_version}}
+    uses: actions/setup-node@v3
+    with:
+      node-version: ${{inputs.node_version}}
+      
+      
 ##################  DEPENDENCY SCAN PROCESS - SNYK ############################    
 
   - run: echo  argument for run_dependency_scan = ${{inputs.run_dependency_scan}}
@@ -110,6 +130,8 @@ runs:
     
     
     
+    
+    
 ##################  CONTAINER SCAN PROCESS - PRISMA ############################
 
   - name: Message
@@ -138,6 +160,9 @@ runs:
       registry_server: ${{inputs.registry_server}}
       registry_username: ${{ inputs.registry_username }}
       registry_password: ${{ inputs.registry_password }}
+      #json_results_file_name: ${{ inputs.json_results_file_name }}
+      #sarif_results_file_name: ${{ inputs.sarif_results_file_name }}
+    
     if: ${{ inputs.run_container_scan == 'true' }}  
     
   - name: Message
@@ -155,6 +180,9 @@ runs:
        echo #===================================================================================================#
     shell: bash
     if: ${{inputs.run_container_scan == 'true' }}
+   
+   
+   
    
 
 ##################  SAST SCAN PROCESS - FOD ############################
