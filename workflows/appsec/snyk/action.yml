@@ -18,18 +18,33 @@ runs:
   steps:
   
   - uses: snyk/actions/setup@master
-  - name: Snyk monitor
+    if: runner.os != 'Windows'
+  
+  - name: Snyk test
     run: snyk test --all-projects ${{inputs.dependency_scan_arguments}} || echo "snyk scan completed"
     shell: bash
     env:
       SNYK_TOKEN: ${{inputs.dependency_scan_token}}
-      
+    if: runner.os != 'Windows'
+    
   - name: Snyk Continuous Monitor
     run: snyk monitor || echo "snyk monitor enabling completed"
     shell: bash
     env:
       SNYK_TOKEN: ${{inputs.dependency_scan_token}}
-      
+    if: runner.os != 'Windows' 
+    
+    
+  - name: Snyk monitor for windows agents
+    run: |
+      curl https://static.snyk.io/cli/latest/snyk-win.exe -o snyk.exe
+      .\snyk test --all-projects ${{inputs.dependency_scan_arguments}} || echo "snyk scan completed"
+      .\snyk monitor --all-projects ${{inputs.dependency_scan_arguments}} || echo "snyk scan completed"
+    shell: bash
+    env:
+      SNYK_TOKEN: ${{inputs.dependency_scan_token}}
+    if: runner.os == 'Windows'    
+   
       
       
       
