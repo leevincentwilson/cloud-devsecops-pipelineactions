@@ -74,11 +74,12 @@ runs:
       if: runner.os == 'Windows'
       run: |
           curl --user ${{ inputs.container_scan_user }}:${{ inputs.container_scan_password }} --output twistcli.exe ${{ inputs.container_scan_url }}/api/v1/util/windows/twistcli.exe
-    
+      shell: bash
     
     - name: Scan the image using Prisma Cloud from docker hub or local
       run: |
         .\twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --details ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}
+      shell: bash
       if: runner.os == 'Windows'
     
 
