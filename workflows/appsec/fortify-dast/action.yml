@@ -1,0 +1,37 @@
+# Appsec Composite action
+name: 'DevSecOps Application Security Actions'
+description: 'Running Fority DAST Security Scans for project codes'
+
+inputs:
+  dast_release_id:
+    required: true
+  dast_api_key:
+    required: true
+  dast_api_secret:
+    required: true
+  dast_scan_options:
+    required: true
+  dast_scan_notes:
+    required: false
+  application_name:
+    required: true
+  application_src_path:
+    required: false
+  application_artifact_zip_path:
+    required: false
+  download_dast_scan_result:
+    required: false
+    default: false
+  
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello, You are Executing FOTIFY DAST Scan
+      shell: bash
+
+    - name: FOD DAST Scan
+      run: |
+        python main.py ${{ inputs.dast_api_key }} ${{ inputs.dast_api_secret }} ${{ inputs.dast_release_id }}
+      shell: bash   
+      
+      
