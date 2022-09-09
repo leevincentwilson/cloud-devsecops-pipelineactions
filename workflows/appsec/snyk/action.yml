@@ -25,7 +25,7 @@ runs:
     run: |
          echo "${{ env.ENVVAR }}=${{ env.ENVAPP }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
          curl https://static.snyk.io/cli/latest/snyk-win.exe -o snyk.exe
-         snyk auth ${{inputs.dependency_scan_token}}
+         #snyk auth ${{inputs.dependency_scan_token}}
     shell: powershell    
     env:
       ENVVAR: PATH
