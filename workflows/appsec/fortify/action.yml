@@ -29,54 +29,38 @@ runs:
     - run: echo Hello, You are Executing FOTIFY Scan
       shell: bash
       
-        
     - name: Download Fortify on Demand Universal CI Tool
       uses: fortify/gha-setup-fod-uploader@v1
-            
-    - name: Download fortify executable and run scan 
-      run: |
-         #sudo wget -c https://github.com/fod-dev/fod-uploader-java/releases/download/v5.2.1/FodUpload.jar
-         ls -lart
-         
+      
+    - name: Run fortify if zip path is already provided
+      if: ${{inputs.application_artifact_zip_path}}
+      run: | 
          if [[ -f "${ARTIFACT_ZIP_PATH}" ]]
-           then
+           then      
              echo " Executing command package already Exists: java -jar $FOD_UPLOAD_JAR -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_artifact_zip_path}} ${{ env.SAST_OPTIONS }}  -n notes:${{ inputs.sast_scan_notes}}"
-             #java -jar FodUpload.jar -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_artifact_zip_path}} ${{ env.SAST_OPTIONS }}  -n 'notes:${{ inputs.sast_scan_notes}}'  
              java -jar $FOD_UPLOAD_JAR -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_artifact_zip_path}} ${{ env.SAST_OPTIONS }}  -n 'notes:${{ inputs.sast_scan_notes}}'  
-             
-           else
-              sudo apt install zip
-              #EXCLUDE_LIST=""
-              #if [[ -f  @.zipignore ]] 
-              # then 
-              #   EXCLUDE_LIST= ${EXCLUDE_LIST} + " --exclude @.zipignore"
-              #fi
-              # if [[ -f  .zipignore ]]
-              #  then 
-              #    EXCLUDE_LIST= ${EXCLUDE_LIST} + " --exclude .zipignore"
-              #fi
-              #fi
-              # if [[ -d  .git ]] 
-              #  then 
-              #    EXCLUDE_LIST= ${EXCLUDE_LIST} + " --exclude .git"
-              #fi
-              #echo  ${EXCLUDE_LIST}
-              
-              # create the fortify Zip file for scanning
-              zip -r ${{inputs.application_name}}_fortify.zip . 
-              
-              echo " executing command with created zip: java -jar $FOD_UPLOAD_JAR -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_name}}_fortify.zip ${{ env.SAST_OPTIONS }}  -n notes:${{ inputs.sast_scan_notes}}"          
-              #java -jar FodUpload.jar -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_name}}_fortify.zip ${{ env.SAST_OPTIONS }}  -n 'notes:${{ inputs.sast_scan_notes}}'  
-              java -jar $FOD_UPLOAD_JAR -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_name}}_fortify.zip ${{ env.SAST_OPTIONS }}  -n 'notes:${{ inputs.sast_scan_notes}}'  
-              
-          fi
+         fi
       shell: bash
       env:
         SAST_PORTAL_URL: https://emea.fortify.com/
         SAST_API_URL: https://api.emea.fortify.com/
         SAST_OPTIONS: '-ep 2 -a 2 -rp 0 -pp 1 -apf -I 1'
-        ARTIFACT_ZIP_PATH: ${{inputs.application_artifact_zip_path}}
-
+        ARTIFACT_ZIP_PATH: ${{inputs.application_artifact_zip_path}}       
+            
+    
+    - name: Create Zip and execute Fortify if zip path not provided
+      if: !${{inputs.application_artifact_zip_path}}
+      run: |
+         jar cf ${{inputs.application_name}}_fortify.zip . 
+         echo " executing command with created zip: java -jar $FOD_UPLOAD_JAR -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_name}}_fortify.zip ${{ env.SAST_OPTIONS }}  -n notes:${{ inputs.sast_scan_notes}}"          
+         java -jar $FOD_UPLOAD_JAR -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_name}}_fortify.zip ${{ env.SAST_OPTIONS }}  -n 'notes:${{ inputs.sast_scan_notes}}'  
+      shell: bash
+      env:
+        SAST_PORTAL_URL: https://emea.fortify.com/
+        SAST_API_URL: https://api.emea.fortify.com/
+        SAST_OPTIONS: '-ep 2 -a 2 -rp 0 -pp 1 -apf -I 1'
+        ARTIFACT_ZIP_PATH: ${{inputs.application_artifact_zip_path}}       
+    
         
     - name: Download Results
       uses: fortify/gha-fod-generate-sarif@v1.1.1
@@ -87,6 +71,67 @@ runs:
         release-id: ${{ inputs.sast_release_id }}
         output: ./${{inputs.application_name}}_fortify_result
       if: ${{ inputs.download_sast_scan_result == 'true' }}
+      
+      
+      
+      
+
+
+
+
+
+
+
+            
+#     - name: Download fortify executable and run scan 
+#       run: |
+#          #sudo wget -c https://github.com/fod-dev/fod-uploader-java/releases/download/v5.2.1/FodUpload.jar
+#          #ls -lart
+         
+#          if [[ -f "${ARTIFACT_ZIP_PATH}" ]]
+#            then
+#              echo " Executing command package already Exists: java -jar $FOD_UPLOAD_JAR -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_artifact_zip_path}} ${{ env.SAST_OPTIONS }}  -n notes:${{ inputs.sast_scan_notes}}"
+#              java -jar $FOD_UPLOAD_JAR -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_artifact_zip_path}} ${{ env.SAST_OPTIONS }}  -n 'notes:${{ inputs.sast_scan_notes}}'  
+             
+#           elif [[ ${runner.os} == 'Windows' ]]
+#             then
+#               # create the fortify Zip file for scanning
+#               jar cf ${{inputs.application_name}}_fortify.zip . 
+#               echo " executing command with created zip: java -jar $FOD_UPLOAD_JAR -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_name}}_fortify.zip ${{ env.SAST_OPTIONS }}  -n notes:${{ inputs.sast_scan_notes}}"          
+#               java -jar $FOD_UPLOAD_JAR -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_name}}_fortify.zip ${{ env.SAST_OPTIONS }}  -n 'notes:${{ inputs.sast_scan_notes}}'  
+              
+#           else
+#               sudo apt install zip
+              
+#                     #EXCLUDE_LIST=""
+#                     #if [[ -f  @.zipignore ]] 
+#                     # then 
+#                     #   EXCLUDE_LIST= ${EXCLUDE_LIST} + " --exclude @.zipignore"
+#                     #fi
+#                     # if [[ -f  .zipignore ]]
+#                     #  then 
+#                     #    EXCLUDE_LIST= ${EXCLUDE_LIST} + " --exclude .zipignore"
+#                     #fi
+#                     #fi
+#                     # if [[ -d  .git ]] 
+#                     #  then 
+#                     #    EXCLUDE_LIST= ${EXCLUDE_LIST} + " --exclude .git"
+#                     #fi
+#                     #echo  ${EXCLUDE_LIST}
+
+#               # create the fortify Zip file for scanning
+#               zip -r ${{inputs.application_name}}_fortify.zip . 
+              
+#               echo " executing command with created zip: java -jar $FOD_UPLOAD_JAR -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_name}}_fortify.zip ${{ env.SAST_OPTIONS }}  -n notes:${{ inputs.sast_scan_notes}}"          
+#               java -jar $FOD_UPLOAD_JAR -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_name}}_fortify.zip ${{ env.SAST_OPTIONS }}  -n 'notes:${{ inputs.sast_scan_notes}}'  
+              
+#           fi
+#       shell: bash
+#       env:
+#         SAST_PORTAL_URL: https://emea.fortify.com/
+#         SAST_API_URL: https://api.emea.fortify.com/
+#         SAST_OPTIONS: '-ep 2 -a 2 -rp 0 -pp 1 -apf -I 1'
+#         ARTIFACT_ZIP_PATH: ${{inputs.application_artifact_zip_path}}
         
         
       
