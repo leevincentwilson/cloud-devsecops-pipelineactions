@@ -11,17 +11,17 @@ inputs:
     required: true
   dast_scan_options:
     required: true
-  dast_scan_notes:
-    required: false
-  application_name:
-    required: true
-  application_src_path:
-    required: false
-  application_artifact_zip_path:
-    required: false
-  download_dast_scan_result:
-    required: false
-    default: false
+#   dast_scan_notes:
+#     required: false
+#   application_name:
+#     required: true
+#   application_src_path:
+#     required: false
+#   application_artifact_zip_path:
+#     required: false
+#   download_dast_scan_result:
+#     required: false
+#     default: false
   
 runs:
   using: "composite"
