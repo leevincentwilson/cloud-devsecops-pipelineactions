@@ -47,14 +47,6 @@ runs:
          docker pull ${{ inputs.registry_server }}/${{inputs.image_name}}:${{ inputs.image_tag }}
       shell: bash
       
-#     - name: pull image from registry server with containderd and no docker
-#       if: ${{ inputs.registry_server && ( !contains(inputs.registry_server, 'local') && !contains(inputs.registry_server,'docker.io') ) && contains(runner.name,'selfhosted')  }}
-#       run: |
-#          echo ctr -u user:passwrd pull ${{ inputs.registry_server }}/${{inputs.image_name}}:${{ inputs.image_tag }}
-#          ctr pull -u "${{inputs.registry_username}}:${{inputs.registry_password}}" ${{ inputs.registry_server }}/${{inputs.image_name}}:${{ inputs.image_tag }}
-#          #./twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --details ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}
-#       shell: bash        
-      
     - name: pull image from docker hub
       if: ${{ !inputs.registry_server || contains(inputs.registry_server,'docker.io') }}
       run: |
@@ -62,11 +54,10 @@ runs:
          docker pull ${{inputs.image_name}}:${{ inputs.image_tag }}
       shell: bash  
       
-      
-
-      
+########### RUN SCAN for LINUX AGENTS ################      
     - name: Prisma Cloud image scan
       id: scan
+      if: runner.os != 'Windows'
       uses: PaloAltoNetworks/prisma-cloud-scan@v1
       with:
         pcc_console_url: ${{ inputs.container_scan_url }}
@@ -76,14 +67,33 @@ runs:
         #results_file: ${{ inputs.json_results_file_name }}
         #sarif_file: ${{ inputs.sarif_results_file_name }}
 
+########### RUN SCAN for WINDOWS AGENTS ################   
+
+    - name: Run Prisma Scan for Repository
+      if: runner.os == 'Windows'
+      run: |
+          curl --user ${{ inputs.container_scan_user }}:${{ inputs.container_scan_password }} --output twistcli.exe ${{ inputs.container_scan_url }}/api/v1/util/windows/twistcli.exe
+    
+    - name: Scan the image using Prisma Cloud from docker hub or local
+      run: |
+        .\twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --details ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}
+      if: runner.os == 'Windows'
+      #if: ${{ !inputs.registry_server || contains(inputs.registry_server,'docker.io')  }}
 
 
 
-#     - name: Scan the image using Prisma Cloud from docker hub or local
+
+
+
+
+
+#     - name: pull image from registry server with containderd and no docker
+#       if: ${{ inputs.registry_server && ( !contains(inputs.registry_server, 'local') && !contains(inputs.registry_server,'docker.io') ) && contains(runner.name,'selfhosted')  }}
 #       run: |
-#         ./twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --details ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}
-#       shell: bash
-#       #if: ${{ !inputs.registry_server || contains(inputs.registry_server,'docker.io')  }}
+#          echo ctr -u user:passwrd pull ${{ inputs.registry_server }}/${{inputs.image_name}}:${{ inputs.image_tag }}
+#          ctr pull -u "${{inputs.registry_username}}:${{inputs.registry_password}}" ${{ inputs.registry_server }}/${{inputs.image_name}}:${{ inputs.image_tag }}
+#          #./twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --details ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}
+#       shell: bash  
 
 
 #     - name: Run Prisma Scan for Repository
@@ -92,7 +102,11 @@ runs:
 #         chmod a+x ./twistcli     
 #       shell: bash
 
-
+#     - name: Scan the image using Prisma Cloud from docker hub or local
+#       run: |
+#         ./twistcli images scan --address ${{ inputs.container_scan_url }} --user ${{ inputs.container_scan_user }} --password ${{ inputs.container_scan_password }} --details ${{ inputs.registry_server }}/${{inputs.image_name}}:${{inputs.image_tag}}
+#       shell: bash
+#       #if: ${{ !inputs.registry_server || contains(inputs.registry_server,'docker.io')  }}
 
 #      - name: Scan the LOCAL image using Prisma Cloud 
 #       run: |
