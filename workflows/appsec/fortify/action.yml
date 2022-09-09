@@ -49,7 +49,7 @@ runs:
             
     
     - name: Create Zip and execute Fortify if zip path not provided
-      if: !${{inputs.application_artifact_zip_path}}
+      if: ${{ !inputs.application_artifact_zip_path }}
       run: |
          jar cf ${{inputs.application_name}}_fortify.zip . 
          echo " executing command with created zip: java -jar $FOD_UPLOAD_JAR -ac ${{ inputs.sast_api_key }} ${{ inputs.sast_api_secret }} -rid ${{ inputs.sast_release_id }} -purl ${{ env.SAST_PORTAL_URL }} -apiurl ${{ env.SAST_API_URL }} -z ${{inputs.application_name}}_fortify.zip ${{ env.SAST_OPTIONS }}  -n notes:${{ inputs.sast_scan_notes}}"          
