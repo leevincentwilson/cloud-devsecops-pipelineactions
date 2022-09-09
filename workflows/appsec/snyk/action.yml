@@ -22,14 +22,13 @@ runs:
     
   - name: download windows executable and export environment variable
     if: runner.os == 'Windows'
-    run: |
-         echo "${{ env.ENVVAR }}=${{ env.ENVAPP }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-         curl https://static.snyk.io/cli/latest/snyk-win.exe -o snyk.exe
-         #snyk auth ${{inputs.dependency_scan_token}}
-    shell: powershell    
     env:
-      ENVVAR: PATH
       ENVAPP: .;$env:PATH   
+    run: |
+         echo "PATH=${{ env.ENVAPP }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+         curl https://static.snyk.io/cli/latest/snyk-win.exe -o snyk.exe
+    shell: powershell    
+    
   
   - name: Snyk test
     run: snyk test --all-projects ${{inputs.dependency_scan_arguments}} || echo "snyk scan completed"
