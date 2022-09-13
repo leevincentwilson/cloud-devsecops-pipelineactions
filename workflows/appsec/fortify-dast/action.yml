@@ -31,9 +31,10 @@ runs:
 
     - name: FOD DAST Scan
       run: |
-          test.sh
-          ./workflows/appsec/fortify-dast/test.sh
-          python ./workflows/appsec/fortify-dast/dast-scan.py ${{ inputs.dast_api_key }} ${{ inputs.dast_api_secret }} ${{ inputs.dast_release_id }}
+          echo ${{ github.action_path }}
+          ${{ github.action_path }}/test.sh
+          #./workflows/appsec/fortify-dast/test.sh
+          # python ./workflows/appsec/fortify-dast/dast-scan.py ${{ inputs.dast_api_key }} ${{ inputs.dast_api_secret }} ${{ inputs.dast_release_id }}
       shell: bash   
       
       
