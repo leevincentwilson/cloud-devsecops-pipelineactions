@@ -73,7 +73,7 @@ def start_scan(url, token, release_id, assessmenttype_id, entitlement_id):
         }
         dateTimeObj = datetime.now()
         timestampStr = dateTimeObj.strftime("%Y-%m-%dT%H:%M:%S.%f")
-
+        print("[INFO] Current TimeStamp",timestampStr)
         payload = json.dumps({
                 "startDate": timestampStr,
                 "assessmentTypeId": assessmenttype_id,
