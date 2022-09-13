@@ -72,7 +72,7 @@ def start_scan(url, token, release_id, assessmenttype_id, entitlement_id):
             "Accept": "application/json"
         }
         dateTimeObj = datetime.now()
-        timestampStr = dateTimeObj.strftime("%Y-%m-%dT%H:%M:%S.%f)")
+        timestampStr = dateTimeObj.strftime("%Y-%m-%dT%H:%M:%S.%f")
 
         payload = json.dumps({
                 "startDate": timestampStr,
