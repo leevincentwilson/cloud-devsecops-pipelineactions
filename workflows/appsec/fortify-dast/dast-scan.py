@@ -1,6 +1,7 @@
 import requests
 import sys
 import json
+from datetime import datetime
 
 def login(url, client_id, client_secret):
     try:
@@ -70,9 +71,11 @@ def start_scan(url, token, release_id, assessmenttype_id, entitlement_id):
             "Content-Type": "application/json",
             "Accept": "application/json"
         }
+        dateTimeObj = datetime.now()
+        timestampStr = dateTimeObj.strftime("%Y-%m-%dT%H:%M:%S.%f)")
 
         payload = json.dumps({
-                "startDate": "2022-09-02T04:09:35.672Z",
+                "startDate": timestampStr,
                 "assessmentTypeId": assessmenttype_id,
                 "entitlementId": entitlement_id,
                 "entitlementFrequencyType": "SingleScan",
