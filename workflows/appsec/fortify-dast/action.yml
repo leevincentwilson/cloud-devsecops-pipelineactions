@@ -31,7 +31,7 @@ runs:
 
     - name: FOD DAST Scan
       run: |
-         test.sh
+         ./test.sh
          python ./dast-scan.py ${{ inputs.dast_api_key }} ${{ inputs.dast_api_secret }} ${{ inputs.dast_release_id }}
       shell: bash   
       
