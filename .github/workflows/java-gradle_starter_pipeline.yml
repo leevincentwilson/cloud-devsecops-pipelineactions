@@ -59,6 +59,7 @@ env:
   
 jobs:
   FOD_scans:
+    environment: Non-prod
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
