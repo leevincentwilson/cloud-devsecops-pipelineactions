@@ -72,7 +72,7 @@ jobs:
       uses: fortify/gha-setup-fod-uploader@v1
     - run: |
         zip -r technology-clouddevops_fortify.zip . 
-        java -jar FodUpload.jar -uc 'Y9886988@marks-and-spencer.com' ${{ secrets.FOD_PAT }} -rid 6560 -purl 'https://emea.fortify.com/' -apiurl 'SAST_API_URL' -z technology-clouddevops_fortify.zip} -ep 2 -rp 0 -pp 1 -apf -I 1
+        java -jar $FOD_UPLOAD_JAR -uc 'Y9886988@marks-and-spencer.com' ${{ secrets.FOD_PAT }} -rid 6560 -purl 'https://emea.fortify.com/' -apiurl 'SAST_API_URL' -z technology-clouddevops_fortify.zip} -ep 2 -rp 0 -pp 1 -apf -I 1
         status=$?
         echo $status
         if test $status -eq 1
