@@ -136,24 +136,30 @@ runs:
        
         if [ -z "$deployment_status_blue" ]; then
             echo "Starting new deployment..."
-            helm3 upgrade ${releaseName}-blue --install $CHART_PATH/${chart// /} --values=tmp-common-values.yaml --values=tmp-common-v2-values.yaml --values=tmp-common-region-values.yaml --values=tmp-common-component-values.yaml --values=tmp-values.yaml --values=tmp-v2-values.yaml --values=application-credentials.yml --values=tmp-common-domain-values.yaml --set dockerTag=${eVersion} --set nameappender=blue --set color=blue --set multicluster=${clusters} --set namespace=${namespace}
             cd ./${{ inputs.helm_chart_path }}
             helm upgrade --install ${{inputs.application_release_name}}-blue  . '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{inputs.cluster_namespace}}'
-            echo ${{env.image}}
+        else
+          deployment_status_green=""
+          deployment_status_green=`helm3 ls -q --filter "${releaseName}-green"`
+          #if [ -n "$deployment_status_blue" ]; then
+          echo "Starting new Green deployment..."
+          cd ./${{ inputs.helm_chart_path }}
+          helm upgrade --install ${{inputs.application_release_name}}-green  . '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{inputs.cluster_namespace}}'
+      
       shell: bash
       if: ${{ inputs.create_namespace != 'true' && inputs.dry_run != 'true' && inputts.release_strategy == 'bluegreen' }} 
       
-    - name: AKS BlueGreen Deploy - deploy Green instance
-      run: |
-        deployment_status_green=""
-        deployment_status_blue=`helm3 ls -q --filter "${releaseName}-blue"`
+#     - name: AKS BlueGreen Deploy - deploy Green instance
+#       run: |
+#         deployment_status_green=""
+#         deployment_status_green=`helm3 ls -q --filter "${releaseName}-green"`
        
-        if [ -n "$deployment_status_blue" ]; then
-            echo "Starting new Green deployment..."
-            cd ./${{ inputs.helm_chart_path }}
-            helm upgrade --install ${{inputs.application_release_name}}-green  . '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{inputs.cluster_namespace}}'
-      shell: bash
-      if: ${{ inputs.create_namespace != 'true' && inputs.dry_run != 'true' && inputts.release_strategy == 'bluegreen' }}     
+#         if [ -n "$deployment_status_blue" ]; then
+#             echo "Starting new Green deployment..."
+#             cd ./${{ inputs.helm_chart_path }}
+#             helm upgrade --install ${{inputs.application_release_name}}-green  . '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{inputs.cluster_namespace}}'
+#       shell: bash
+#       if: ${{ inputs.create_namespace != 'true' && inputs.dry_run != 'true' && inputts.release_strategy == 'bluegreen' }}     
       
       
       
