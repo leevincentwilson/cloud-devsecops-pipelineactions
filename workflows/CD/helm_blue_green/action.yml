@@ -137,14 +137,14 @@ runs:
         if [ -z "$deployment_status_blue" ]; then
             echo "Starting new deployment..."
             cd ./${{ inputs.helm_chart_path }}
-            helm upgrade --install ${{inputs.application_release_name}}-blue  . '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{inputs.cluster_namespace}}'
+            helm upgrade --install ${{inputs.application_release_name}}-blue  . '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{inputs.cluster_namespace}}' --create-namespace
         else
           deployment_status_green=""
           deployment_status_green=`helm3 ls -q --filter "${releaseName}-green"`
           #if [ -n "$deployment_status_blue" ]; then
           echo "Starting new Green deployment..."
           cd ./${{ inputs.helm_chart_path }}
-          helm upgrade --install ${{inputs.application_release_name}}-green  . '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{inputs.cluster_namespace}}'
+          helm upgrade --install ${{inputs.application_release_name}}-green  . '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{inputs.cluster_namespace}}' --create-namespace
       
       shell: bash
       if: ${{ inputs.create_namespace != 'true' && inputs.dry_run != 'true' && inputs.release_strategy == 'bluegreen' }} 
