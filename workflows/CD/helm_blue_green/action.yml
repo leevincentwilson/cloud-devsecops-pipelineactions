@@ -132,7 +132,7 @@ runs:
     - name: AKS BlueGreen Deploy - deploy BLUE instance
       run: |
         deployment_status_blue=""
-        deployment_status_blue=`helm3 ls -q --filter "${releaseName}-blue"`
+        deployment_status_blue=`helm ls -q --filter "${releaseName}-blue"`
        
         if [ -z "$deployment_status_blue" ]; then
             echo "Starting new deployment..."
@@ -140,7 +140,7 @@ runs:
             helm upgrade --install ${{inputs.application_release_name}}-blue  . '--values=${{ inputs.helm_values_file }}' ${{inputs.helm_argument}} '--namespace=${{inputs.cluster_namespace}}' --create-namespace
         else
           deployment_status_green=""
-          deployment_status_green=`helm3 ls -q --filter "${releaseName}-green"`
+          deployment_status_green=`helm ls -q --filter "${releaseName}-green"`
           #if [ -n "$deployment_status_blue" ]; then
           echo "Starting new Green deployment..."
           cd ./${{ inputs.helm_chart_path }}
