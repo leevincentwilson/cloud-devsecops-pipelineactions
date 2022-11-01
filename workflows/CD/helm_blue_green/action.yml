@@ -133,7 +133,7 @@ runs:
       run: |
         deployment_status_blue=""
         echo "CHecking if Blue Release exist.."
-        deployment_status_blue=`helm ls -q --filter "${releaseName}-blue"`
+        deployment_status_blue=`helm ls -q --filter "${releaseName}-blue" --namespace ${{inputs.cluster_namespace}}`
         echo $deployment_status_blue
         echo "Proceeding the deployment."
         if [ -z "$deployment_status_blue" ]; then
@@ -143,7 +143,7 @@ runs:
         else
           echo "Proceeding the Green deployment."
           deployment_status_green=""
-          deployment_status_green=`helm ls -q --filter "${releaseName}-green"`
+          deployment_status_green=`helm ls -q --filter "${releaseName}-green" --namespace ${{inputs.cluster_namespace}}`
           #if [ -n "$deployment_status_blue" ]; then
           echo "Starting new Green deployment..."
           cd ./${{ inputs.helm_chart_path }}
