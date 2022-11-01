@@ -132,8 +132,9 @@ runs:
     - name: AKS BlueGreen Deploy - deploy BLUE instance
       run: |
         deployment_status_blue=""
+        echo "CHecking if Blue Release exist.."
         deployment_status_blue=`helm ls -q --filter "${releaseName}-blue"`
-       
+        echo "Proceeding the deployment."
         if [ -z "$deployment_status_blue" ]; then
             echo "Starting new deployment..."
             cd ./${{ inputs.helm_chart_path }}
