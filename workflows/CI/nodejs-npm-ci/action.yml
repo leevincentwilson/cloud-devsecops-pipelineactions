@@ -59,6 +59,11 @@ runs:
         shell: bash
         if: ${{ contains( inputs.build_phases,'install') }}
         
+      - name: Npm install
+        run: npm install --legacy-peer-deps
+        shell: bash
+        if: ${{ contains( inputs.build_phases,'installlegacypeerdeps') }}
+        
       - name: Npm ci
         run: npm ci
         shell: bash
